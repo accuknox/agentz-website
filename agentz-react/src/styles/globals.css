@@ -72,20 +72,13 @@ h1,h2,h3{font-family:var(--display);letter-spacing:-.025em;line-height:1.05;font
 /* leading icon inside a button (e.g. the GitHub mark) */
 .btn .ico{width:18px;height:18px}
 
-/* disabled CTA + "coming soon" ink stamp (Try AgentZ, not yet public) */
+/* disabled CTA + a clean "Coming soon" badge (Try AgentZ, not yet public) */
 .soon-wrap{position:relative;display:inline-flex}
 .btn-soon,.btn-soon:hover{cursor:not-allowed;background:transparent;transform:none;
-  color:var(--ink-mute);border-color:var(--line);border-style:dashed;opacity:.9}
-.soon-stamp{position:absolute;top:-13px;right:-16px;display:inline-flex;align-items:center;gap:6px;
-  transform:rotate(7deg);font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--blue);border:1.5px solid var(--blue);border-radius:7px;
-  padding:4px 9px;background:color-mix(in srgb,var(--blue) 12%, var(--paper));white-space:nowrap;
-  box-shadow:0 4px 12px -6px rgba(47,75,214,.55);pointer-events:none}
-.soon-dot{width:6px;height:6px;border-radius:50%;background:var(--blue);flex:none;
-  box-shadow:0 0 0 0 var(--blue);animation:soonpulse 2.2s ease-out infinite}
-@keyframes soonpulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--blue) 70%, transparent)}
-  70%,100%{box-shadow:0 0 0 7px color-mix(in srgb,var(--blue) 0%, transparent)}}
-@media(prefers-reduced-motion:reduce){.soon-dot{animation:none}}
+  color:var(--ink-mute);border-color:var(--line);opacity:.85}
+.soon-stamp{position:absolute;top:-9px;right:-8px;font-family:var(--sans);font-size:11px;font-weight:600;
+  color:#fff;background:var(--blue);border-radius:999px;padding:3px 10px;white-space:nowrap;
+  box-shadow:0 3px 10px -4px rgba(47,75,214,.55);pointer-events:none}
 .link-arrow{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:var(--blue);margin-top:22px}
 .link-arrow .ico{color:var(--blue)}
 .link-arrow.muted{color:var(--ink-mute)}
@@ -118,7 +111,7 @@ h1,h2,h3{font-family:var(--display);letter-spacing:-.025em;line-height:1.05;font
 [data-theme="dark"] .theme-toggle:hover{border-color:rgba(255,255,255,.5)}
 
 /* ══════════════ HERO ══════════════ */
-.hero{text-align:center;padding:clamp(84px,14vh,168px) 24px clamp(60px,9vh,110px)}
+.hero{text-align:center;padding:clamp(52px,8vh,96px) 24px clamp(36px,5vh,60px)}
 .hero-inner{max-width:960px}
 .hero-eyebrow{font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;
   color:var(--blue);margin-bottom:22px}
@@ -1020,7 +1013,7 @@ b,strong,summary,.faq-q,.pill,.uchip,.partner-chip,.cc-msg b,.node-admin b,
 @media(max-width:640px){.dock-tip{display:none}}
 
 /* ══════════════ WHY AGENTZ (symmetric bento) ══════════════ */
-.why{padding:clamp(84px,12vh,150px) 0;background:var(--paper)}
+.why{padding:clamp(40px,6vh,76px) 0 clamp(84px,12vh,150px);background:var(--paper)}
 .why-head{text-align:center;max-width:1000px;margin:0 auto 44px}
 .why-title{display:inline-block;border:1px solid var(--line);border-radius:16px;padding:18px 34px;
   font-size:clamp(20px,2.5vw,30px);letter-spacing:-.02em;line-height:1.2;color:var(--ink);background:var(--white);
@@ -1208,7 +1201,7 @@ b,strong,summary,.faq-q,.pill,.uchip,.partner-chip,.cc-msg b,.node-admin b,
 @media(max-width:520px){.foot-cols{grid-template-columns:1fr}}
 
 /* hero product video (merged from the old Showcase section) */
-.hero-vid{margin-top:clamp(40px,6vh,72px);position:relative;z-index:2}
+.hero-vid{margin-top:clamp(24px,3.5vh,44px);position:relative;z-index:2}
 .hero-inner{max-width:1080px}
 
 /* ══════════════════════════════════════════════

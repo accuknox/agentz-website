@@ -68,7 +68,7 @@ export function Hero() {
           <span>Agent</span>
           <img className="hero-brand-mark" src="./assets/img/agentz-logo.svg" alt="Z" />
         </h1>
-        <p className="hero-title">Zero Trust Agentic AI</p>
+        <p className="hero-title">Zero Trust Agentic AI Platform</p>
         <p className="hero-sub">
           Build, run, and govern{' '}
           <PointerHighlight>production agents</PointerHighlight>. Secure by design.
@@ -87,10 +87,7 @@ export function Hero() {
             >
               Try AgentZ
             </button>
-            <span className="soon-stamp" aria-hidden="true">
-              <i className="soon-dot" />
-              Coming soon
-            </span>
+            <span className="soon-stamp" aria-hidden="true">Coming soon</span>
           </span>
         </div>
         <HeroCapabilities />
