@@ -69,6 +69,23 @@ h1,h2,h3{font-family:var(--display);letter-spacing:-.025em;line-height:1.05;font
 .btn-primary:hover{background:#141446;transform:translateY(-1px)}
 .btn-line{background:transparent;color:var(--ink);border-color:var(--ink)}
 .btn-line:hover{background:var(--ink);color:#fff;transform:translateY(-1px)}
+/* leading icon inside a button (e.g. the GitHub mark) */
+.btn .ico{width:18px;height:18px}
+
+/* disabled CTA + "coming soon" ink stamp (Try AgentZ, not yet public) */
+.soon-wrap{position:relative;display:inline-flex}
+.btn-soon,.btn-soon:hover{cursor:not-allowed;background:transparent;transform:none;
+  color:var(--ink-mute);border-color:var(--line);border-style:dashed;opacity:.9}
+.soon-stamp{position:absolute;top:-13px;right:-16px;display:inline-flex;align-items:center;gap:6px;
+  transform:rotate(7deg);font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--blue);border:1.5px solid var(--blue);border-radius:7px;
+  padding:4px 9px;background:color-mix(in srgb,var(--blue) 12%, var(--paper));white-space:nowrap;
+  box-shadow:0 4px 12px -6px rgba(47,75,214,.55);pointer-events:none}
+.soon-dot{width:6px;height:6px;border-radius:50%;background:var(--blue);flex:none;
+  box-shadow:0 0 0 0 var(--blue);animation:soonpulse 2.2s ease-out infinite}
+@keyframes soonpulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--blue) 70%, transparent)}
+  70%,100%{box-shadow:0 0 0 7px color-mix(in srgb,var(--blue) 0%, transparent)}}
+@media(prefers-reduced-motion:reduce){.soon-dot{animation:none}}
 .link-arrow{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:var(--blue);margin-top:22px}
 .link-arrow .ico{color:var(--blue)}
 .link-arrow.muted{color:var(--ink-mute)}

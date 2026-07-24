@@ -82,12 +82,14 @@ export function WhyAgentZ() {
   const [active, setActive] = useState(0)
   const [paused, setPaused] = useState(false)
 
-  // auto-advance through the features every 3s; pause while the user interacts
+  // auto-advance through the features every 3s, endlessly, pausing only while
+  // the user interacts (hover/focus). Runs regardless of reduced-motion — the
+  // expand/cube transitions below already fall back to instant under reduce.
   useEffect(() => {
-    if (reduce || paused) return
+    if (paused) return
     const id = setInterval(() => setActive((a) => (a + 1) % FEATURES.length), 3000)
     return () => clearInterval(id)
-  }, [reduce, active, paused])
+  }, [active, paused])
 
   return (
     <section className="why" id="why">

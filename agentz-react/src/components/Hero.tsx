@@ -75,11 +75,23 @@ export function Hero() {
         </p>
         <div className="hero-actions">
           <a className="btn btn-primary btn-lg" href="https://github.com/accuknox/agentZ" target="_blank" rel="noopener">
-            View on GitHub
+            <Icon name="github" />
+            View Github
           </a>
-          <a className="btn btn-line btn-lg" href="https://agentz.accuknox.com/" target="_blank" rel="noopener">
-            Go to the platform
-          </a>
+          <span className="soon-wrap">
+            <button
+              type="button"
+              className="btn btn-line btn-lg btn-soon"
+              disabled
+              aria-label="Try AgentZ, coming soon"
+            >
+              Try AgentZ
+            </button>
+            <span className="soon-stamp" aria-hidden="true">
+              <i className="soon-dot" />
+              Coming soon
+            </span>
+          </span>
         </div>
         <HeroCapabilities />
         <div className="vw vw-hero hero-vid">
