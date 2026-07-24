@@ -64,7 +64,10 @@ export function Hero() {
           <img className="ak-light" src="./assets/img/accuknox-logo.png" alt="AccuKnox" width={118} height={28} />
           <img className="ak-dark" src="./assets/img/accuknox-logo-dark.png" alt="AccuKnox" width={118} height={28} />
         </a>
-        <h1 className="hero-brand">AgentZ</h1>
+        <h1 className="hero-brand">
+          <span>Agent</span>
+          <img className="hero-brand-mark" src="./assets/img/agentz-logo.svg" alt="Z" />
+        </h1>
         <p className="hero-title">Zero Trust Agentic AI</p>
         <p className="hero-sub">
           Build, run, and govern{' '}

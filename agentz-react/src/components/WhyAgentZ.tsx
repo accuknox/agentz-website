@@ -80,25 +80,35 @@ function IsoBox({ active, variant, onClick }: { active: boolean; variant: Varian
 export function WhyAgentZ() {
   const reduce = useReducedMotion()
   const [active, setActive] = useState(0)
+  const [paused, setPaused] = useState(false)
 
+  // auto-advance through the features every 3s; pause while the user interacts
   useEffect(() => {
-    if (reduce) return
-    const id = setInterval(() => setActive((a) => (a + 1) % FEATURES.length), 5000)
+    if (reduce || paused) return
+    const id = setInterval(() => setActive((a) => (a + 1) % FEATURES.length), 3000)
     return () => clearInterval(id)
-  }, [reduce, active])
+  }, [reduce, active, paused])
 
   return (
     <section className="why" id="why">
       <div className="wrap">
         <div className="why-head">
-          <h2 className="why-title">AgentZ, for winners</h2>
+          <h2 className="why-title">
+            Build, Run and Govern Production Agents with AgentZ Zero Trust Sandbox Platform
+          </h2>
           <p className="why-sub">
             How AgentZ compares to hosted assistants, self-hosted runners, and hardened OSS sandboxes.
           </p>
         </div>
 
         <div className="why-cols">
-          <div className="why-list">
+          <div
+            className="why-list"
+            onMouseEnter={() => setPaused(true)}
+            onMouseLeave={() => setPaused(false)}
+            onFocusCapture={() => setPaused(true)}
+            onBlurCapture={() => setPaused(false)}
+          >
             {FEATURES.map((f, i) => {
               const on = active === i
               return (

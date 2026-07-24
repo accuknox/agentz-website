@@ -76,19 +76,20 @@ export function NoiseBackground({ className, cell = 26 }: Props) {
 
     function frame() {
       grid()
-      // occasionally spawn a lit cell
-      if (sparks.length < 26 && Math.random() < 0.35) {
+      // occasionally spawn a lit cell — kept sparse and quiet so the hero reads
+      // calm and premium rather than busy (onorca-style restraint)
+      if (sparks.length < 11 && Math.random() < 0.16) {
         sparks.push({
           c: Math.floor(Math.random() * cols),
           r: Math.floor(Math.random() * rows),
           life: 0,
-          max: 60 + Math.random() * 90,
+          max: 80 + Math.random() * 110,
         })
       }
       sparks = sparks.filter((s) => {
         s.life++
         const t = s.life / s.max
-        const alpha = Math.sin(t * Math.PI) * 0.5 // fade in/out
+        const alpha = Math.sin(t * Math.PI) * 0.3 // fade in/out
         if (alpha > 0) {
           ctx!.fillStyle = `rgba(${g.r},${g.g},${g.b},${alpha})`
           ctx!.fillRect(s.c * cell + 1, s.r * cell + 1, cell - 1, cell - 1)

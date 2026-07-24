@@ -28,11 +28,12 @@
   --hl-b:rgba(109,92,240,.28);
   --hl-c:rgba(42,167,230,.26);
 
-  /* One typeface everywhere: Helvetica. No display face, no serif. */
-  --sans:'Helvetica Neue',Helvetica,Arial,sans-serif;
-  --display:var(--sans);
-  --serif:var(--sans);
-  --mono:'Helvetica Neue',Helvetica,Arial,sans-serif;
+  /* Type system mirrors onorca.dev: Space Grotesk display, DM Sans body,
+     JetBrains Mono for labels. Loaded via <link> in index.html. */
+  --sans:'DM Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+  --display:'Space Grotesk','DM Sans','Helvetica Neue',Arial,sans-serif;
+  --serif:var(--display);
+  --mono:'JetBrains Mono','DM Sans',ui-monospace,monospace;
   --maxw:1200px;
   --radius:18px;
   --shadow:0 2px 8px rgba(11,11,40,.05), 0 30px 60px -32px rgba(11,11,40,.22);
@@ -104,8 +105,11 @@ h1,h2,h3{font-family:var(--display);letter-spacing:-.025em;line-height:1.05;font
 .hero-inner{max-width:960px}
 .hero-eyebrow{font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;
   color:var(--blue);margin-bottom:22px}
-.hero-brand{font-size:clamp(72px,15vw,216px);font-weight:700;letter-spacing:-.05em;line-height:.82;color:var(--ink);margin-bottom:6px}
-.hero-title{font-size:clamp(23px,3.2vw,42px);line-height:1.12;letter-spacing:-.02em;margin-top:28px;color:var(--ink);font-weight:600}
+.hero-brand{font-size:clamp(72px,15vw,216px);font-weight:700;letter-spacing:-.05em;line-height:.82;color:var(--ink);margin-bottom:6px;
+  display:flex;align-items:center;justify-content:center;gap:.06em}
+/* the wordmark's Z is the AgentZ logo mark, sized to the cap height */
+.hero-brand-mark{height:.72em;width:auto;display:block;flex:none;transform:translateY(-.01em)}
+.hero-title{font-family:var(--display);font-size:clamp(23px,3.2vw,42px);line-height:1.12;letter-spacing:-.02em;margin-top:28px;color:var(--ink);font-weight:600}
 .hero-title .ital{color:var(--blue)}
 .hero-sub{font-size:clamp(17px,2.1vw,22px);color:var(--ink-soft);max-width:620px;margin:24px auto 0;line-height:1.4}
 .hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:34px 0 0}
@@ -129,7 +133,7 @@ h1,h2,h3{font-family:var(--display);letter-spacing:-.025em;line-height:1.05;font
 @media(max-width:560px){.cap-conn{display:none}}
 
 /* ══════════════ PLATFORM ARCHITECTURE ══════════════ */
-.arch{padding:clamp(80px,11vh,140px) 0;background:var(--paper)}
+.arch{padding:clamp(84px,12vh,150px) 0;background:var(--paper)}
 .arch-frame{position:relative;margin-top:44px;padding:46px 26px 26px;border:1.5px solid var(--blue);
   border-radius:24px;background:linear-gradient(180deg,#f2f6ff 0%,#ffffff 60%)}
 .arch-label{position:absolute;top:-13px;left:28px;background:var(--paper);padding:0 12px;
@@ -603,7 +607,7 @@ body.lb-lock{overflow:hidden}
 /* ══════════════════════════════════════════════
    ORGANIZATION SAFETY — RBAC org tree on a light canvas
    ══════════════════════════════════════════════ */
-.org{padding:clamp(88px,13vh,160px) 0;background:var(--paper);overflow-x:clip}
+.org{padding:clamp(84px,12vh,150px) 0;background:var(--paper);overflow-x:clip}
 .org-head{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:end;margin-bottom:48px}
 .org-h{max-width:23ch}
 .org-lead{font-size:17px;color:var(--ink-soft);line-height:1.55;max-width:56ch}
@@ -777,6 +781,10 @@ html{transition:background-color .3s ease,color .3s ease}
   --shadow:0 2px 8px rgba(0,0,0,.4), 0 30px 60px -32px rgba(0,0,0,.7);
 }
 [data-theme="dark"] body{background:var(--paper);color:var(--ink)}
+/* primary CTA: navy on near-black is invisible in dark, so carry the electric
+   blue (matches nav/dock CTAs) for a high-contrast, on-brand button */
+[data-theme="dark"] .btn-primary{background:var(--blue);color:#fff}
+[data-theme="dark"] .btn-primary:hover{background:var(--blue-bright)}
 /* surfaces that were hard-white need to follow the token in dark */
 [data-theme="dark"] .pill,
 [data-theme="dark"] .arch-card,
@@ -925,6 +933,12 @@ b,strong,summary,.faq-q,.pill,.uchip,.partner-chip,.cc-msg b,.node-admin b,
 .arch-card h3,.ncard h3,.dcard h3,.dmn h3,.bento-head + div div,.nav-brand,
 .demo-copy h2,.cta-copy h2,.control-copy h2,.runtime-copy h2,.step h2{font-weight:500 !important}
 
+/* Large display headings carry more weight (semibold) for onorca-like presence.
+   Small UI (buttons, pills, nav, card h3, faq questions) stays at medium above. */
+.hero-brand,.foot-wordmark,.statement-h,.why-title,.fhead-h,.section-h2,
+.feature-title,.step h2,.tpl-h,.control-copy h2,.demo-copy h2,.cta-copy h2,
+.runtime-copy h2,.int-h,.integ-h,.org-h,.vid-title{font-weight:600 !important}
+
 /* kill the serif/italic accent — same font, no slant, subtle blue */
 .ital{font-family:var(--sans);font-style:normal;color:var(--blue)}
 
@@ -989,15 +1003,16 @@ b,strong,summary,.faq-q,.pill,.uchip,.partner-chip,.cc-msg b,.node-admin b,
 @media(max-width:640px){.dock-tip{display:none}}
 
 /* ══════════════ WHY AGENTZ (symmetric bento) ══════════════ */
-.why{padding:clamp(72px,10vh,120px) 0;background:var(--paper)}
-.why-head{text-align:center;max-width:640px;margin:0 auto 44px}
-.why-title{display:inline-block;border:1px solid var(--line);border-radius:14px;padding:12px 26px;
-  font-size:clamp(24px,3.4vw,38px);letter-spacing:-.03em;line-height:1.05;color:var(--ink);background:var(--white)}
+.why{padding:clamp(84px,12vh,150px) 0;background:var(--paper)}
+.why-head{text-align:center;max-width:1000px;margin:0 auto 44px}
+.why-title{display:inline-block;border:1px solid var(--line);border-radius:16px;padding:18px 34px;
+  font-size:clamp(20px,2.5vw,30px);letter-spacing:-.02em;line-height:1.2;color:var(--ink);background:var(--white);
+  max-width:42ch;text-wrap:balance}
 [data-theme="dark"] .why-title{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.12)}
 .why-sub{margin-top:20px;font-size:16px;line-height:1.55;color:var(--ink-soft)}
 
 .why-cols{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:1fr .82fr;gap:clamp(28px,5vw,72px);
-  align-items:center}
+  align-items:start}
 
 /* left: feature list */
 .why-list{display:flex;flex-direction:column;gap:12px}
