@@ -292,7 +292,10 @@ h1,h2,h3{font-family:var(--display);letter-spacing:-.025em;line-height:1.05;font
   font-family:var(--mono);font-size:12px;letter-spacing:.03em;color:rgba(255,255,255,.66)}
 body.lb-lock{overflow:hidden}
 @media(max-width:640px){
-  .lb-stage,.lb-stage>*{max-width:96vw;max-height:78vh}
+  /* 96vw ignored the dialog's own padding, so the media sat 22px proud of it on
+     each side. Fill the padded box instead. */
+  .lb{padding:14px}
+  .lb-stage,.lb-stage>*{max-width:100%;max-height:78vh}
   .lb-close{top:10px;right:10px;width:38px;height:38px}
 }
 
@@ -639,10 +642,15 @@ body.lb-lock{overflow:hidden}
 
 /* connectors are drawn once by the SVG overlay (.tree-flow) so pulses ride the exact path.
    the list just holds spacing; no CSS border elbows. */
+/* .tree is the scroll viewport; .tree-inner is the max-content box the chart
+   fills. Centering the inner box (rather than the rows inside a full-width
+   container) means an oversized chart starts flush left and scrolls, instead of
+   overflowing off both edges with the left half unreachable. */
+.tree-inner{position:relative;width:max-content;min-width:100%;margin-inline:auto}
 .tree ul{display:flex;justify-content:center;padding-top:38px;position:relative}
-.tree>ul{padding-top:0}
+.tree-inner>ul{padding-top:0}
 .tree li{list-style:none;position:relative;padding:38px 14px 0;display:flex;flex-direction:column;align-items:center}
-.tree>ul>li{padding-top:0}
+.tree-inner>ul>li{padding-top:0}
 
 /* nodes */
 .node{position:relative;border-radius:14px;text-align:left}
@@ -978,6 +986,7 @@ b,strong,summary,.faq-q,.pill,.uchip,.partner-chip,.cc-msg b,.node-admin b,
 .exp-card{cursor:pointer;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--white);
   transition:border-color .2s ease}
 .exp-card:hover{border-color:var(--blue)}
+.exp-card:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
 .exp-card-media{aspect-ratio:16/9;overflow:hidden;background:var(--paper-2)}
 .exp-card-media video,.exp-card-media img{width:100%;height:100%;object-fit:cover;display:block}
 .exp-card-body{padding:16px 18px}
@@ -1217,3 +1226,161 @@ b,strong,summary,.faq-q,.pill,.uchip,.partner-chip,.cc-msg b,.node-admin b,
 .logo-name{font-size:12.5px;color:var(--ink-soft);text-align:center;line-height:1.25}
 @media(max-width:900px){.logo-grid{grid-template-columns:repeat(4,1fr)}}
 @media(max-width:520px){.logo-grid{grid-template-columns:repeat(3,1fr)}}
+
+/* ══════════════════════════════════════════════════════════════════
+   PHONE + TABLET
+   Every rule below is gated on max-width or on a touch/no-hover input
+   query, so desktop rendering is byte-identical to before this block.
+   Ordered widest first: 900 → 860 → 720 → 640 → 520 → 400.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Nothing may push the document sideways. `clip` (not `hidden`) because it
+   does not create a scroll container, so sticky positioning still works. */
+body{overflow-x:clip}
+
+/* The zoom cue on media wells is revealed on hover. Touch has no hover, so
+   the affordance would never appear: show it outright there. */
+@media(hover:none){
+  .zoom-cue{opacity:1;transform:none}
+}
+
+/* Touch ergonomics. Width alone is the wrong test: a 1024px iPad Pro in
+   portrait is a finger, a 1024px laptop is a cursor. So this applies to every
+   phone/tablet width, plus any larger screen whose primary input is coarse. A
+   mouse-driven 1024px window is left exactly as it was. */
+@media(max-width:900px),(max-width:1024px) and (pointer:coarse){
+  /* ── fixed chrome: real 44px targets, clear of the notch ── */
+  .brand-mark{top:max(14px,env(safe-area-inset-top));left:max(14px,env(safe-area-inset-left));
+    padding:7px;margin:0}
+  .theme-toggle{top:max(14px,env(safe-area-inset-top));right:max(14px,env(safe-area-inset-right));
+    width:44px;height:44px}
+  .lb-close{width:44px;height:44px}
+
+  /* ── expandable-card modal: never taller or wider than the screen ── */
+  .exp-modal-wrap{padding:16px}
+  .exp-modal{width:min(680px,100%);max-height:88vh;max-height:88svh;
+    overflow-y:auto;overscroll-behavior:contain}
+
+  /* ── footer: nav links are 21px tall, which is not a tap target ── */
+  .foot-cols{padding:44px 24px 32px}
+  .foot-col{gap:0}
+  .foot-col-h{margin-bottom:6px}
+  .foot-col a{display:flex;align-items:center;min-height:44px}
+  .foot-by{min-height:44px;align-items:center}
+  .foot-social a{width:44px;height:44px}
+  .faq-help .btn{min-height:44px}
+  .brandby{min-height:44px}
+  /* Every label on the page that sat at 10-11.5px. 12px is the floor on a
+     screen held at arm's length. */
+  .soon-stamp,.foot-by,.rail-label,.ntag,.req-pill,.ava,.node-role .node-perm{font-size:12px}
+
+  /* ── org chart scroll affordance ──
+     The chart is wider than a tablet too. Fade the edges so the sideways
+     scroll is discoverable, and snap to whole branches. */
+  .tree{scroll-snap-type:x proximity;overscroll-behavior-x:contain;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 20px,#000 calc(100% - 20px),transparent 100%);
+    mask-image:linear-gradient(90deg,transparent 0,#000 20px,#000 calc(100% - 20px),transparent 100%)}
+  .tree:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
+  .tree-inner>ul>li>ul>li{scroll-snap-align:center}
+
+  /* The logo and theme toggle are fixed at the top. On a short screen the hero's
+     8vh top padding shrank under them and the "Built by AccuKnox" lockup ran
+     underneath. Clear the chrome explicitly instead of trusting a vh. */
+  .hero{padding-top:calc(78px + env(safe-area-inset-top))}
+}
+
+@media(max-width:860px){
+  /* Two columns at this width left the step heading and its clip both starving.
+     One column gives the video the full measure. */
+  .step{grid-template-columns:1fr;gap:26px}
+  .step p{max-width:46ch}
+}
+
+@media(max-width:720px){
+  /* ── hero clip ──
+     `min-height:340px` combined with `aspect-ratio:1920/984` resolved the box
+     to 663px wide inside a 342px column, so the clip rendered as a cropped
+     sliver spilling off-screen. Below the crossover width the aspect ratio
+     alone must drive the height. */
+  .vw-hero,.ph-hero{min-height:0}
+  .vw-hero{border-radius:16px}
+  .vw-step{border-radius:14px;box-shadow:0 24px 50px -26px rgba(0,0,0,.6)}
+
+  /* ── org chart ──
+     The chart is a diagram and stays wider than a phone. It scrolls, but the
+     rows used to be centred inside the scroller, which in LTR puts the left
+     half outside scroll range for good. .tree-inner now carries the centring,
+     so the whole chart is reachable and it opens parked on Admin. Tighten it
+     here so there is less of it to scroll through. */
+  .tree{padding:34px 14px 10px}
+  .tree ul{padding-top:30px}
+  .tree li{padding:30px 8px 0}
+  .node-admin{min-width:0;padding:14px 16px}
+  .org-canvas-head{padding:14px 18px}
+}
+
+@media(max-width:640px){
+  /* ── platform control-plane frame ── */
+  .arch-frame{padding:36px 16px 16px;border-radius:20px}
+  .arch-label{left:18px}
+  .arch-card{padding:20px}
+  .arch-rail{padding:18px}
+
+  /* ── FAQ ── */
+  .faq-item summary{padding:18px;gap:12px}
+  .faq-a{padding:0 18px 20px}
+  .faq-help{padding:22px 20px;gap:16px}
+
+  /* ── see it in action ── */
+  .exp-card-body{padding:14px 16px}
+}
+
+@media(max-width:520px){
+  /* ── hero ──
+     .hero and .wrap were each contributing 24px, eating 96px of a 390px screen.
+     .wrap alone is enough. */
+  .hero{padding-left:0;padding-right:0}
+  .wrap{padding-inline:max(18px,env(safe-area-inset-left)) max(18px,env(safe-area-inset-right))}
+  /* the 72px floor overflowed the wordmark below ~360px */
+  .hero-brand{font-size:clamp(52px,17vw,72px)}
+  .hero-title{margin-top:22px}
+  .hero-sub{margin-top:18px}
+  .hero-actions{margin-top:28px;gap:12px}
+  .cap-flow{margin-top:28px;gap:8px}
+  .pill{padding:9px 13px;font-size:14px}
+
+  /* ── why AgentZ ── */
+  .why-title{padding:16px 20px;font-size:19px}
+  .why-head{margin-bottom:32px}
+  .why-feat{padding:16px 14px;gap:13px}
+
+  /* ── stepper ── */
+  .stepper-sticky{padding:60px 0}
+  .steps{gap:60px}
+
+  /* ── governance facts ── */
+  .ofact{padding:16px 0}
+
+  /* ── footer wordmark: the 90px floor clipped it below ~360px ── */
+  .foot-wordmark{font-size:clamp(64px,25vw,440px)}
+  .foot-cols{padding:36px 24px 28px}
+  .foot-bar{padding:18px 24px}
+}
+
+@media(max-width:400px){
+  /* stacked, full-bleed CTAs are easier to hit one-handed and stop the
+     "Coming soon" stamp from crowding the viewport edge */
+  .hero-actions{flex-direction:column;align-items:stretch}
+  .hero-actions .btn,.hero-actions .soon-wrap{width:100%}
+  .soon-wrap .btn{width:100%}
+  .soon-stamp{right:6px}
+}
+
+/* Landscape phones are short: keep the hero from needing a full swipe before
+   any content shows. */
+@media(max-height:520px) and (orientation:landscape){
+  .hero{padding-top:calc(66px + env(safe-area-inset-top));padding-bottom:28px}
+  .hero-brand{font-size:clamp(48px,9vw,96px)}
+  .exp-modal{max-height:92vh}
+  .lb-stage,.lb-stage>*{max-height:82vh}
+}

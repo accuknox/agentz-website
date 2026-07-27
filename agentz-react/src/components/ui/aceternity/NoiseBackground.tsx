@@ -105,11 +105,24 @@ export function NoiseBackground({ className, cell = 26 }: Props) {
     } else {
       frame()
     }
-    const onResize = () => resize()
+    const onResize = () => {
+      resize()
+      if (reduce) grid()
+    }
     window.addEventListener('resize', onResize)
+    // window resize alone misses the hero box changing for other reasons
+    // (breakpoint reflow, font swap, mobile URL bar collapsing), which left the
+    // canvas sized to a stale width and spilling out of the hero
+    let ro: ResizeObserver | null = null
+    const parent = canvas.parentElement
+    if ('ResizeObserver' in window && parent) {
+      ro = new ResizeObserver(onResize)
+      ro.observe(parent)
+    }
     return () => {
       cancelAnimationFrame(raf)
       window.removeEventListener('resize', onResize)
+      if (ro) ro.disconnect()
     }
   }, [cell])
 

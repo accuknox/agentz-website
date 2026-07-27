@@ -28,6 +28,7 @@ type Line = { d: string; delay: number }
 export function OrgChart() {
   const reduce = useReducedMotion()
   const treeRef = useRef<HTMLDivElement>(null)
+  const innerRef = useRef<HTMLDivElement>(null)
   const adminRef = useRef<HTMLDivElement>(null)
   const roleRefs = useRef<Array<HTMLDivElement | null>>([])
   const userRefs = useRef<Record<string, HTMLDivElement | null>>({})
@@ -35,7 +36,10 @@ export function OrgChart() {
   const [box, setBox] = useState({ w: 0, h: 0 })
 
   const measure = useCallback(() => {
-    const tree = treeRef.current
+    // measure against .tree-inner (the max-content box) rather than .tree (the
+    // scroll viewport) so the connector overlay stays aligned when the tree is
+    // wider than the screen and has to scroll
+    const tree = innerRef.current
     const admin = adminRef.current
     if (!tree || !admin) return
     const base = tree.getBoundingClientRect()
@@ -72,20 +76,51 @@ export function OrgChart() {
     setLines(next)
   }, [])
 
+  // When the chart is wider than the screen it scrolls. Park it in the middle
+  // so Admin (the root) is what you see first, rather than an arbitrary edge
+  // branch. Only ever runs while the user has not scrolled it themselves.
+  const touched = useRef(false)
+  const selfScroll = useRef(0)
+  const centerScroll = useCallback(() => {
+    const tree = treeRef.current
+    if (!tree || touched.current) return
+    const slack = tree.scrollWidth - tree.clientWidth
+    const target = slack / 2
+    if (slack > 2 && Math.abs(tree.scrollLeft - target) > 1) {
+      // our own write also fires onScroll; don't let it count as a user gesture
+      selfScroll.current = target
+      tree.scrollLeft = target
+    }
+  }, [])
+
   useLayoutEffect(() => {
     measure()
-  }, [measure])
+    centerScroll()
+  }, [measure, centerScroll])
 
   useEffect(() => {
-    const onResize = () => measure()
+    const onResize = () => {
+      measure()
+      centerScroll()
+    }
     window.addEventListener('resize', onResize)
-    // re-measure after fonts/layout settle
-    const t = window.setTimeout(measure, 300)
+    // Re-measure after fonts and layout settle, then again once the staggered
+    // node reveal has finished, since those nodes slide 16px on the way in and
+    // connectors drawn mid-flight would land short.
+    const timers = [300, 1200].map((ms) => window.setTimeout(onResize, ms))
+    // and whenever the tree box itself changes: breakpoint flips between the
+    // wide and stacked layouts, late font swaps
+    let ro: ResizeObserver | null = null
+    if ('ResizeObserver' in window && innerRef.current) {
+      ro = new ResizeObserver(() => onResize())
+      ro.observe(innerRef.current)
+    }
     return () => {
       window.removeEventListener('resize', onResize)
-      window.clearTimeout(t)
+      timers.forEach((t) => window.clearTimeout(t))
+      if (ro) ro.disconnect()
     }
-  }, [measure])
+  }, [measure, centerScroll])
 
   const nodeReveal = (delay: number) =>
     reduce
@@ -113,78 +148,95 @@ export function OrgChart() {
         </div>
 
         <div className="org-canvas">
-          <div className="tree" ref={treeRef}>
-            {/* single connector system: elbows Admin → roles → users, with pulses riding the same paths */}
-            {lines.length > 0 && (
-              <svg className="tree-flow" viewBox={`0 0 ${box.w} ${box.h}`} preserveAspectRatio="none">
-                {lines.map((ln, i) => (
-                  <path key={`l${i}`} className="flow-line" d={ln.d} />
-                ))}
-                {!reduce &&
-                  lines.map((ln, i) => (
-                    <motion.path
-                      key={`p${i}`}
-                      d={ln.d}
-                      className="flow-pulse"
-                      fill="none"
-                      initial={{ pathLength: 0.06, pathOffset: 0, opacity: 0 }}
-                      animate={{ pathLength: 0.06, pathOffset: [0, 0.94], opacity: [0, 1, 1, 0] }}
-                      transition={{ duration: 2.2, repeat: Infinity, repeatDelay: 3.0, delay: ln.delay, ease: 'easeInOut' }}
-                    />
+          {/* a scrollable region needs to be focusable and named, or keyboard
+              and screen-reader users cannot reach the branches that are off-screen */}
+          <div
+            className="tree"
+            ref={treeRef}
+            role="group"
+            aria-label="Role-based access chart: Admin, roles, and the people in each role. Scroll sideways to see every branch."
+            tabIndex={0}
+            onScroll={(e) => {
+              if (Math.abs(e.currentTarget.scrollLeft - selfScroll.current) > 1) touched.current = true
+            }}
+          >
+            {/* .tree scrolls; .tree-inner is the max-content box the chart actually
+                occupies. Centering lives on the inner box so that when the chart is
+                wider than the screen it starts flush left and every node stays
+                reachable by scrolling, instead of overflowing off both edges. */}
+            <div className="tree-inner" ref={innerRef}>
+              {/* single connector system: elbows Admin → roles → users, with pulses riding the same paths */}
+              {lines.length > 0 && (
+                <svg className="tree-flow" viewBox={`0 0 ${box.w} ${box.h}`} preserveAspectRatio="none">
+                  {lines.map((ln, i) => (
+                    <path key={`l${i}`} className="flow-line" d={ln.d} />
                   ))}
-              </svg>
-            )}
+                  {!reduce &&
+                    lines.map((ln, i) => (
+                      <motion.path
+                        key={`p${i}`}
+                        d={ln.d}
+                        className="flow-pulse"
+                        fill="none"
+                        initial={{ pathLength: 0.06, pathOffset: 0, opacity: 0 }}
+                        animate={{ pathLength: 0.06, pathOffset: [0, 0.94], opacity: [0, 1, 1, 0] }}
+                        transition={{ duration: 2.2, repeat: Infinity, repeatDelay: 3.0, delay: ln.delay, ease: 'easeInOut' }}
+                      />
+                    ))}
+                </svg>
+              )}
 
-            <ul>
-              <li>
-                <motion.div className="node node-admin" ref={adminRef} {...nodeReveal(0)}>
-                  <span className="node-ico"><Icon name="guardrails" /></span>
-                  <div className="node-body">
-                    <b>Admin</b>
-                    <span>Sets roles. Provisions on behalf of the team.</span>
-                  </div>
-                  <div className="node-tags">
-                    <span className="ntag"><Icon name="key" className="ico-sm" />credentials</span>
-                    <span className="ntag"><Icon name="context" className="ico-sm" />environments</span>
-                    <span className="ntag"><Icon name="workflows" className="ico-sm" />workflows</span>
-                  </div>
-                </motion.div>
-                <ul>
-                  {ROLES.map((role, i) => (
-                    <li key={role.name}>
-                      <motion.div
-                        className="node node-role"
-                        ref={(el) => {
-                          roleRefs.current[i] = el
-                        }}
-                        {...nodeReveal(0.25 + i * 0.12)}
-                      >
-                        <span className={`role-dot ${role.dot}`}></span>
-                        <b>{role.name}</b>
-                        <span className="node-perm">{role.perm}</span>
-                      </motion.div>
-                      <ul>
-                        {role.users.map((u, j) => (
-                          <li key={u.name}>
-                            <motion.div
-                              className={u.req ? 'uchip uchip-req' : 'uchip'}
-                              ref={(el) => {
-                                userRefs.current[`${i}-${j}`] = el
-                              }}
-                              {...nodeReveal(0.5 + i * 0.12 + j * 0.08)}
-                            >
-                              <span className="ava">{u.av}</span>
-                              {u.name}
-                              {u.req && <span className="req-pill">requests prod access</span>}
-                            </motion.div>
-                          </li>
-                        ))}
-                      </ul>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            </ul>
+              <ul>
+                <li>
+                  <motion.div className="node node-admin" ref={adminRef} {...nodeReveal(0)}>
+                    <span className="node-ico"><Icon name="guardrails" /></span>
+                    <div className="node-body">
+                      <b>Admin</b>
+                      <span>Sets roles. Provisions on behalf of the team.</span>
+                    </div>
+                    <div className="node-tags">
+                      <span className="ntag"><Icon name="key" className="ico-sm" />credentials</span>
+                      <span className="ntag"><Icon name="context" className="ico-sm" />environments</span>
+                      <span className="ntag"><Icon name="workflows" className="ico-sm" />workflows</span>
+                    </div>
+                  </motion.div>
+                  <ul>
+                    {ROLES.map((role, i) => (
+                      <li key={role.name}>
+                        <motion.div
+                          className="node node-role"
+                          ref={(el) => {
+                            roleRefs.current[i] = el
+                          }}
+                          {...nodeReveal(0.25 + i * 0.12)}
+                        >
+                          <span className={`role-dot ${role.dot}`}></span>
+                          <b>{role.name}</b>
+                          <span className="node-perm">{role.perm}</span>
+                        </motion.div>
+                        <ul>
+                          {role.users.map((u, j) => (
+                            <li key={u.name}>
+                              <motion.div
+                                className={u.req ? 'uchip uchip-req' : 'uchip'}
+                                ref={(el) => {
+                                  userRefs.current[`${i}-${j}`] = el
+                                }}
+                                {...nodeReveal(0.5 + i * 0.12 + j * 0.08)}
+                              >
+                                <span className="ava">{u.av}</span>
+                                {u.name}
+                                {u.req && <span className="req-pill">requests prod access</span>}
+                              </motion.div>
+                            </li>
+                          ))}
+                        </ul>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              </ul>
+            </div>
           </div>
 
           <div className="org-facts">

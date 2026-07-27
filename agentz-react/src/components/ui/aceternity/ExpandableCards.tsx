@@ -46,7 +46,7 @@ export function ExpandableCards({ items }: { items: ExpandableItem[] }) {
 
       <AnimatePresence>
         {active && (
-          <div className="exp-modal-wrap">
+          <div className="exp-modal-wrap" role="dialog" aria-modal="true" aria-label={active.title}>
             <motion.div layoutId={`card-${active.title}-${id}`} className="exp-modal" ref={ref}>
               <motion.div layoutId={`media-${active.title}-${id}`} className="exp-modal-media">
                 {isVideo(active.src) ? (
@@ -71,6 +71,17 @@ export function ExpandableCards({ items }: { items: ExpandableItem[] }) {
             key={item.title}
             className="exp-card"
             onClick={() => setActive(item)}
+            // the card is the only way into the dialog, so it has to be operable
+            // without a pointer as well as with one
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                setActive(item)
+              }
+            }}
+            role="button"
+            tabIndex={0}
+            aria-label={`Expand: ${item.title}`}
             whileHover={{ y: -3 }}
           >
             <motion.div layoutId={`media-${item.title}-${id}`} className="exp-card-media">

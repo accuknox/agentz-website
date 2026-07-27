@@ -22,6 +22,15 @@ export function useSiteEffects() {
       const p = pad || 0
       return r.height > 0 && r.top < window.innerHeight + p && r.bottom > -p
     }
+    /* Reveal test, deliberately one-sided: true once the element's top has come
+       into view and true forever after. The two-sided `near` was wrong here,
+       because an element only ever revealed while it sat inside the band. Jump
+       past it in one go (a footer anchor link, a fast fling, a restored scroll
+       position) and it stayed at opacity 0 for the rest of the session. */
+    const reached = (el: Element, pad: number) => {
+      const r = el.getBoundingClientRect()
+      return r.height > 0 && r.top < window.innerHeight + pad
+    }
 
     /* ── reveal on scroll ── */
     const revealEls = [
@@ -38,7 +47,7 @@ export function useSiteEffects() {
     function revealTick() {
       if (!pendingReveal.length) return
       pendingReveal = pendingReveal.filter((el) => {
-        if (!near(el, -40)) return true
+        if (!reached(el, -40)) return true
         show(el)
         return false
       })
@@ -77,7 +86,7 @@ export function useSiteEffects() {
     function stepTick() {
       if (!pendingSteps.length) return
       pendingSteps = pendingSteps.filter((s) => {
-        if (!near(s, -60)) return true
+        if (!reached(s, -60)) return true
         s.classList.add('is-on')
         return false
       })
@@ -90,14 +99,20 @@ export function useSiteEffects() {
       if (bar) bar.style.width = (scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0) + '%'
     }
 
-    /* ── one rAF-throttled scroll loop ── */
+    /* ── scroll loop ──
+       The reveal and stepper ticks run straight away rather than inside the
+       rAF: both drain a shrinking list and early-return once it is empty, so
+       they cost nothing after the first pass, and running them here means
+       content still appears if rAF is being throttled (backgrounded tab, low
+       power mode, a browser that is not compositing). Everything that fires on
+       every single scroll stays behind the rAF. */
     let ticking = false
     function onScroll() {
+      revealTick()
+      stepTick()
       if (ticking) return
       ticking = true
       requestAnimationFrame(() => {
-        revealTick()
-        stepTick()
         clipTick()
         progress()
         ticking = false
