@@ -1,0 +1,10 @@
+# Only agentz-react/ is needed to build the site. Everything below is source
+# material or tooling that would otherwise be uploaded on every deploy: the old
+# static site's media (29M), the raw screen recordings (74M), and the press kit.
+assets/
+tour-clips/
+marketing/
+.claude/
+CLAUDE.md
+agentz-react/test/
+agentz-react/README.md

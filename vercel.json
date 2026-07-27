@@ -1,0 +1,7 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "npm --prefix agentz-react ci",
+  "buildCommand": "npm --prefix agentz-react run build",
+  "outputDirectory": "agentz-react/dist"
+}
