@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react'
 import { useSiteEffects } from './hooks/useSiteEffects'
 import { IconSprite } from './components/ui/Icon'
 import { SiteDock } from './components/SiteDock'
@@ -40,6 +41,7 @@ export default function App() {
       </main>
 
       <SiteDock />
+      <Analytics />
     </>
   )
 }
