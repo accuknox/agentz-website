@@ -92,6 +92,14 @@ export function useSiteEffects() {
       })
     }
 
+    /* ── nav: transparent over the hero, hairline once you leave it ── */
+    const nav = document.querySelector('.nav')
+    function navTick() {
+      // low threshold on purpose: the wash should land as soon as the page
+      // moves, not a scroll-and-a-half later
+      if (nav) nav.classList.toggle('is-stuck', window.scrollY > 6)
+    }
+
     /* ── scroll-progress bar ── */
     const bar = document.getElementById('scrollbar-fill')
     function progress() {
@@ -110,6 +118,7 @@ export function useSiteEffects() {
     function onScroll() {
       revealTick()
       stepTick()
+      navTick()
       if (ticking) return
       ticking = true
       requestAnimationFrame(() => {
@@ -148,6 +157,7 @@ export function useSiteEffects() {
       stepTick()
       clipTick()
       progress()
+      navTick()
       if (liveSignal || (!pendingReveal.length && !pendingSteps.length)) window.clearInterval(poll)
     }, 400)
     cleanups.push(() => {
@@ -160,6 +170,7 @@ export function useSiteEffects() {
     stepTick()
     clipTick()
     progress()
+    navTick()
 
     /* ── carousels: prev / next ── */
     document.querySelectorAll<HTMLElement>('.vid-track').forEach((track) => {

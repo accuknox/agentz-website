@@ -52,6 +52,9 @@ const VIEWPORTS = [
 const WAIVERS = [
   // the oversized footer wordmark is cropped by design
   /foot-wordmark-wrap/,
+  // .sr-only is the standard visually-hidden recipe: a 1px box that clips its
+  // own text on purpose, so CLIPPED_X/Y on it is the pattern working
+  /CLIPPED_[XY] (span|caption)\.sr-only/,
 ]
 
 const AUDIT = `(() => {

@@ -1,37 +1,51 @@
 import { ThemeToggle } from './ThemeToggle'
 
-/** Minimal onorca-style sticky top nav. */
+/**
+ * Transparent top nav. It sits over the hero with no background of its own and
+ * only picks up a hairline and a wash once you scroll past the fold, which
+ * useSiteEffects toggles with .is-stuck.
+ *
+ * Four links, deliberately. Pricing lands here when it exists.
+ */
+const LINKS = [
+  ['Platform', '#platform'],
+  ['Comparison', '#comparison'],
+  ['Governance', '#governance'],
+  ['FAQ', '#faq'],
+]
+
 export function Nav() {
   return (
-    <header className="nav">
+    <header className="nav" id="nav">
       <div className="nav-inner">
-        <a className="nav-brand" href="#top">
-          <span className="nav-mark">Z</span>
+        <a className="nav-brand" href="#top" aria-label="AgentZ home">
+          <img src="./assets/img/agentz-logo.svg" alt="" width={26} height={26} />
           AgentZ
         </a>
-        <nav className="nav-links">
-          <a href="#platform">Platform</a>
-          <a href="#brg">Build · Run · Govern</a>
-          <a href="#governance">Governance</a>
-          <a href="#faq">FAQ</a>
+
+        <nav className="nav-links" aria-label="Sections">
+          {LINKS.map(([label, href]) => (
+            <a key={href} href={href}>
+              {label}
+            </a>
+          ))}
         </nav>
-        <span className="nav-spacer" />
-        <ThemeToggle />
-        <a className="nav-ghost" href="https://accuknox.com/demo" target="_blank" rel="noopener">
-          See the platform
-        </a>
-        <a
-          className="nav-cta"
-          href="#waitlist"
-          data-tally-open="RGlZ1l"
-          data-tally-layout="modal"
-          data-tally-width="540"
-          data-tally-overlay="1"
-          data-tally-emoji-text="👋"
-          data-tally-emoji-animation="wave"
-        >
-          Join the waitlist
-        </a>
+
+        <div className="nav-actions">
+          <ThemeToggle />
+          <a
+            className="nav-cta"
+            href="#waitlist"
+            data-tally-open="RGlZ1l"
+            data-tally-layout="modal"
+            data-tally-width="540"
+            data-tally-overlay="1"
+            data-tally-emoji-text="👋"
+            data-tally-emoji-animation="wave"
+          >
+            Join the waitlist
+          </a>
+        </div>
       </div>
     </header>
   )

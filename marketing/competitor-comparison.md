@@ -2,6 +2,8 @@
 
 Written 27 July 2026. This space moves fast, so check anything before it goes in a deck or on the site.
 
+**This is now live on the site** in the Comparison section, one table with all eight products. The row labels, marks and per-cell reasoning all come from `agentz-react/src/data/comparison.ts`. Edit that file and the site follows. Keep this document and that file in step.
+
 **Where the facts come from.** The AgentZ column comes from this repo and from the team. Everything about other products comes from their own documentation and from 2026 reporting, all linked at the bottom.
 
 ---

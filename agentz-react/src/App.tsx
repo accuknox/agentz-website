@@ -1,8 +1,9 @@
 import { Analytics } from '@vercel/analytics/react'
 import { useSiteEffects } from './hooks/useSiteEffects'
 import { IconSprite } from './components/ui/Icon'
-import { SiteDock } from './components/SiteDock'
+import { Nav } from './components/Nav'
 import { Hero } from './components/Hero'
+import { Comparison } from './components/Comparison'
 import { WhyAgentZ } from './components/WhyAgentZ'
 import { PlatformArch } from './components/PlatformArch'
 import { Stepper } from './components/Stepper'
@@ -19,10 +20,9 @@ export default function App() {
     <>
       <IconSprite />
 
-      <a className="brand-mark" href="#top" aria-label="AgentZ home">
-        <img src="./assets/img/agentz-logo.svg" alt="AgentZ" />
-        <span>AgentZ</span>
-      </a>
+      {/* the nav carries the wordmark and the theme toggle now, so the floating
+          brand mark and dock that used to sit in those corners are gone */}
+      <Nav />
 
       <div className="scrollbar" aria-hidden="true">
         <span id="scrollbar-fill"></span>
@@ -34,13 +34,13 @@ export default function App() {
         <PlatformArch />
         <Stepper />
         <SeeInAction />
+        <Comparison />
         <OrgChart />
         <Integrations />
         <FAQ />
         <Footer />
       </main>
 
-      <SiteDock />
       <Analytics />
     </>
   )
