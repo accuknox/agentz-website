@@ -45,7 +45,7 @@ Left out on purpose: OpenAI's Agent Builder is being switched off on 30 November
 |---|---|---|---|---|---|
 | **Zero trust, default deny** (safe on day one) | ✅ | ❌ | ➖ | ➖ | ➖ |
 | **Network egress control** (you choose where it can go online) | ✅ | ❌ | ❌ | ➖ | ➖ |
-| **Zero secret exfiltration** (the agent never sees your passwords) | ✅ | ❌ | ➖ | ➖ | ➖ |
+| **Zero secret exposure** (the agent never sees your passwords) | ✅ | ❌ | ➖ | ➖ | ➖ |
 | **Fine-grained access control** (permission for each action) | ✅ | ➖ | ➖ | ➖ | ➖ |
 | **Tamper-evident audit trail** (a record that cannot be edited) | ✅ | ➖ | ➖ | ➖ | ➖ |
 | **On-premises** (runs on your own servers) | ✅ | ➖ | ✅ | ➖ | ❌ |
@@ -62,7 +62,7 @@ Left out on purpose: OpenAI's Agent Builder is being switched off on 30 November
 |---|---|---|---|---|
 | **Zero trust, default deny** (safe on day one) | ✅ | ❌ | ➖ | ❌ |
 | **Network egress control** (you choose where it can go online) | ✅ | ❌ | ➖ | ❌ |
-| **Zero secret exfiltration** (the agent never sees your passwords) | ✅ | ❌ stored as plain text | ➖ | ❌ |
+| **Zero secret exposure** (the agent never sees your passwords) | ✅ | ❌ stored as plain text | ➖ | ❌ |
 | **Fine-grained access control** (permission for each action) | ✅ | ❌ | ➖ asks before each tool | ➖ |
 | **Tamper-evident audit trail** (a record that cannot be edited) | ✅ | ❌ | ❌ | ❌ |
 | **Multi-user and roles** (built for a team, not one person) | ✅ | ❌ | ❌ planned, not built | ➖ |

@@ -73,7 +73,7 @@ export const ROWS: Row[] = [
     },
   },
   {
-    label: 'Zero secret exfiltration',
+    label: 'Zero secret exposure',
     term: 'the agent never sees your passwords',
     plain: 'Keys stay locked away. The platform makes the call for the agent, so a hijacked agent has no password to steal.',
     cells: {
