@@ -2,7 +2,7 @@
 
 Written 27 July 2026. This space moves fast, so check anything before it goes in a deck or on the site.
 
-**This is now live on the site** in the Comparison section, one table with all eight products. The row labels, marks and per-cell reasoning all come from `agentz-react/src/data/comparison.ts`. Edit that file and the site follows. Keep this document and that file in step.
+**This is now live on the site** in the Comparison section, one table with all eight products. Row labels lead with the industry term and carry the plain reading in brackets, and every mark reveals its own reasoning on hover. All of it comes from `agentz-react/src/data/comparison.ts`. Edit that file and the site follows. Keep this document and that file in step.
 
 **Where the facts come from.** The AgentZ column comes from this repo and from the team. Everything about other products comes from their own documentation and from 2026 reporting, all linked at the bottom.
 
@@ -43,35 +43,35 @@ Left out on purpose: OpenAI's Agent Builder is being switched off on 30 November
 
 | | **AgentZ** | LangGraph | CrewAI AMP | Microsoft | AWS |
 |---|---|---|---|---|---|
-| **Safe on day one, nothing to configure** | ✅ | ❌ | ➖ | ➖ | ➖ |
-| **You choose where the agent can go online** | ✅ | ❌ | ❌ | ➖ | ➖ |
-| **The agent never sees your passwords** | ✅ | ❌ | ➖ | ➖ | ➖ |
-| **Permission for each individual action** | ✅ | ➖ | ➖ | ➖ | ➖ |
-| **A record of events that cannot be edited** | ✅ | ➖ | ➖ | ➖ | ➖ |
-| **Runs on your own servers** | ✅ | ➖ | ✅ | ➖ | ❌ |
-| **Runs with no internet connection at all** | ✅ | ❌ | ➖ | ➖ | ❌ |
-| **Any AI model, on your own account** | ✅ | ✅ | ✅ | ➖ | ➖ |
-| **See and control what the AI costs** | ✅ | ❌ | ❌ | ❌ | ❌ |
-| **Describe a job in a sentence, it builds it** | ✅ | ❌ | ❌ | ➖ | ❌ |
-| **One place for agents, models and people** | ✅ | ➖ | ➖ | ➖ | ➖ |
+| **Zero trust, default deny** (safe on day one) | ✅ | ❌ | ➖ | ➖ | ➖ |
+| **Network egress control** (you choose where it can go online) | ✅ | ❌ | ❌ | ➖ | ➖ |
+| **Zero secret exfiltration** (the agent never sees your passwords) | ✅ | ❌ | ➖ | ➖ | ➖ |
+| **Fine-grained access control** (permission for each action) | ✅ | ➖ | ➖ | ➖ | ➖ |
+| **Tamper-evident audit trail** (a record that cannot be edited) | ✅ | ➖ | ➖ | ➖ | ➖ |
+| **On-premises** (runs on your own servers) | ✅ | ➖ | ✅ | ➖ | ❌ |
+| **Air-gapped** (no internet connection at all) | ✅ | ❌ | ➖ | ➖ | ❌ |
+| **Model agnostic** (any AI model, on your own account) | ✅ | ✅ | ✅ | ➖ | ➖ |
+| **Inference pricing and pool picking** (see what the AI costs) | ✅ | ❌ | ❌ | ❌ | ❌ |
+| **Dynamic skill creation** (describe a job, it builds it) | ✅ | ❌ | ❌ | ➖ | ❌ |
+| **Single control plane** (agents, models and people in one place) | ✅ | ➖ | ➖ | ➖ | ➖ |
 | **Time to a working agent** | Minutes | Days | Days | Hours | Days |
 
 ### Against the free ones
 
 | | **AgentZ** | OpenClaw | Hermes Agent | n8n |
 |---|---|---|---|---|
-| **Safe on day one, nothing to configure** | ✅ | ❌ | ➖ | ❌ |
-| **You choose where the agent can go online** | ✅ | ❌ | ➖ | ❌ |
-| **The agent never sees your passwords** | ✅ | ❌ stored as plain text | ➖ | ❌ |
-| **Permission for each individual action** | ✅ | ❌ | ➖ asks before each tool | ➖ |
-| **A record of events that cannot be edited** | ✅ | ❌ | ❌ | ❌ |
-| **Built for a team, not one person** | ✅ | ❌ | ❌ planned, not built | ➖ |
-| **Runs on your own servers** | ✅ | ✅ | ✅ | ✅ |
-| **Runs with no internet connection at all** | ✅ | ➖ | ✅ | ➖ |
-| **Any AI model, on your own account** | ✅ | ✅ | ✅ | ✅ |
-| **See and control what the AI costs** | ✅ | ❌ | ❌ | ❌ |
-| **Describe a job in a sentence, it builds it** | ✅ | ➖ | ✅ learns its own skills | ❌ |
-| **Somebody to call when it breaks** | ✅ | ❌ | ❌ | ➖ |
+| **Zero trust, default deny** (safe on day one) | ✅ | ❌ | ➖ | ❌ |
+| **Network egress control** (you choose where it can go online) | ✅ | ❌ | ➖ | ❌ |
+| **Zero secret exfiltration** (the agent never sees your passwords) | ✅ | ❌ stored as plain text | ➖ | ❌ |
+| **Fine-grained access control** (permission for each action) | ✅ | ❌ | ➖ asks before each tool | ➖ |
+| **Tamper-evident audit trail** (a record that cannot be edited) | ✅ | ❌ | ❌ | ❌ |
+| **Multi-user and roles** (built for a team, not one person) | ✅ | ❌ | ❌ planned, not built | ➖ |
+| **On-premises** (runs on your own servers) | ✅ | ✅ | ✅ | ✅ |
+| **Air-gapped** (no internet connection at all) | ✅ | ➖ | ✅ | ➖ |
+| **Model agnostic** (any AI model, on your own account) | ✅ | ✅ | ✅ | ✅ |
+| **Inference pricing and pool picking** (see what the AI costs) | ✅ | ❌ | ❌ | ❌ |
+| **Dynamic skill creation** (describe a job, it builds it) | ✅ | ➖ | ✅ learns its own skills | ❌ |
+| **Commercial support** (somebody to call when it breaks) | ✅ | ❌ | ❌ | ➖ |
 
 Credit where it is due. Hermes genuinely builds its own skills as it works, and it is the one product here that matches AgentZ on that. OpenClaw and Hermes both run happily on your own machine. What neither was built for is a company: no way to say who is allowed to do what, no record you could hand an auditor, and nobody to call at 2am.
 

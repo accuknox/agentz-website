@@ -1,4 +1,5 @@
 import { ThemeToggle } from './ThemeToggle'
+import { Icon } from './ui/Icon'
 
 /**
  * Transparent top nav. It sits over the hero with no background of its own and
@@ -33,17 +34,18 @@ export function Nav() {
 
         <div className="nav-actions">
           <ThemeToggle />
+          <a className="nav-cta" href="https://agentz.accuknox.com/" target="_blank" rel="noopener">
+            Try AgentZ
+          </a>
           <a
-            className="nav-cta"
-            href="#waitlist"
-            data-tally-open="RGlZ1l"
-            data-tally-layout="modal"
-            data-tally-width="540"
-            data-tally-overlay="1"
-            data-tally-emoji-text="👋"
-            data-tally-emoji-animation="wave"
+            className="nav-gh"
+            href="https://github.com/accuknox/agentZ"
+            target="_blank"
+            rel="noopener"
+            aria-label="AgentZ on GitHub"
+            title="AgentZ on GitHub"
           >
-            Join the waitlist
+            <Icon name="github" />
           </a>
         </div>
       </div>

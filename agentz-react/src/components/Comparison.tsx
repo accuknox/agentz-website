@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Icon } from './ui/Icon'
 import { ROWS, VENDORS, type Mark } from '../data/comparison'
 
@@ -9,40 +9,60 @@ const MARK_LABEL: Record<Mark, string> = {
   no: 'Not available',
 }
 
-type Pop = { x: number; y: number; title: string; sub?: string; mark?: Mark; body: string } | null
+type PopData = { title: string; sub?: string; mark?: Mark; body: string }
+type Pop = (PopData & { x: number; y: number }) | null
 
 /**
- * One table, eight products. Every mark is its own button: tap it and you get
- * the reason that product scored the way it did. The row label carries the
- * plain-English reading of the capability.
+ * One table, eight products. Every mark carries its own reason: point at it and
+ * a card explains why that product scored the way it did. The row label's info
+ * button explains the capability itself.
  *
- * The popover is a single fixed-position node anchored off the trigger's rect
- * rather than a child of the cell, because the table scrolls sideways and
- * anything inside it would be clipped at the edges.
+ * The card is a single fixed-position node anchored off the trigger's rect
+ * rather than a child of the cell, because the table scrolls sideways and a
+ * nested card would be clipped at the edges.
  */
 export function Comparison() {
   const [pop, setPop] = useState<Pop>(null)
   const [openKey, setOpenKey] = useState<string | null>(null)
+
+  // Hover is the primary way in on a pointer device. Touch has no hover, so
+  // there the same triggers work on tap.
+  const canHover = useMemo(
+    () => typeof window !== 'undefined' && window.matchMedia('(hover: hover)').matches,
+    [],
+  )
 
   const close = useCallback(() => {
     setPop(null)
     setOpenKey(null)
   }, [])
 
-  const openFrom = useCallback(
-    (el: HTMLElement, key: string, data: Omit<NonNullable<Pop>, 'x' | 'y'>) => {
-      if (openKey === key) return close()
-      const r = el.getBoundingClientRect()
-      // clientWidth, not innerWidth: innerWidth includes a classic scrollbar and
-      // would let the card sit under it
-      const vw = document.documentElement.clientWidth
-      const width = Math.min(320, vw - 24)
-      // centre on the trigger, then keep the whole card on screen
-      const x = Math.min(Math.max(12 + width / 2, r.left + r.width / 2), vw - 12 - width / 2)
-      setPop({ ...data, x, y: r.bottom + 10 })
-      setOpenKey(key)
-    },
-    [openKey, close],
+  const show = useCallback((el: HTMLElement, key: string, data: PopData) => {
+    const r = el.getBoundingClientRect()
+    // clientWidth, not innerWidth: innerWidth includes a classic scrollbar and
+    // would let the card sit under it
+    const vw = document.documentElement.clientWidth
+    const width = Math.min(320, vw - 24)
+    const x = Math.min(Math.max(12 + width / 2, r.left + r.width / 2), vw - 12 - width / 2)
+    setPop({ ...data, x, y: r.bottom + 10 })
+    setOpenKey(key)
+  }, [])
+
+  /** Hover in, tap to toggle, and focus for keyboard users. */
+  const triggerProps = useCallback(
+    (key: string, data: PopData) => ({
+      'data-cmp-trigger': true,
+      'aria-expanded': openKey === key,
+      onMouseEnter: canHover
+        ? (e: React.MouseEvent<HTMLElement>) => show(e.currentTarget, key, data)
+        : undefined,
+      onMouseLeave: canHover ? close : undefined,
+      onFocus: (e: React.FocusEvent<HTMLElement>) => show(e.currentTarget, key, data),
+      onBlur: close,
+      onClick: (e: React.MouseEvent<HTMLElement>) =>
+        openKey === key ? close() : show(e.currentTarget, key, data),
+    }),
+    [openKey, canHover, show, close],
   )
 
   useEffect(() => {
@@ -73,8 +93,8 @@ export function Comparison() {
         <div className="fhead">
           <h2 className="fhead-h">How AgentZ compares.</h2>
           <p className="fhead-p">
-            Every other platform here treats security as something you add later. Tap any mark to see why it scored
-            that way, or the information button on a row to see what the capability means.
+            Every other platform here treats security as something you add later. AgentZ ships with a security sandbox
+            by default.
           </p>
         </div>
 
@@ -115,11 +135,9 @@ export function Comparison() {
                     </span>
                     <button
                       type="button"
-                      data-cmp-trigger
                       className={`cmp-info${openKey === `r${i}` ? ' is-on' : ''}`}
-                      aria-expanded={openKey === `r${i}`}
                       aria-label={`What "${row.label}" means`}
-                      onClick={(e) => openFrom(e.currentTarget, `r${i}`, { title: row.label, body: row.plain })}
+                      {...triggerProps(`r${i}`, { title: row.label, body: row.plain })}
                     >
                       <Icon name="info" />
                     </button>
@@ -131,18 +149,14 @@ export function Comparison() {
                       <td key={v.id} className={v.id === 'agentz' ? 'cmp-us' : undefined}>
                         <button
                           type="button"
-                          data-cmp-trigger
                           className={`cmp-cell${openKey === key ? ' is-on' : ''}`}
-                          aria-expanded={openKey === key}
                           aria-label={`${v.name}, ${row.label}: ${MARK_LABEL[cell.mark]}. ${cell.note}`}
-                          onClick={(e) =>
-                            openFrom(e.currentTarget, key, {
-                              title: v.name,
-                              sub: row.label,
-                              mark: cell.mark,
-                              body: cell.note,
-                            })
-                          }
+                          {...triggerProps(key, {
+                            title: v.name,
+                            sub: row.label,
+                            mark: cell.mark,
+                            body: cell.note,
+                          })}
                         >
                           <span className={`cmp-mark is-${cell.mark}`}>
                             <Icon name={MARK_ICON[cell.mark]} />
@@ -156,15 +170,10 @@ export function Comparison() {
             </tbody>
           </table>
         </div>
-
-        <p className="cmp-foot">
-          Compiled 27 July 2026 from vendor documentation and public reporting. This category moves quickly, so treat
-          the marks as a snapshot.
-        </p>
       </div>
 
       {pop && (
-        <div className="cmp-pop" role="dialog" aria-label={pop.title} style={{ left: pop.x, top: pop.y }}>
+        <div className="cmp-pop" role="tooltip" aria-hidden="true" style={{ left: pop.x, top: pop.y }}>
           <div className="cmp-pop-head">
             {pop.mark && (
               <span className={`cmp-mark is-${pop.mark}`}>

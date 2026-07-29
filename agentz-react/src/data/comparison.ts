@@ -28,11 +28,11 @@ export const VENDORS: Vendor[] = [
 ]
 
 export type Row = {
-  /** The capability, in the words a buyer would use. */
+  /** The industry term for the capability. The headline. */
   label: string
-  /** The industry term, shown in brackets after the label. */
+  /** The same thing in a buyer's words, shown in brackets after the label. */
   term: string
-  /** The same thing said plainly. Lives behind the info button. */
+  /** The full plain-English reading. Surfaces on the row's info button. */
   plain: string
   cells: Record<string, { mark: Mark; note: string }>
 }
@@ -43,8 +43,8 @@ const n = (note: string) => ({ mark: 'no' as const, note })
 
 export const ROWS: Row[] = [
   {
-    label: 'Safe on day one',
-    term: 'zero trust, default deny',
+    label: 'Zero trust, default deny',
+    term: 'safe on day one',
     plain: 'Nothing is allowed until you allow it. You do not have to configure anything to be safe on the first run.',
     cells: {
       agentz: y('Every action is checked against policy before it runs.'),
@@ -58,8 +58,8 @@ export const ROWS: Row[] = [
     },
   },
   {
-    label: 'You choose where it can go online',
-    term: 'network egress control',
+    label: 'Network egress control',
+    term: 'you choose where it can go online',
     plain: 'You list the places the agent is allowed to reach. Anything else is refused, so it cannot quietly send your data somewhere else.',
     cells: {
       agentz: y('Allowed by domain, port and protocol, and recorded.'),
@@ -73,8 +73,8 @@ export const ROWS: Row[] = [
     },
   },
   {
-    label: 'The agent never sees your passwords',
-    term: 'zero secret exfiltration',
+    label: 'Zero secret exfiltration',
+    term: 'the agent never sees your passwords',
     plain: 'Keys stay locked away. The platform makes the call for the agent, so a hijacked agent has no password to steal.',
     cells: {
       agentz: y('Secrets stay in the vault. The agent never holds the key.'),
@@ -88,8 +88,8 @@ export const ROWS: Row[] = [
     },
   },
   {
-    label: 'Permission for each individual action',
-    term: 'fine-grained access control',
+    label: 'Fine-grained access control',
+    term: 'permission for each individual action',
     plain: 'You allow a specific action, not a whole connection. Reading a file and deleting one are separate decisions.',
     cells: {
       agentz: y('Permissions are set per tool call.'),
@@ -103,8 +103,8 @@ export const ROWS: Row[] = [
     },
   },
   {
-    label: 'A record that cannot be edited',
-    term: 'tamper-evident audit trail',
+    label: 'Tamper-evident audit trail',
+    term: 'a record that cannot be edited',
     plain: 'Every step is signed as it happens, so you can prove later what the agent actually did. Useful when an auditor asks.',
     cells: {
       agentz: y('Signed and replayable, down to the token.'),
@@ -118,8 +118,8 @@ export const ROWS: Row[] = [
     },
   },
   {
-    label: 'Built for a team, not one person',
-    term: 'multi-user and roles',
+    label: 'Multi-user and roles',
+    term: 'built for a team, not one person',
     plain: 'Several people share the same agents with different levels of access, and you can see who did what.',
     cells: {
       agentz: y('Roles, teams and shared context are built in.'),
@@ -133,8 +133,8 @@ export const ROWS: Row[] = [
     },
   },
   {
-    label: 'Runs on your own servers',
-    term: 'on-premises',
+    label: 'On-premises',
+    term: 'runs on your own servers',
     plain: 'The whole thing runs on hardware you control, so your data never leaves your building.',
     cells: {
       agentz: y('Same product, your infrastructure.'),
@@ -148,8 +148,8 @@ export const ROWS: Row[] = [
     },
   },
   {
-    label: 'Runs with no internet at all',
-    term: 'air-gapped',
+    label: 'Air-gapped',
+    term: 'runs with no internet at all',
     plain: 'Works in a room with no connection to the outside world. Usually a hard requirement in defence, government and healthcare.',
     cells: {
       agentz: y('Supported as a first-class deployment.'),
@@ -163,8 +163,8 @@ export const ROWS: Row[] = [
     },
   },
   {
-    label: 'Any AI model, on your own account',
-    term: 'model agnostic',
+    label: 'Model agnostic',
+    term: 'any AI model, on your own account',
     plain: 'Bring the model you already pay for, and swap it later without rebuilding your agents.',
     cells: {
       agentz: y('Any provider or open source, on your own key.'),
@@ -178,8 +178,8 @@ export const ROWS: Row[] = [
     },
   },
   {
-    label: 'See and control what the AI costs',
-    term: 'inference pricing and pool picking',
+    label: 'Inference pricing and pool picking',
+    term: 'see and control what the AI costs',
     plain: 'Choose which group of models a job runs against, and see the price of each run before the bill arrives.',
     cells: {
       agentz: y('Pick the pool, see the price per run.'),
@@ -193,8 +193,8 @@ export const ROWS: Row[] = [
     },
   },
   {
-    label: 'Describe a job, it builds it',
-    term: 'dynamic skill creation',
+    label: 'Dynamic skill creation',
+    term: 'describe a job, it builds it',
     plain: 'Say what you want in a sentence and the platform writes the steps. No code needed to get started.',
     cells: {
       agentz: y('Describe the job, AgentZ writes the skill and wires the steps.'),
@@ -208,8 +208,8 @@ export const ROWS: Row[] = [
     },
   },
   {
-    label: 'One place for agents, models and people',
-    term: 'single control plane',
+    label: 'Single control plane',
+    term: 'one place for agents, models and people',
     plain: 'Agents, the models they use, who is allowed to run them and the record of what happened, all in one screen.',
     cells: {
       agentz: y('Skills, workflows, context, guardrails and audit together.'),
@@ -223,8 +223,8 @@ export const ROWS: Row[] = [
     },
   },
   {
-    label: 'Somebody to call when it breaks',
-    term: 'commercial support',
+    label: 'Commercial support',
+    term: 'somebody to call when it breaks',
     plain: 'A vendor with a support contract and an obligation to fix it, rather than an issue tracker and hope.',
     cells: {
       agentz: y('Backed by AccuKnox.'),
