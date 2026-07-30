@@ -264,7 +264,7 @@ h1,h2,h3{font-family:var(--display);letter-spacing:-.025em;line-height:1.05;font
 
 /* ══════════════ DEMO VIDEOS ══════════════ */
 .videos{padding:clamp(84px,12vh,150px) 0;background:var(--paper-2)}
-.video-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px}
+.video-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:44px}
 .video-card{display:block;transition:transform .2s ease}
 .video-card:hover{transform:translateY(-3px)}
 .video-card:hover .video-thumb{border-color:var(--blue)}
