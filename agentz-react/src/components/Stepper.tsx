@@ -1,3 +1,5 @@
+import { LazyVideo } from './ui/LazyVideo'
+
 const STEPS = [
   {
     n: '01 / 04',
@@ -17,7 +19,8 @@ const STEPS = [
     n: '03 / 04',
     h: 'Automate',
     p: 'Trigger on a cron, an event, or an API call. Skills chain in sequence or parallel, no wiring.',
-    src: 'automate-dynamic-skills',
+    // same recording SeeInAction uses; one URL so it is fetched and cached once
+    src: 'dynamic-skill-generation',
     label: 'Dynamic skill generation and automation in AgentZ',
   },
   {
@@ -44,15 +47,10 @@ export function Stepper() {
                 </div>
                 <div className="step-media">
                   <div className="vw vw-dark vw-step">
-                    <video
+                    <LazyVideo
                       src={`./assets/video/${s.src}.mp4`}
                       poster={`./assets/video/${s.src}.jpg`}
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      preload="none"
-                      aria-label={s.label}
+                      label={s.label}
                     />
                   </div>
                 </div>

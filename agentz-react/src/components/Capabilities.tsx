@@ -50,7 +50,7 @@ function CapModels() {
           {n.dot ? (
             <span className="capx-oss" />
           ) : (
-            <img className={n.mono ? 'logo-img logo-img--mono' : 'logo-img'} src={`./assets/img/logos/${n.file}.svg`} alt="" />
+            <img className={n.mono ? 'logo-img logo-img--mono' : 'logo-img'} src={`./assets/img/logos/${n.file}.svg`} alt="" loading="lazy" decoding="async" />
           )}
         </span>
       ))}

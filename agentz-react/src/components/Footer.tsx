@@ -15,7 +15,7 @@ export function Footer() {
           <p>Zero Trust Agentic AI. Build, run, and govern production agents, secure by design.</p>
           <a className="foot-by" href="https://accuknox.com" target="_blank" rel="noopener">
             <span>A product from</span>
-            <img src="./assets/img/accuknox-logo-dark.png" alt="AccuKnox" />
+            <img src="./assets/img/accuknox-logo-dark.webp" alt="AccuKnox" loading="lazy" decoding="async" />
           </a>
         </div>
         {COLS.map((c) => (

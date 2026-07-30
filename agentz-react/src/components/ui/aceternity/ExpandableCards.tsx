@@ -1,5 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import { LazyVideo } from '../LazyVideo'
 
 /**
  * Aceternity UI — Expandable Card (https://ui.aceternity.com/components/expandable-card).
@@ -86,7 +87,7 @@ export function ExpandableCards({ items }: { items: ExpandableItem[] }) {
           >
             <motion.div layoutId={`media-${item.title}-${id}`} className="exp-card-media">
               {isVideo(item.src) ? (
-                <video src={item.src} poster={item.poster} autoPlay muted loop playsInline preload="none" aria-label={item.label} />
+                <LazyVideo src={item.src} poster={item.poster} label={item.label} />
               ) : (
                 <img src={item.src} alt={item.label} />
               )}

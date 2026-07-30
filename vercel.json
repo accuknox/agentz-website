@@ -3,5 +3,27 @@
   "framework": null,
   "installCommand": "npm --prefix agentz-react ci",
   "buildCommand": "npm --prefix agentz-react run build",
-  "outputDirectory": "agentz-react/dist"
+  "outputDirectory": "agentz-react/dist",
+  "headers": [
+    {
+      "source": "/assets/(index-.+\\.(?:js|css))",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    },
+    {
+      "source": "/assets/video/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=2592000, stale-while-revalidate=604800" }
+      ]
+    },
+    {
+      "source": "/assets/img/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=2592000, stale-while-revalidate=604800" }
+      ]
+    },
+    {
+      "source": "/",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
+    }
+  ]
 }

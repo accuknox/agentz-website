@@ -1,4 +1,5 @@
 import { Icon } from './ui/Icon'
+import { LazyVideo } from './ui/LazyVideo'
 
 export function Runtime() {
   return (
@@ -19,15 +20,10 @@ export function Runtime() {
         </div>
         <div className="runtime-media">
           <div className="vw vw-wide">
-            <video
+            <LazyVideo
               src="./assets/video/runtime-traces-telemetry.mp4"
               poster="./assets/video/runtime-traces-telemetry.jpg"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="none"
-              aria-label="Reading a signed trace in AgentZ: span tree, durations, token counts and network events"
+              label="Reading a signed trace in AgentZ: span tree, durations, token counts and network events"
             />
           </div>
         </div>

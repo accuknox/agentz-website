@@ -17,11 +17,6 @@ export function useSiteEffects() {
       el.style.opacity = '1'
       el.style.transform = 'none'
     }
-    const near = (el: Element, pad?: number) => {
-      const r = el.getBoundingClientRect()
-      const p = pad || 0
-      return r.height > 0 && r.top < window.innerHeight + p && r.bottom > -p
-    }
     /* Reveal test, deliberately one-sided: true once the element's top has come
        into view and true forever after. The two-sided `near` was wrong here,
        because an element only ever revealed while it sat inside the band. Jump
@@ -53,24 +48,15 @@ export function useSiteEffects() {
       })
     }
 
-    /* ── product clips: silent loops, slowed, playing whenever on screen ── */
+    /* ── product clips ──
+       Loading and play/pause now live in <LazyVideo>, which will not attach an
+       mp4 until the clip is nearly on screen. Driving playback from here too
+       would defeat that, because calling play() on a video with no src forces
+       the fetch. All that is left is the shared helper the lightbox uses. */
     const play = (v: HTMLVideoElement) => {
       v.playbackRate = 0.75
       const p = v.play()
       if (p && p.catch) p.catch(() => {})
-    }
-    const clips = [...document.querySelectorAll<HTMLVideoElement>('.vw video')]
-    clips.forEach((v) => {
-      v.muted = true
-      v.playbackRate = 0.75
-    })
-    let hasScrolled = false
-    function clipTick() {
-      clips.forEach((v) => {
-        if (near(v, 100)) {
-          if (v.paused) play(v)
-        } else if (hasScrolled && !v.paused) v.pause()
-      })
     }
 
     /* ── Build · Run · Govern stepper reveal ── */
@@ -122,20 +108,15 @@ export function useSiteEffects() {
       if (ticking) return
       ticking = true
       requestAnimationFrame(() => {
-        clipTick()
         progress()
         ticking = false
       })
     }
-    const onScrollFlag = () => {
-      hasScrolled = true
-      onScroll()
-    }
-    window.addEventListener('scroll', onScrollFlag, { passive: true })
+    window.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('resize', onScroll)
     window.addEventListener('load', onScroll)
     cleanups.push(() => {
-      window.removeEventListener('scroll', onScrollFlag)
+      window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', onScroll)
       window.removeEventListener('load', onScroll)
     })
@@ -150,12 +131,11 @@ export function useSiteEffects() {
     let tickIo: IntersectionObserver | null = null
     if ('IntersectionObserver' in window) {
       tickIo = new IntersectionObserver(gotSignal, { threshold: [0, 0.15, 0.5] })
-      ;[...revealEls, ...clips].forEach((el) => tickIo!.observe(el))
+      revealEls.forEach((el) => tickIo!.observe(el))
     }
     const poll = window.setInterval(() => {
       revealTick()
       stepTick()
-      clipTick()
       progress()
       navTick()
       if (liveSignal || (!pendingReveal.length && !pendingSteps.length)) window.clearInterval(poll)
@@ -168,7 +148,6 @@ export function useSiteEffects() {
 
     revealTick()
     stepTick()
-    clipTick()
     progress()
     navTick()
 
@@ -254,6 +233,14 @@ function initLightbox(play: (v: HTMLVideoElement) => void): (() => void) | null 
       v.controls = true
       v.setAttribute('playsinline', '')
       v.removeAttribute('poster')
+      /* Opening the lightbox is an explicit request for the clip, so this is
+         the one place allowed to pull an mp4 <LazyVideo> has held back, which
+         it does for reduced-motion and Data Saver visitors. cloneNode copies
+         the attribute but not the src property, hence reading data-src. */
+      if (!v.getAttribute('src')) {
+        const held = v.dataset.src
+        if (held) v.src = held
+      }
       v.currentTime = (src as HTMLVideoElement).currentTime || 0
       stage.appendChild(v)
       play(v)

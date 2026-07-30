@@ -26,7 +26,7 @@ export function Screens() {
           {SHOTS.map((s) => (
             <figure className="screen-card" key={s.img}>
               <span className="screen-shot">
-                <img src={`./assets/img/dash/${s.img}.png`} alt={s.alt} />
+                <img src={`./assets/img/dash/${s.img}.webp`} alt={s.alt} loading="lazy" decoding="async" />
               </span>
               <figcaption>
                 <b>{s.title}</b>

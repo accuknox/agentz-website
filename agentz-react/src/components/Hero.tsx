@@ -2,6 +2,7 @@ import { Fragment, useEffect, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { Icon } from './ui/Icon'
 import { NoiseBackground } from './ui/aceternity/NoiseBackground'
+import { LazyVideo } from './ui/LazyVideo'
 import { PointerHighlight } from './ui/aceternity/PointerHighlight'
 
 const CAPS = [
@@ -62,8 +63,8 @@ export function Hero() {
       <div className="wrap hero-inner">
         <a className="brandby" href="https://accuknox.com" target="_blank" rel="noopener">
           <span>Built by</span>
-          <img className="ak-light" src="./assets/img/accuknox-logo.png" alt="AccuKnox" width={118} height={28} />
-          <img className="ak-dark" src="./assets/img/accuknox-logo-dark.png" alt="AccuKnox" width={118} height={28} />
+          <img className="ak-light" src="./assets/img/accuknox-logo.webp" alt="AccuKnox" width={118} height={28} />
+          <img className="ak-dark" src="./assets/img/accuknox-logo-dark.webp" alt="AccuKnox" width={118} height={28} />
         </a>
         <h1 className="hero-brand">
           <span>Agent</span>
@@ -95,15 +96,10 @@ export function Hero() {
         </div>
         <HeroCapabilities />
         <div className="vw vw-hero hero-vid">
-          <video
+          <LazyVideo
             src="./assets/video/hero-workflow-graph.mp4"
             poster="./assets/video/hero-workflow-graph.jpg"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            aria-label="A workflow running live in AgentZ, steps moving through running and succeeded"
+            label="A workflow running live in AgentZ, steps moving through running and succeeded"
           />
         </div>
       </div>

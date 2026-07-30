@@ -1,7 +1,8 @@
 import { Icon } from './ui/Icon'
+import { LazyVideo } from './ui/LazyVideo'
 
 const CARDS = [
-  { src: '0-agentz-chat', poster: null, label: 'Chat interface in AgentZ: build and run agents in plain language', title: 'Chat with your agents', sub: 'Ask, build, and run workflows in plain language.' },
+  { src: '0-agentz-chat', poster: '0-agentz-chat', label: 'Chat interface in AgentZ: build and run agents in plain language', title: 'Chat with your agents', sub: 'Ask, build, and run workflows in plain language.' },
   { src: 'card-mcp-connect', poster: 'card-mcp-connect', label: 'Connecting an MCP server in AgentZ', title: 'Connect an MCP server', sub: 'Pick a provider, authorize, watch it go Ready.' },
   { src: 'card-schedule-cron', poster: 'card-schedule-cron', label: 'Editing a cron schedule in AgentZ', title: 'Schedule an agent', sub: 'Set a cron, edit the schedule in place, no redeploy.' },
   { src: 'card-signed-trace', poster: 'card-signed-trace', label: 'Reading a signed trace in AgentZ: span tree, per-call durations and token counts', title: 'Read a signed trace', sub: 'Inspect every span, down to the token.' },
@@ -25,15 +26,10 @@ export function Videos() {
           {CARDS.map((c) => (
             <a className="video-card" href="#waitlist" key={c.src}>
               <div className="vw vw-thumb">
-                <video
+                <LazyVideo
                   src={`./assets/video/${c.src}.mp4`}
-                  poster={c.poster ? `./assets/video/${c.poster}.jpg` : undefined}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="none"
-                  aria-label={c.label}
+                  poster={`./assets/video/${c.poster}.jpg`}
+                  label={c.label}
                 />
               </div>
               <b>{c.title}</b>

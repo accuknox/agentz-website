@@ -23,9 +23,11 @@ export function PlatformArch() {
             <SpotlightCard className="arch-card" key={c.h}>
               <div className="arch-ico-wrap">
                 <img
-                  src={`./assets/img/illus/${c.illus}.png`}
+                  src={`./assets/img/illus/${c.illus}.webp`}
                   alt=""
                   className="arch-illus"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
               <div className="arch-card-body">

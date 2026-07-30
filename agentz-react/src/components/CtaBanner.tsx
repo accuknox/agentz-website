@@ -20,7 +20,7 @@ export function CtaBanner() {
             </a>
           </div>
           <div className="cta-art">
-            <img src="./assets/img/scenes/robot.png" alt="An agent moving fast, governed by default" />
+            <img src="./assets/img/scenes/robot.webp" alt="An agent moving fast, governed by default" loading="lazy" decoding="async" />
           </div>
         </div>
       </div>
