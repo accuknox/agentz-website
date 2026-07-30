@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { Icon } from './Icon'
 
 /**
  * A product clip that costs nothing until it is nearly on screen.
@@ -41,6 +42,7 @@ export type LazyVideoProps = {
 
 export function LazyVideo({ src, poster, label, className }: LazyVideoProps) {
   const ref = useRef<HTMLVideoElement>(null)
+  const [playing, setPlaying] = useState(false)
 
   useEffect(() => {
     const v = ref.current
@@ -91,16 +93,29 @@ export function LazyVideo({ src, poster, label, className }: LazyVideoProps) {
   }, [src, poster])
 
   return (
-    <video
-      ref={ref}
-      data-src={src}
-      data-poster={poster}
-      className={className}
-      muted
-      loop
-      playsInline
-      preload="none"
-      aria-label={label}
-    />
+    <>
+      <video
+        ref={ref}
+        data-src={src}
+        data-poster={poster}
+        className={className}
+        muted
+        loop
+        playsInline
+        preload="none"
+        aria-label={label}
+        onPlaying={() => setPlaying(true)}
+        onPause={() => setPlaying(false)}
+      />
+      {/* A still clip is indistinguishable from a screenshot, which is the whole
+          reason this is here. It is a cue, not a second control: the container
+          around every clip is already a button that opens it full screen and
+          plays it, so this stays out of the a11y tree and off the hit target
+          rather than nesting a button inside a button. For reduced-motion and
+          Data Saver visitors, who never get inline playback, it is permanent. */}
+      <span className={playing ? 'vw-play is-off' : 'vw-play'} aria-hidden="true">
+        <Icon name="play" />
+      </span>
+    </>
   )
 }

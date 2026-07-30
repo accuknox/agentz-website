@@ -151,11 +151,25 @@ async function main() {
           const r = v.getBoundingClientRect()
           return r.top < innerHeight && r.bottom > 0 && r.width > 0
         })
+        // the play cue must clear once a clip is actually running, and must
+        // still be up on anything that is not
+        const cueOf = (v) => v.parentElement.querySelector('.vw-play')
+        const live = onscreen.filter((v) => !v.paused && v.currentTime > 0)
+        const idle = [...document.querySelectorAll('video')].filter((v) => v.paused)
         return JSON.stringify({
           loaded: vs.length,
           onscreen: onscreen.length,
-          playing: onscreen.filter((v) => !v.paused && v.currentTime > 0).length,
+          playing: live.length,
           rate: onscreen.length ? onscreen[0].playbackRate : null,
+          cues: document.querySelectorAll('.vw-play').length,
+          cueStuckOnPlaying: live.filter((v) => {
+            const c = cueOf(v)
+            return c && getComputedStyle(c).opacity !== '0'
+          }).length,
+          cueMissingOnIdle: idle.filter((v) => {
+            const c = cueOf(v)
+            return !c || getComputedStyle(c).opacity === '0'
+          }).length,
         })
       })()`,
       awaitPromise: true,
@@ -164,10 +178,14 @@ async function main() {
     const pb = JSON.parse(playback.value)
     console.log(`\n── playback ──`)
     console.log(`  loaded ${pb.loaded}, on screen ${pb.onscreen}, playing ${pb.playing}, rate ${pb.rate}`)
+    console.log(`  play cues ${pb.cues}, stuck over a playing clip ${pb.cueStuckOnPlaying}, missing on a still clip ${pb.cueMissingOnIdle}`)
     if (pb.onscreen && pb.playing < pb.onscreen) {
       fails.push(`${pb.onscreen - pb.playing} on-screen clip(s) loaded but never started playing`)
     }
     if (pb.onscreen && pb.rate !== 0.75) fails.push(`playback rate is ${pb.rate}, expected 0.75`)
+    if (!pb.cues) fails.push('no play cues rendered')
+    if (pb.cueStuckOnPlaying) fails.push(`${pb.cueStuckOnPlaying} play cue(s) still visible over a playing clip`)
+    if (pb.cueMissingOnIdle) fails.push(`${pb.cueMissingOnIdle} still clip(s) with no play cue`)
 
     // ── second pass: a reduced-motion visitor must never be sent an mp4 ──
     hits.clear()
