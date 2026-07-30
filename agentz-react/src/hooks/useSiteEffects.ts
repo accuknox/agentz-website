@@ -35,13 +35,13 @@ export function useSiteEffects() {
     /* ── reveal on scroll ── */
     const revealEls = [
       ...document.querySelectorAll<HTMLElement>(
-        '.ph-hero,.vw-hero,.arch-frame,.arch-rail,.flow,.ncard,.dcard,.dmn,.org-canvas,.control-copy,.control-card,.video-card,.screen-card,.integ-logos,.runtime-copy,.runtime-media',
+        '.ph-hero,.vw-hero,.arch-frame,.arch-rail,.flow,.ncard,.dcard,.dmn,.org-canvas,.control-copy,.control-card,.video-card,.screen-card,.integ-logos,.runtime-copy,.runtime-media,.exp-card,.arch-card',
       ),
     ]
     revealEls.forEach((el, i) => {
       el.style.opacity = '0'
-      el.style.transform = 'translateY(20px)'
-      el.style.transition = `opacity .6s ease ${(i % 4) * 0.06}s, transform .6s ease ${(i % 4) * 0.06}s`
+      el.style.transform = 'translateY(16px)'
+      el.style.transition = `opacity .5s ease ${(i % 6) * 0.05}s, transform .5s ease ${(i % 6) * 0.05}s`
     })
     let pendingReveal = revealEls.slice()
     function revealTick() {
