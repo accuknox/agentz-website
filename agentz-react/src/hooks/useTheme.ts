@@ -10,9 +10,11 @@ export function useTheme() {
     const attr = typeof document !== 'undefined' ? document.documentElement.getAttribute('data-theme') : null
     if (attr === 'dark' || attr === 'light') return attr
     try {
-      return (localStorage.getItem(KEY) as Theme) || 'dark'
+      return (localStorage.getItem(KEY) as Theme) || 'light'
     } catch {
-      return 'dark'
+      // Same default as the pre-paint script, or the toggle reports the wrong
+      // state when storage is blocked.
+      return 'light'
     }
   })
 

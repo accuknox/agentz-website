@@ -91,10 +91,10 @@ export function Comparison() {
     <section className="cmp" id="comparison">
       <div className="wrap">
         <div className="fhead">
-          <h2 className="fhead-h">How AgentZ compares.</h2>
+          <h2 className="fhead-h">How <img src="./assets/img/agentz-logo.svg" alt="AgentZ" className="cmp-logo-inline" /> compares.</h2>
           <p className="fhead-p">
-            Every other platform here treats security as something you add later. AgentZ ships with a security sandbox
-            by default.
+            Most platforms in this table treat isolation as a configuration option. AgentZ runs every agent inside a
+            default-deny sandbox from the first run.
           </p>
         </div>
 
@@ -120,6 +120,13 @@ export function Comparison() {
                 <th scope="col" className="cmp-rowhead">Capability</th>
                 {VENDORS.map((v) => (
                   <th scope="col" key={v.id} className={v.id === 'agentz' ? 'cmp-us' : undefined}>
+                    {v.id === 'agentz' && v.logo ? (
+                      <img src={v.logo} alt="" aria-hidden="true" className="cmp-th-logo cmp-th-logo--us" />
+                    ) : v.logo ? (
+                      <img src={v.logo} alt="" aria-hidden="true" className="cmp-th-logo cmp-th-logo--grey" />
+                    ) : (
+                      <span className="cmp-th-mono" aria-hidden="true">{v.mono}</span>
+                    )}
                     <span className="cmp-vendor">{v.name}</span>
                     <span className="cmp-kind">{v.kind}</span>
                   </th>

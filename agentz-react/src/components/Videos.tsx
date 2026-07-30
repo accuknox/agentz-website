@@ -32,7 +32,7 @@ export function Videos() {
                   muted
                   loop
                   playsInline
-                  preload="metadata"
+                  preload="none"
                   aria-label={c.label}
                 />
               </div>

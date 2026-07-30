@@ -86,7 +86,7 @@ export function ExpandableCards({ items }: { items: ExpandableItem[] }) {
           >
             <motion.div layoutId={`media-${item.title}-${id}`} className="exp-card-media">
               {isVideo(item.src) ? (
-                <video src={item.src} poster={item.poster} autoPlay muted loop playsInline aria-label={item.label} />
+                <video src={item.src} poster={item.poster} autoPlay muted loop playsInline preload="none" aria-label={item.label} />
               ) : (
                 <img src={item.src} alt={item.label} />
               )}

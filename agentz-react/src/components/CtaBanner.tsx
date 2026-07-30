@@ -5,7 +5,7 @@ export function CtaBanner() {
         <div className="cta-inner cta-dark">
           <div className="cta-copy">
             <h2>Put your first agent in production.</h2>
-            <p>Start with one skill. Bring your own model. Keep security underneath, from the very first run.</p>
+            <p>Start with one skill. Bring your own model. Ship your first agent to production this week.</p>
             <a
               className="btn btn-light btn-lg"
               href="#waitlist"

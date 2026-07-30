@@ -136,15 +136,9 @@ export function OrgChart() {
     <section className="org" id="governance">
       <div className="wrap">
         <div className="org-head">
-          <div>
-            <h2 className="section-h2 org-h">
-              Govern every agent. <span className="ital">Trust none by default</span>.
-            </h2>
-          </div>
-          <p className="org-lead">
-            Admins set roles and provision for the team. People request the exact access they need. Fine-grained RBAC
-            gates every agent action, and a signed trace records all of it.
-          </p>
+          <h2 className="section-h2 org-h">
+            Govern every agent.<br /><span className="ital">Trust none by default</span>.
+          </h2>
         </div>
 
         <div className="org-canvas">

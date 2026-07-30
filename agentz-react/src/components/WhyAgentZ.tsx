@@ -96,7 +96,8 @@ export function WhyAgentZ() {
       <div className="wrap">
         <div className="why-head">
           <h2 className="why-title">
-            Build, Run and Govern Production Agents with AgentZ Zero Trust Sandbox Platform
+            <span className="why-verbs-sweep">Build, Run, Automate and Govern</span>
+            <br />Production Agents in Zero Trust Sandbox Platform.
           </h2>
           <p className="why-sub">
             How AgentZ compares to hosted assistants, self-hosted runners, and hardened OSS sandboxes.

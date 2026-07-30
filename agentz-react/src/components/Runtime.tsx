@@ -26,7 +26,7 @@ export function Runtime() {
               muted
               loop
               playsInline
-              preload="metadata"
+              preload="none"
               aria-label="Reading a signed trace in AgentZ: span tree, durations, token counts and network events"
             />
           </div>

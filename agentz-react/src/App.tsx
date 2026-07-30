@@ -10,6 +10,7 @@ import { Stepper } from './components/Stepper'
 import { SeeInAction } from './components/SeeInAction'
 import { OrgChart } from './components/OrgChart'
 import { Integrations } from './components/Integrations'
+import { Pricing } from './components/Pricing'
 import { FAQ } from './components/FAQ'
 import { Footer } from './components/Footer'
 
@@ -31,12 +32,13 @@ export default function App() {
       <main id="top">
         <Hero />
         <WhyAgentZ />
-        <PlatformArch />
         <Stepper />
+        <PlatformArch />
         <SeeInAction />
         <Comparison />
         <OrgChart />
         <Integrations />
+        <Pricing />
         <FAQ />
         <Footer />
       </main>
