@@ -24,7 +24,7 @@ const FEATURES: Feature[] = [
     icon: 'server',
     h: 'Deploy anywhere',
     p: 'On-prem, air-gapped, or SaaS. The same platform runs on your infrastructure, not just someone else’s cloud.',
-    vs: 'Not SaaS-only, and no box for you to provision and babysit.',
+    vs: 'Not SaaS-only, and no appliance for you to provision and maintain.',
     variant: 'left',
   },
   {
