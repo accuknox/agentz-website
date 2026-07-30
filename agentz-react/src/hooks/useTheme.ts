@@ -12,7 +12,9 @@ export function useTheme() {
     try {
       return (localStorage.getItem(KEY) as Theme) || 'light'
     } catch {
-      return 'dark'
+      // Same default as the pre-paint script, or the toggle reports the wrong
+      // state when storage is blocked.
+      return 'light'
     }
   })
 

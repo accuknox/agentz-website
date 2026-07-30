@@ -4,22 +4,22 @@ const ITEMS = [
   {
     n: '01',
     q: 'Does AgentZ run in our cloud or yours?',
-    a: 'Standard tiers run on shared cloud. Enterprise gets VPC, on-prem, or air-gapped deployment with a private tenant. Either way the sandbox policy engine runs local to the agents — it is not a remote proxy making decisions over the wire.',
+    a: 'Standard tiers run on shared cloud. Enterprise gets VPC, on-prem, or air-gapped deployment with a private tenant. Either way the sandbox policy engine runs local to the agents. It is not a remote proxy making decisions over the wire.',
   },
   {
     n: '02',
     q: 'What stops an agent from calling an API it shouldn\'t?',
-    a: 'The sandbox enforces a default-deny network policy at the kernel. Every outbound call is checked against an explicit allowlist before it leaves the process. There is no way to bypass it from inside the agent runtime.',
+    a: 'The sandbox enforces a default-deny network policy. Every outbound call is checked against an explicit allowlist before it leaves the sandbox, and anything blocked lands in the audit trace with the domain and port it tried to reach.',
   },
   {
     n: '03',
     q: 'Will it work with the model and framework we already use?',
-    a: 'Yes. AgentZ accepts any model provider via BYOK — GPT-4, Claude, Gemini, or a self-hosted endpoint. Wrap an existing LangGraph or CrewAI agent, or build skills natively. The governance layer sits underneath either way.',
+    a: 'Yes. AgentZ accepts any model provider via BYOK. OpenAI, Anthropic, Google, or a self-hosted endpoint. Wrap an existing LangGraph or CrewAI agent, or build skills natively. The governance layer sits underneath either way.',
   },
   {
     n: '04',
     q: 'How does the audit trail hold up in a compliance review?',
-    a: 'Every tool call, memory read, and model response is signed and stored with a deterministic replay ID. Pro retains 30 days, Team 90 days, Enterprise is custom. SOC 2 and internal security teams can replay any run exactly as it happened, down to the token.',
+    a: 'Every tool call, memory read, and model response is signed and stored with a deterministic replay ID. Pro retains 30 days, Team 90 days, Enterprise is custom. Auditors and internal security teams can replay any run exactly as it happened, down to the token.',
   },
   {
     n: '05',

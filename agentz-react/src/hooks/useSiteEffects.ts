@@ -35,7 +35,7 @@ export function useSiteEffects() {
     /* ── reveal on scroll ── */
     const revealEls = [
       ...document.querySelectorAll<HTMLElement>(
-        '.ph-hero,.vw-hero,.arch-frame,.arch-rail,.flow,.ncard,.dcard,.dmn,.org-canvas,.control-copy,.control-card,.video-card,.screen-card,.integ-logos,.runtime-copy,.runtime-media,.exp-card,.arch-card',
+        '.ph-hero,.vw-hero,.arch-rail,.flow,.ncard,.dcard,.dmn,.org-canvas,.control-copy,.control-card,.video-card,.screen-card,.integ-logos,.runtime-copy,.runtime-media,.exp-card,.arch-card',
       ),
     ]
     revealEls.forEach((el, i) => {

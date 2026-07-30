@@ -103,11 +103,11 @@ export function Pricing() {
                 </th>
                 <th className="pt-plan">
                   <span className="pt-name">Pro</span>
-                  <span className="pt-price">$/seat/month</span>
+                  <span className="pt-price">Per seat, priced at launch</span>
                 </th>
                 <th className="pt-plan pt-hl">
                   <span className="pt-name">Team</span>
-                  <span className="pt-price">$/seat/month</span>
+                  <span className="pt-price">Per seat, priced at launch</span>
                   <span className="pt-price-sub">+ platform fee</span>
                 </th>
                 <th className="pt-plan">
