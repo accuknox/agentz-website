@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { Icon } from './ui/Icon'
 
+
 type Variant = 'top' | 'left' | 'right'
 
 type Feature = {
@@ -81,10 +82,6 @@ export function WhyAgentZ() {
   const reduce = useReducedMotion()
   const [active, setActive] = useState(0)
   const [paused, setPaused] = useState(false)
-
-  // auto-advance through the features every 3s, endlessly, pausing only while
-  // the user interacts (hover/focus). Runs regardless of reduced-motion — the
-  // expand/cube transitions below already fall back to instant under reduce.
   useEffect(() => {
     if (paused) return
     const id = setInterval(() => setActive((a) => (a + 1) % FEATURES.length), 3000)
@@ -96,7 +93,8 @@ export function WhyAgentZ() {
       <div className="wrap">
         <div className="why-head">
           <h2 className="why-title">
-            Build, Run and Govern Production Agents with AgentZ Zero Trust Sandbox Platform
+            <span className="why-verbs-sweep">Build, Run, Automate and Govern</span>
+            <br />Production Agents in Zero Trust Sandbox Platform.
           </h2>
           <p className="why-sub">
             How AgentZ compares to hosted assistants, self-hosted runners, and hardened OSS sandboxes.

@@ -14,17 +14,21 @@ export type Vendor = {
   name: string
   /** Shown under the name in the header. Keep it to a few words. */
   kind: string
+  /** Logo path — greyed out for competitors, full-colour for AgentZ */
+  logo?: string
+  /** Two-letter monogram fallback when no logo exists */
+  mono?: string
 }
 
 export const VENDORS: Vendor[] = [
-  { id: 'agentz', name: 'AgentZ', kind: 'Zero Trust platform' },
-  { id: 'langgraph', name: 'LangGraph', kind: 'Framework + platform' },
-  { id: 'crewai', name: 'CrewAI AMP', kind: 'Multi-agent platform' },
-  { id: 'microsoft', name: 'Microsoft', kind: 'Foundry Agents' },
-  { id: 'aws', name: 'AWS', kind: 'Bedrock AgentCore' },
-  { id: 'openclaw', name: 'OpenClaw', kind: 'Free, self-hosted' },
-  { id: 'hermes', name: 'Hermes', kind: 'Free, self-hosted' },
-  { id: 'n8n', name: 'n8n', kind: 'Free, self-hosted' },
+  { id: 'agentz',    name: 'AgentZ',      kind: 'Zero Trust platform',   logo: './assets/img/agentz-logo.svg' },
+  { id: 'langgraph', name: 'LangGraph',   kind: 'Framework + platform',  logo: './assets/img/logos/langgraph.png' },
+  { id: 'crewai',    name: 'CrewAI AMP',  kind: 'Multi-agent platform',  logo: './assets/img/logos/crewai.svg' },
+  { id: 'microsoft', name: 'Microsoft',   kind: 'Foundry Agents',        logo: './assets/img/logos/microsoft.svg' },
+  { id: 'aws',       name: 'AWS',         kind: 'Bedrock AgentCore',     logo: './assets/img/logos/aws.svg' },
+  { id: 'openclaw',  name: 'OpenClaw',    kind: 'Free, self-hosted',     logo: './assets/img/logos/openclaw.png' },
+  { id: 'hermes',    name: 'Hermes',      kind: 'Free, self-hosted',     logo: './assets/img/logos/hermes.png' },
+  { id: 'n8n',       name: 'n8n',         kind: 'Free, self-hosted',     logo: './assets/img/logos/n8n.svg' },
 ]
 
 export type Row = {

@@ -8,7 +8,7 @@ const CAPS = [
   { icon: 'skills', label: 'Skills' },
   { icon: 'workflows', label: 'Workflows' },
   { icon: 'teams', label: 'Teams' },
-  { icon: 'guardrails', label: 'Secure by design' },
+  { icon: 'guardrails', label: 'Guardrails' },
 ]
 
 /** The four capabilities as a live signal chain: a pulse travels through,
@@ -55,6 +55,7 @@ function HeroCapabilities() {
 }
 
 export function Hero() {
+  const [triedAgentZ, setTriedAgentZ] = useState(false)
   return (
     <section className="hero" id="top">
       <NoiseBackground className="hero-noise" />
@@ -82,12 +83,14 @@ export function Hero() {
             <button
               type="button"
               className="btn btn-line btn-lg btn-soon"
-              disabled
-              aria-label="Try AgentZ, coming soon"
+              onClick={() => setTriedAgentZ(true)}
+              aria-label="Try AgentZ"
             >
               Try AgentZ
             </button>
-            <span className="soon-stamp" aria-hidden="true">Coming soon</span>
+            {triedAgentZ && (
+              <span className="soon-inline" aria-live="polite">Coming soon!</span>
+            )}
           </span>
         </div>
         <HeroCapabilities />

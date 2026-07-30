@@ -2,6 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2ETJV091CY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-2ETJV091CY');
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Build, Run and Govern Production Agents with AgentZ Zero Trust Sandbox Platform</title>
     <meta name="description" content="Build, Run and Govern zero trust autonomous AI agents in an isolated sandbox. AgentZ by AccuKnox is a secure sandbox allowing teams to use agent skills, MCPs, workflows for organizational adoption." />
@@ -19,10 +27,10 @@
         try {
           var q = new URLSearchParams(location.search).get('theme');
           var stored = localStorage.getItem('agentz-theme');
-          var t = (q || stored || 'dark') === 'light' ? 'light' : 'dark';
-          document.documentElement.setAttribute('data-theme', t);
+          var t = (q || stored || 'light') === 'dark' ? 'dark' : 'light';
+          if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
         } catch (e) {
-          document.documentElement.setAttribute('data-theme', 'dark');
+          /* default light — no attribute needed */
         }
       })();
     </script>

@@ -12,6 +12,7 @@ const LINKS = [
   ['Platform', '#platform'],
   ['Comparison', '#comparison'],
   ['Governance', '#governance'],
+  ['Pricing', '#pricing'],
   ['FAQ', '#faq'],
 ]
 

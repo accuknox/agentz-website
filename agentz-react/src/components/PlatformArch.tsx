@@ -2,31 +2,40 @@ import { Icon } from './ui/Icon'
 import { SpotlightCard } from './ui/SpotlightCard'
 
 const ARCH = [
-  { ico: 't-a', icon: 'skills', h: 'Skills', p: 'Reusable, versioned building blocks.' },
-  { ico: 't-b', icon: 'workflows', h: 'Workflows', p: 'Chain steps, schedule, hand off work.' },
-  { ico: 't-c', icon: 'context', h: 'Context', p: 'Shared memory, files, and knowledge.' },
-  { ico: 't-d', icon: 'teams', h: 'Teams', p: 'Roles, ownership, shared scope.' },
-  { ico: 't-a', icon: 'guardrails', h: 'Guardrails', p: 'Secure by default. No standing access.' },
-  { ico: 't-b', icon: 'audit', h: 'Audit', p: 'Every step recorded and replayable.' },
+  { illus: 'skills',     h: 'Skills',      p: 'Reusable, versioned building blocks.' },
+  { illus: 'workflows',  h: 'Workflows',   p: 'Chain steps, schedule, hand off work.' },
+  { illus: 'context',    h: 'Context',     p: 'Shared memory, files, and knowledge.' },
+  { illus: 'teams',      h: 'Teams',       p: 'Roles, ownership, shared scope.' },
+  { illus: 'guardrails', h: 'Guardrails',  p: 'Secure by default. No standing access.' },
+  { illus: 'audit',      h: 'Audit',       p: 'Every step recorded and replayable.' },
 ]
 
 export function PlatformArch() {
   return (
     <section className="arch" id="platform">
       <div className="wrap">
-        <h2 className="section-h2 arch-h">One control plane for every agent, model and team.</h2>
-        <div className="arch-frame">
-          <span className="arch-label">AgentZ</span>
-          <div className="arch-grid">
-            {ARCH.map((c, i) => (
-              <SpotlightCard className="arch-card" key={`${c.h}-${i}`}>
-                <span className="arch-ico"><Icon name={c.icon} /></span>
+        <h2 className="section-h2 arch-h">
+          One control plane for every agent,<br />model and team.
+        </h2>
+
+        <div className="arch-grid">
+          {ARCH.map((c) => (
+            <SpotlightCard className="arch-card" key={c.h}>
+              <div className="arch-ico-wrap">
+                <img
+                  src={`./assets/img/illus/${c.illus}.png`}
+                  alt=""
+                  className="arch-illus"
+                />
+              </div>
+              <div className="arch-card-body">
                 <h3>{c.h}</h3>
                 <p>{c.p}</p>
-              </SpotlightCard>
-            ))}
-          </div>
+              </div>
+            </SpotlightCard>
+          ))}
         </div>
+
         <div className="arch-rails">
           <div className="arch-rail">
             <span className="rail-label">Your tools &amp; data</span>

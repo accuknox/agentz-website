@@ -1,20 +1,27 @@
 const STEPS = [
   {
-    n: '01 / 03',
+    n: '01 / 04',
     h: 'Build',
     p: 'Describe the job in a sentence. AgentZ writes the skill and wires every step.',
     src: 'build-create-agent',
     label: 'Creating an agent in AgentZ: sandbox, skills, persistent memory and model provider',
   },
   {
-    n: '02 / 03',
+    n: '02 / 04',
     h: 'Run',
     p: 'Chat, API, CLI, or a schedule. Any framework, any model, no redeploy.',
     src: 'run-chat-workflows',
     label: 'Running workflows from chat in AgentZ, with the file explorer and run history open',
   },
   {
-    n: '03 / 03',
+    n: '03 / 04',
+    h: 'Automate',
+    p: 'Trigger on a cron, an event, or an API call. Skills chain in sequence or parallel, no wiring.',
+    src: 'automate-dynamic-skills',
+    label: 'Dynamic skill generation and automation in AgentZ',
+  },
+  {
+    n: '04 / 04',
     h: 'Govern',
     p: 'Resolved at the edge, checked at the kernel, stamped to a signed trace.',
     src: 'govern-sandbox-permissions',
@@ -44,7 +51,7 @@ export function Stepper() {
                       muted
                       loop
                       playsInline
-                      preload="metadata"
+                      preload="none"
                       aria-label={s.label}
                     />
                   </div>

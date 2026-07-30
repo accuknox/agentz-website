@@ -6,7 +6,9 @@ const ITEMS: ExpandableItem[] = [
   { title: 'Read a signed trace', description: 'Inspect every span, every model and tool call, down to the token, on a signed and replayable record.', src: './assets/video/card-signed-trace.mp4', poster: './assets/video/card-signed-trace.jpg', label: 'Reading a signed trace in AgentZ' },
   { title: 'Runtime you can see', description: 'Every egress by domain, port and protocol, allowed or blocked at the kernel and recorded. Nothing leaves without a record.', src: './assets/video/runtime-traces-telemetry.mp4', poster: './assets/video/runtime-traces-telemetry.jpg', label: 'Runtime telemetry in AgentZ' },
   { title: 'Schedule an agent', description: 'Set a cron, edit the schedule, timeout and retention in place. No redeploy.', src: './assets/video/card-schedule-cron.mp4', poster: './assets/video/card-schedule-cron.jpg', label: 'Editing a cron schedule in AgentZ' },
-  { title: 'Policy at the edge', description: 'Every network call allowed or blocked at the kernel, in one view.', src: './assets/img/dash/network.png', label: 'Network egress allowed or blocked at the kernel' },
+  { title: 'Policy at the edge', description: 'Every network call allowed or blocked at the kernel, in one view.', src: './assets/video/govern-sandbox-permissions.mp4', poster: './assets/video/govern-sandbox-permissions.jpg', label: 'Network egress policy enforced at the kernel in AgentZ' },
+  { title: 'Zero credential exposure', description: 'Agents never hold secrets. Credentials are scoped, injected at runtime, and never stored in the agent context.', src: './assets/video/zero-credential-exposure.mp4', label: 'Zero credential exposure in AgentZ' },
+  { title: 'Generate skills on demand', description: 'Describe what you need. AgentZ writes the skill, wires the steps, and makes it reusable across your team.', src: './assets/video/dynamic-skill-generation.mp4', label: 'Dynamic skill generation in AgentZ' },
 ]
 
 export function SeeInAction() {
