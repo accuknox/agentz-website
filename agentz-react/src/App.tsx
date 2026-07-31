@@ -10,7 +10,9 @@ import { Stepper } from './components/Stepper'
 import { SeeInAction } from './components/SeeInAction'
 import { OrgChart } from './components/OrgChart'
 import { Integrations } from './components/Integrations'
-import { Pricing } from './components/Pricing'
+// Pricing is hidden until the tiers are final. Keep the import commented so the
+// section comes back with one line.
+// import { Pricing } from './components/Pricing'
 import { FAQ } from './components/FAQ'
 import { Footer } from './components/Footer'
 
@@ -38,7 +40,7 @@ export default function App() {
         <Comparison />
         <OrgChart />
         <Integrations />
-        <Pricing />
+        {/* <Pricing /> */}
         <FAQ />
         <Footer />
       </main>
