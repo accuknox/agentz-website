@@ -19,7 +19,7 @@ const ITEMS = [
   {
     n: '04',
     q: 'How does the audit trail hold up in a compliance review?',
-    a: 'Every tool call, memory read, and model response is signed and stored with a deterministic replay ID. Pro retains 30 days, Team 90 days, Enterprise is custom. Auditors and internal security teams can replay any run exactly as it happened, down to the token.',
+    a: 'Every tool call, memory read, and model response is recorded and stored with a deterministic replay ID. Pro retains 30 days, Team 90 days, Enterprise is custom. Auditors and internal security teams can replay any run exactly as it happened, down to the token.',
   },
   {
     n: '05',

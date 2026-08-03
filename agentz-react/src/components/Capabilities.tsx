@@ -83,13 +83,13 @@ function CapScoped() {
   )
 }
 
-/** Signed audit — a span waterfall stamped with a signature seal. */
+/** Full audit trace — a span waterfall stamped with a completion mark. */
 function CapAudit() {
   const spans = [
     { off: 0, w: 66, t: 'skill.invoke' },
     { off: 14, w: 40, t: 'tool.call' },
     { off: 30, w: 54, t: 'model.respond' },
-    { off: 52, w: 30, t: 'trace.sign' },
+    { off: 52, w: 30, t: 'trace.commit' },
   ]
   return (
     <div className="capx capx-audit">
@@ -105,7 +105,7 @@ function CapAudit() {
       </div>
       <span className="capx-seal">
         <span className="capx-seal-badge"><Icon name="shield" /></span>
-        Signed · sha256
+        Recorded · replayable
       </span>
     </div>
   )
@@ -137,8 +137,8 @@ const TILES: Tile[] = [
   },
   {
     icon: 'audit',
-    h: 'Signed audit, out of the box',
-    p: 'A signed, replayable trace for every run, down to the token. SOC and compliance reviews stop being a project.',
+    h: 'Full audit trace, out of the box',
+    p: 'A full, replayable trace for every run, down to the token. SOC and compliance reviews stop being a project.',
     span: 'md:col-span-2',
     art: <CapAudit />,
   },

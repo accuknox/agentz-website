@@ -26,7 +26,7 @@ const STEPS = [
   {
     n: '04 / 04',
     h: 'Govern',
-    p: 'Resolved at the edge, checked at the kernel, stamped to a signed trace.',
+    p: 'Resolved at the edge, checked at the kernel, written to a full trace.',
     src: 'govern-sandbox-permissions',
     label: 'Scoping a sandbox in AgentZ down to per-tool permissions and allowed hosts',
   },

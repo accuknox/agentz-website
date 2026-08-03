@@ -3,9 +3,9 @@ import { Icon } from './ui/Icon'
 const SHOTS = [
   { img: 'workflow', alt: 'Edit a workflow and set a schedule from chat', title: 'Workflows in chat', sub: 'Edit steps and set a schedule in plain language.' },
   { img: 'chat', alt: 'Talk to your agent', title: 'Conversational ops', sub: 'Ask, and the agent builds, edits and runs.' },
-  { img: 'span-error', alt: 'Span detail with token breakdown', title: 'Signed traces', sub: 'Read every span, down to the token.' },
+  { img: 'span-error', alt: 'Span detail with token breakdown', title: 'Full traces', sub: 'Read every span, down to the token.' },
   { img: 'network', alt: 'Network egress allowed or blocked at the kernel', title: 'Policy edge', sub: 'Every egress allowed or blocked at the kernel.' },
-  { img: 'environment', alt: 'A signed environment', title: 'Environments', sub: 'Identity, packages and tools in one signed object.' },
+  { img: 'environment', alt: 'A single environment definition', title: 'Environments', sub: 'Identity, packages and tools in one definition.' },
 ]
 
 export function Screens() {

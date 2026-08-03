@@ -59,7 +59,7 @@ const ROWS: Row[] = [
     cells: [c('✗', undefined, true), c('✗', undefined, true), c('✓'), c('✓ custom roles')],
   },
   {
-    label: 'Signed audit trace',
+    label: 'Full audit trace',
     cells: [
       c('7-day retention', undefined, true),
       c('30-day retention'),

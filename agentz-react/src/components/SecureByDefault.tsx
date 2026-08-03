@@ -5,7 +5,7 @@ const CARDS = [
   { n: '01', icon: 'key', h: 'Credentials, handled', p: 'Secrets stay in the vault. Agents get scoped access at the moment they need it, and never see the key.', span: 'md:col-span-2' },
   { n: '02', icon: 'shield', h: 'Just-enough access', p: 'Every skill runs with the narrowest permissions that get the job done. No standing cloud roles.', span: '' },
   { n: '03', icon: 'eye', h: 'Runtime you can see', p: 'Every action, tool call, and decision is visible in one place, in real time.', span: '' },
-  { n: '04', icon: 'audit', h: 'Audit, out of the box', p: 'A signed trace for every run. SOC and compliance reviews stop being a project.', span: 'md:col-span-2' },
+  { n: '04', icon: 'audit', h: 'Audit, out of the box', p: 'A full trace for every run. SOC and compliance reviews stop being a project.', span: 'md:col-span-2' },
 ]
 
 export function SecureByDefault() {

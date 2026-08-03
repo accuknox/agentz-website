@@ -235,7 +235,7 @@ export function OrgChart() {
 
           <div className="org-facts">
             <div className="ofact"><span className="ofact-ico"><Icon name="shield" /></span><div><b>Fine-grained RBAC</b><span>Roles gate every agent action, down to the tool call.</span></div></div>
-            <div className="ofact"><span className="ofact-ico"><Icon name="audit" /></span><div><b>Full trace log</b><span>Every action lands in a signed, replayable record.</span></div></div>
+            <div className="ofact"><span className="ofact-ico"><Icon name="audit" /></span><div><b>Full trace log</b><span>Every action lands in a full, replayable record.</span></div></div>
             <div className="ofact"><span className="ofact-ico"><Icon name="eye" /></span><div><b>Browser sandbox</b><span>Agents run in an isolated, governed workspace.</span></div></div>
           </div>
         </div>

@@ -17,9 +17,9 @@ Known links you can use directly:
 
 **One line.** AgentZ is a Zero Trust platform to build, run, and govern AI agents in production. Secure by default. Built by AccuKnox.
 
-**What it actually is.** A control plane for agents. You describe a job, it writes the skill and wires the steps. You bring any model or framework. It runs the agent with scoped access, isolation, memory, and a signed record of everything that happened.
+**What it actually is.** A control plane for agents. You describe a job, it writes the skill and wires the steps. You bring any model or framework. It runs the agent with scoped access, isolation, memory, and a full record of everything that happened.
 
-**What it is not.** It is not an agent framework. Frameworks help you write an agent. AgentZ runs it in production, with policy at the edge, per-tool-call permissions, and a signed trace for every step. LangChain, CrewAI, and your own code sit happily on top of it.
+**What it is not.** It is not an agent framework. Frameworks help you write an agent. AgentZ runs it in production, with policy at the edge, per-tool-call permissions, and a full trace for every step. LangChain, CrewAI, and your own code sit happily on top of it.
 
 **Why it is credible.** AccuKnox has done kernel-level runtime security for cloud and Kubernetes for years (KubeArmor, OpenBao, Sigstore, OpenTelemetry in the stack). The hard part of agents in production is security and audit, and that is exactly the ground AccuKnox already owns. The security is not bolted on. It is the starting point.
 
@@ -28,7 +28,7 @@ Known links you can use directly:
 2. Scoped access. Permissions are set per tool call, not per integration. Secrets stay in the vault, the agent never sees the key.
 3. MCP out of the box. Connect a server, authorize, watch it go Ready.
 4. Run it your way. Chat, API, CLI, or a schedule. Edit the cron, timeout, and retention in place, no redeploy.
-5. See everything. Watch a workflow run live, then read a signed trace down to the token. Profile every MCP call.
+5. See everything. Watch a workflow run live, then read a full trace down to the token. Profile every MCP call.
 
 **The narrative hook that sells it.** AgentZ proposes, you decide. It asks before anything it cannot undo and pushes back when you are about to make a mistake. Autonomy you can hand real access to.
 
@@ -76,7 +76,7 @@ Known links you can use directly:
 | `04_workflow-runs-chat-tour.mp4` | Chat interface plus the file explorer with real generated artifacts | Product intro / "what is it" posts |
 | `05_editing-crons-and-schedules.mp4` | Triggers table and editing cron, timeout, retention in place | Automation / scheduling posts |
 | `06_live-workflow-graph.mp4` | A workflow run graph moving through Succeeded and Running, with step detail | Observability posts |
-| `07_traces.mp4` | Signed trace: spans, model calls, tool calls, durations, token counts | Observability / audit / security posts |
+| `07_traces.mp4` | Full trace: spans, model calls, tool calls, durations, token counts | Observability / audit / security posts |
 | `08_mcp-profiling.mp4` | MCP call graph with per-call latency | Developer / performance posts |
 
 Note on format: for LinkedIn, trim clips to 12 to 20 seconds, add a one-line caption burned into the first frame, and upload native video (not a YouTube link). Vertical or square crops get more reach in-feed.
@@ -100,7 +100,7 @@ We built AgentZ to answer those questions on day one.
 
 AgentZ is a platform to build, run, and govern AI agents in production, secure by default. Describe the job in a sentence and it writes the skill and wires the steps. Bring any model. Security stays underneath, from the very first run.
 
-It is not another agent framework. Frameworks help you write an agent. AgentZ runs it, with policy at the edge, scoped access, and a signed trace for every step.
+It is not another agent framework. Frameworks help you write an agent. AgentZ runs it, with policy at the edge, scoped access, and a full trace for every step.
 
 Built by AccuKnox. Live in August.
 
@@ -119,7 +119,7 @@ What happens the first time one runs a command you did not expect, with credenti
 
 AgentZ is built so that question has a boring answer.
 
-Every skill runs with the narrowest permissions that do the job. Permissions are scoped per tool call, not per integration. Secrets stay in the vault and the agent never sees the key. Every network egress is allowed or blocked at the kernel and recorded. Every run leaves a signed trace you can replay.
+Every skill runs with the narrowest permissions that do the job. Permissions are scoped per tool call, not per integration. Secrets stay in the vault and the agent never sees the key. Every network egress is allowed or blocked at the kernel and recorded. Every run leaves a full trace you can replay.
 
 Zero Trust, applied to agents. Trust none by default.
 
@@ -157,7 +157,7 @@ Waitlist: https://accuknox.com/platform/agentz
 
 AgentZ gives you the whole picture instead.
 
-Watch a workflow run live. Every step named, ordered, and inspectable as it executes. When it finishes, open the signed trace: every span, every tool call, every token. Profile your MCP calls and see each one's latency in a single graph.
+Watch a workflow run live. Every step named, ordered, and inspectable as it executes. When it finishes, open the full trace: every span, every tool call, every token. Profile your MCP calls and see each one's latency in a single graph.
 
 Nothing your agent does is a mystery. That is the difference between an agent demo and an agent you can put in front of a compliance review.
 
@@ -180,7 +180,7 @@ The agent killed staging. Then it stopped.
 
 Good catch. Archive it.
 
-This is how AgentZ is built to work. It proposes, you decide. It asks before anything it cannot undo, and it pushes back when you are about to make a mistake. Every sensitive action waits on your approval. Every action is scoped, logged, and signed.
+This is how AgentZ is built to work. It proposes, you decide. It asks before anything it cannot undo, and it pushes back when you are about to make a mistake. Every sensitive action waits on your approval. Every action is scoped, logged, and recorded in full.
 
 Autonomy you can actually hand real access to. Govern every agent, trust none by default.
 
@@ -227,7 +227,7 @@ AccuKnox
 ### Email 2 · What it is
 
 **Subject line A:** Meet AgentZ: build, run, and govern AI agents
-**Subject line B:** Any model. Scoped access. Signed traces.
+**Subject line B:** Any model. Scoped access. Full traces.
 **Preview text:** One control plane for every agent, model, and team.
 **Suggested media:** embed `04_workflow-runs-chat-tour.mp4` or `01_create-agents-any-llm-sandbox-memory.mp4`
 
@@ -240,7 +240,7 @@ Here is what AgentZ does.
 - **Scoped access.** Permissions are set per tool call, not per integration. Secrets stay in the vault.
 - **Connect your stack.** MCP servers work out of the box. Authorize once, watch it go Ready.
 - **Run it your way.** Chat, API, CLI, or a schedule. Edit the cron, timeout, and retention in place, no redeploy.
-- **See everything.** Watch a run live, then read a signed trace down to the token.
+- **See everything.** Watch a run live, then read a full trace down to the token.
 
 It is not an agent framework. Frameworks help you write an agent. AgentZ runs it in production with security underneath.
 
@@ -259,7 +259,7 @@ AccuKnox
 
 **Subject line A:** AgentZ goes live in August. Get in early.
 **Subject line B:** Your spot on the AgentZ waitlist
-**Preview text:** Early access, first look at the policy edge and signed traces.
+**Preview text:** Early access, first look at the policy edge and full traces.
 
 Hi {first_name},
 
@@ -267,7 +267,7 @@ AgentZ is almost here. It launches in August, and we are letting waitlist teams 
 
 Early access gets you:
 - A spot as we open access, before general availability.
-- A first look at the policy edge and signed traces.
+- A first look at the policy edge and full traces.
 - Your own model and framework, no migration.
 
 If you are trying to move agents from prototype to production, this is the fastest way to do it without leaving security as a later problem.
@@ -291,19 +291,19 @@ Etiquette first, because it decides whether this lands or gets you muted:
 
 **Ultra-short (self-promo / launch channel)**
 
-> AgentZ (by AccuKnox) launches in August: build, run, and govern AI agents, secure by default. Any model, permissions scoped per tool call, a signed trace for every run. Waitlist is open if that is useful to your team → https://accuknox.com/platform/agentz
+> AgentZ (by AccuKnox) launches in August: build, run, and govern AI agents, secure by default. Any model, permissions scoped per tool call, a full trace for every run. Waitlist is open if that is useful to your team → https://accuknox.com/platform/agentz
 
 **What / who (a touch more context)**
 
-> 👋 We are launching AgentZ next month. It is a Zero Trust platform for running AI agents in production: pick any model, scope tools per call, connect MCP servers out of the box, and get a signed trace of everything the agent did. Built for platform, security, and ops teams stuck getting agents past the demo stage. Early access: https://accuknox.com/platform/agentz
+> 👋 We are launching AgentZ next month. It is a Zero Trust platform for running AI agents in production: pick any model, scope tools per call, connect MCP servers out of the box, and get a full trace of everything the agent did. Built for platform, security, and ops teams stuck getting agents past the demo stage. Early access: https://accuknox.com/platform/agentz
 
 **Intro-channel version**
 
-> Hi all 👋 I am Kavitha from AccuKnox. We are about to launch AgentZ, a platform for running AI agents in production with Zero Trust security: scoped tools, kernel-enforced egress, signed traces, any model. If your team is trying to get agents past the prototype stage, I would genuinely value your take. Waitlist: https://accuknox.com/platform/agentz
+> Hi all 👋 I am Kavitha from AccuKnox. We are about to launch AgentZ, a platform for running AI agents in production with Zero Trust security: scoped tools, kernel-enforced egress, full traces, any model. If your team is trying to get agents past the prototype stage, I would genuinely value your take. Waitlist: https://accuknox.com/platform/agentz
 
 **Show-and-tell version (pair with a clip)**
 
-> Sharing something we have been building. AgentZ lets you spin up an agent on any model, give it only the tools it needs (per tool call, not per integration), run it from chat or a schedule, and then read a signed trace down to the token. Launches in August. Short clip below. Feedback welcome. https://accuknox.com/platform/agentz
+> Sharing something we have been building. AgentZ lets you spin up an agent on any model, give it only the tools it needs (per tool call, not per integration), run it from chat or a schedule, and then read a full trace down to the token. Launches in August. Short clip below. Feedback welcome. https://accuknox.com/platform/agentz
 > _Attach: `06_live-workflow-graph.mp4` or `07_traces.mp4`_
 
 ---
@@ -331,7 +331,7 @@ What it does:
 - Permissions are scoped per tool call, not per integration. Secrets stay in a vault, the agent never sees the key.
 - Network egress is allowed or blocked at the kernel and logged (this part comes from our runtime security lineage, KubeArmor).
 - MCP servers connect out of the box.
-- Every run produces a signed trace: spans, tool calls, tokens. You can also profile MCP call latency.
+- Every run produces a full trace: spans, tool calls, tokens. You can also profile MCP call latency.
 - It asks before anything irreversible and pushes back when a request looks like a mistake.
 
 It is not a framework. Bring LangChain, CrewAI, or your own code. AgentZ is the layer that runs and governs it.
@@ -352,7 +352,7 @@ For `#general` or `#company-wide`. Goal: get the team sharing on launch.
 >
 > Our new platform for building, running, and governing AI agents, secure by default, goes live in **August**. The site and waitlist are up now.
 >
-> **In one line:** Zero Trust for AI agents. Any model, permissions scoped per tool call, signed traces, built on the same runtime security that powers KubeArmor.
+> **In one line:** Zero Trust for AI agents. Any model, permissions scoped per tool call, full traces, built on the same runtime security that powers KubeArmor.
 >
 > **The single most useful thing you can do today: share it.** Your network reaching one platform lead or security engineer is worth more than any ad.
 >
@@ -362,7 +362,7 @@ For `#general` or `#company-wide`. Goal: get the team sharing on launch.
 > 3. Tag it `#AgentZ` so we can find and amplify it.
 >
 > **Blurb to copy:**
-> AccuKnox is launching AgentZ: a Zero Trust platform to build, run, and govern AI agents in production. Any model, scoped access per tool call, a signed trace for every run. Live in August. Waitlist open → https://accuknox.com/platform/agentz
+> AccuKnox is launching AgentZ: a Zero Trust platform to build, run, and govern AI agents in production. Any model, scoped access per tool call, a full trace for every run. Live in August. Waitlist open → https://accuknox.com/platform/agentz
 >
 > **Assets** (logo, clips, more copy): see `marketing/` in the agentz-website repo.
 > Questions, leads, or feedback: drop them in `#agentz-launch`.

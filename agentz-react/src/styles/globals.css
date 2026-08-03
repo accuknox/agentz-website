@@ -1274,7 +1274,7 @@ b,strong,summary,.faq-q,.pill,.uchip,.partner-chip,.cc-msg b,.node-admin b,
 .capx-scope-row.is-on .capx-scope-label{color:var(--ink)}
 .capx-scope-row.is-on .capx-scope-dot{background:var(--blue);opacity:1}
 
-/* 4 — signed audit waterfall */
+/* 4 — full audit waterfall */
 .capx-audit{flex-direction:column;gap:16px;align-items:stretch;justify-content:center}
 .capx-waterfall{display:flex;flex-direction:column;gap:9px}
 .capx-span{display:flex;align-items:center;gap:12px}

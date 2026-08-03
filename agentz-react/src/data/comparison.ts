@@ -107,12 +107,12 @@ export const ROWS: Row[] = [
     },
   },
   {
-    label: 'Tamper-evident audit trail',
-    term: 'a record that cannot be edited',
-    plain: 'Every step is signed as it happens, so you can prove later what the agent actually did. Useful when an auditor asks.',
+    label: 'Full audit trail',
+    term: 'a complete, replayable record',
+    plain: 'Every step is recorded as it happens, so you can prove later what the agent actually did. Useful when an auditor asks.',
     cells: {
-      agentz: y('Signed and replayable, down to the token.'),
-      langgraph: p('Traces are captured but not signed.'),
+      agentz: y('Full and replayable, down to the token.'),
+      langgraph: p('Traces are captured for debugging, not built for audit.'),
       crewai: p('Audit logs, editable by an administrator.'),
       microsoft: p('Activity logs, editable by an administrator.'),
       aws: p('CloudTrail records API calls, not agent reasoning.'),

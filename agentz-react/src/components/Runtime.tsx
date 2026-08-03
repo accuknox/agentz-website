@@ -23,7 +23,7 @@ export function Runtime() {
             <LazyVideo
               src="./assets/video/runtime-traces-telemetry.mp4"
               poster="./assets/video/runtime-traces-telemetry.jpg"
-              label="Reading a signed trace in AgentZ: span tree, durations, token counts and network events"
+              label="Reading a full trace in AgentZ: span tree, durations, token counts and network events"
             />
           </div>
         </div>

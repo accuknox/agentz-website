@@ -5,7 +5,7 @@ const CARDS = [
   { src: '0-agentz-chat', poster: '0-agentz-chat', label: 'Chat interface in AgentZ: build and run agents in plain language', title: 'Chat with your agents', sub: 'Ask, build, and run workflows in plain language.' },
   { src: 'card-mcp-connect', poster: 'card-mcp-connect', label: 'Connecting an MCP server in AgentZ', title: 'Connect an MCP server', sub: 'Pick a provider, authorize, watch it go Ready.' },
   { src: 'card-schedule-cron', poster: 'card-schedule-cron', label: 'Editing a cron schedule in AgentZ', title: 'Schedule an agent', sub: 'Set a cron, edit the schedule in place, no redeploy.' },
-  { src: 'card-signed-trace', poster: 'card-signed-trace', label: 'Reading a signed trace in AgentZ: span tree, per-call durations and token counts', title: 'Read a signed trace', sub: 'Inspect every span, down to the token.' },
+  { src: 'card-signed-trace', poster: 'card-signed-trace', label: 'Reading a full trace in AgentZ: span tree, per-call durations and token counts', title: 'Read a full trace', sub: 'Inspect every span, down to the token.' },
   { src: 'card-mcp-profiling', poster: 'card-mcp-profiling', label: 'Profiling MCP tool calls in AgentZ: a call graph with per-call durations', title: 'Profile MCP calls', sub: "See every tool call's latency in one graph." },
 ]
 
