@@ -245,7 +245,10 @@ h1,h2,h3{font-family:var(--display);letter-spacing:-.025em;line-height:1.05;font
 .pricing{padding:clamp(80px,11vh,140px) 0;background:var(--paper)}
 .pricing-h{font-size:clamp(32px,3.6vw,52px);font-weight:700;letter-spacing:-.03em;margin-bottom:16px}
 .pricing-lede{max-width:62ch;font-size:17px;line-height:1.55;color:var(--ink-soft);margin-bottom:40px}
-.pricing-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px}
+/* each plan carries its own CTA in the header cell, so the choice sits next to
+   the column it belongs to rather than in a shared row under the table */
+.pt-cta{display:inline-flex;margin-top:14px;padding:9px 18px;font-size:13px;
+  border-width:1.5px;white-space:nowrap;max-width:100%}
 .pt-outer{overflow-x:auto;border-radius:16px;border:1px solid var(--line)}
 .pt{width:100%;border-collapse:collapse;font-size:14px;font-family:var(--sans)}
 .pt thead tr{border-bottom:1px solid var(--line)}

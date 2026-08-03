@@ -95,11 +95,27 @@ export function Pricing() {
                   <span className="pt-name">Free</span>
                   <span className="pt-price">$0/month</span>
                   <span className="pt-price-sub">Evaluate the platform</span>
+                  <a
+                    className="btn btn-line pt-cta"
+                    href="https://agentz.accuknox.com/"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    Start free
+                  </a>
                 </th>
                 <th className="pt-plan pt-hl">
                   <span className="pt-name">Enterprise</span>
                   <span className="pt-price">Custom pricing</span>
-                  <span className="pt-price-sub">Talk to sales</span>
+                  <span className="pt-price-sub">Priced on what you run</span>
+                  <a
+                    className="btn btn-primary pt-cta"
+                    href="https://accuknox.com/demo"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    Talk to AccuKnox
+                  </a>
                 </th>
               </tr>
             </thead>
@@ -125,14 +141,6 @@ export function Pricing() {
               })}
             </tbody>
           </table>
-        </div>
-        <div className="pricing-cta">
-          <a className="btn btn-primary" href="https://agentz.accuknox.com/" target="_blank" rel="noopener">
-            Start free
-          </a>
-          <a className="btn btn-line" href="https://accuknox.com/demo" target="_blank" rel="noopener">
-            Talk to sales
-          </a>
         </div>
       </div>
     </section>
