@@ -243,7 +243,9 @@ h1,h2,h3{font-family:var(--display);letter-spacing:-.025em;line-height:1.05;font
 
 /* ══════════════ PRICING ══════════════ */
 .pricing{padding:clamp(80px,11vh,140px) 0;background:var(--paper)}
-.pricing-h{font-size:clamp(32px,3.6vw,52px);font-weight:700;letter-spacing:-.03em;margin-bottom:40px}
+.pricing-h{font-size:clamp(32px,3.6vw,52px);font-weight:700;letter-spacing:-.03em;margin-bottom:16px}
+.pricing-lede{max-width:62ch;font-size:17px;line-height:1.55;color:var(--ink-soft);margin-bottom:40px}
+.pricing-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px}
 .pt-outer{overflow-x:auto;border-radius:16px;border:1px solid var(--line)}
 .pt{width:100%;border-collapse:collapse;font-size:14px;font-family:var(--sans)}
 .pt thead tr{border-bottom:1px solid var(--line)}
@@ -251,6 +253,13 @@ h1,h2,h3{font-family:var(--display);letter-spacing:-.025em;line-height:1.05;font
 .pt th:last-child,.pt td:last-child{border-right:none}
 .pt-empty{width:200px;min-width:160px}
 .pt-plan{width:180px;min-width:140px}
+/* two-tier layout: the table only has three columns, so let the plans take the
+   space the missing ones used to hold instead of leaving a dead gutter */
+/* the min-width keeps the two plan columns readable on a phone and hands the
+   overflow to .pt-outer, which already scrolls */
+.pt-2{table-layout:fixed;min-width:560px}
+.pt-2 .pt-empty{width:28%}
+.pt-2 .pt-plan{width:36%;min-width:180px}
 .pt-name{display:block;font-weight:700;font-size:15px;color:var(--ink);margin-bottom:4px}
 .pt-price{display:block;font-size:13px;color:var(--ink-soft)}
 .pt-price-sub{display:block;font-size:12px;color:var(--ink-mute)}

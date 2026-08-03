@@ -6,13 +6,13 @@ import { Icon } from './ui/Icon'
  * only picks up a hairline and a wash once you scroll past the fold, which
  * useSiteEffects toggles with .is-stuck.
  *
- * Four links, deliberately. Pricing lands here when it exists.
+ * Five links, deliberately. Anything past that and the row crowds the wordmark.
  */
 const LINKS = [
   ['Platform', '#platform'],
   ['Comparison', '#comparison'],
   ['Governance', '#governance'],
-  // ['Pricing', '#pricing'],
+  ['Pricing', '#pricing'],
   ['FAQ', '#faq'],
 ]
 
