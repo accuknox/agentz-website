@@ -8,7 +8,10 @@ import { WhyAgentZ } from './components/WhyAgentZ'
 import { PlatformArch } from './components/PlatformArch'
 import { Stepper } from './components/Stepper'
 import { SeeInAction } from './components/SeeInAction'
+import { Prompts } from './components/Prompts'
+import { ControlAccess } from './components/ControlAccess'
 import { OrgChart } from './components/OrgChart'
+import { Trust } from './components/Trust'
 import { Integrations } from './components/Integrations'
 import { Pricing } from './components/Pricing'
 import { FAQ } from './components/FAQ'
@@ -35,8 +38,11 @@ export default function App() {
         <Stepper />
         <PlatformArch />
         <SeeInAction />
+        <Prompts />
         <Comparison />
+        <ControlAccess />
         <OrgChart />
+        <Trust />
         <Integrations />
         <Pricing />
         <FAQ />
