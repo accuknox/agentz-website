@@ -15,9 +15,9 @@ type Feature = {
 const FEATURES: Feature[] = [
   {
     icon: 'model',
-    h: 'Model agnostic',
-    p: 'Bring any model on your own key or your subscription. Swap OpenAI, Anthropic, Gemini or open source without touching your agents.',
-    vs: 'The alternatives lock you to one vendor, or make you bring and wire your own.',
+    h: 'Model independence',
+    p: 'Run on a private key or an existing subscription. No markup, no proxy in the path, no vendor lock-in.',
+    vs: 'Alternatives bind to a single vendor, or leave the wiring to the customer.',
     variant: 'top',
   },
   {

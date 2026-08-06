@@ -40,7 +40,7 @@ export function PlatformArch() {
 
         <div className="arch-rails">
           <div className="arch-rail">
-            <span className="rail-label">Your tools &amp; data</span>
+            <span className="rail-label">Tools &amp; data</span>
             <div className="rail-items">
               <span className="rail-chip"><Icon name="database" />Databases</span>
               <span className="rail-chip"><Icon name="api" />SaaS APIs</span>
@@ -49,7 +49,7 @@ export function PlatformArch() {
             </div>
           </div>
           <div className="arch-rail">
-            <span className="rail-label">Any model, any provider</span>
+            <span className="rail-label">Models</span>
             <div className="rail-items">
               <span className="rail-chip"><img className="logo-img logo-img--mono" src="./assets/img/logos/openai.svg" alt="" />OpenAI</span>
               <span className="rail-chip"><img className="logo-img logo-img--mono" src="./assets/img/logos/anthropic.svg" alt="" />Anthropic</span>
