@@ -3,8 +3,9 @@ import { Icon } from './ui/Icon'
 /**
  * Guardrails diagram. An agent reaches every tool through AgentZ, and AgentZ
  * gates each capability: read and scan pass, mutate and delete are denied by
- * default. This is the per-capability view of Zero Trust, distinct from the
- * role tree in OrgChart which gates who can act.
+ * default. Each tool fans out into capability rails, allowed rails ending in a
+ * marker, denied rails dashed and struck through. This is the per-capability
+ * view of Zero Trust, distinct from the role tree in OrgChart.
  */
 type Cap = { label: string; allow: boolean }
 type Lane = { logo: string; name: string; mono?: boolean; caps: Cap[] }
@@ -29,6 +30,16 @@ const LANES: Lane[] = [
       { label: 'Drain node', allow: false },
     ],
   },
+  {
+    logo: 'github',
+    name: 'GitHub',
+    mono: true,
+    caps: [
+      { label: 'Read', allow: true },
+      { label: 'Comment', allow: true },
+      { label: 'Force-push', allow: false },
+    ],
+  },
 ]
 
 export function ControlAccess() {
@@ -37,7 +48,6 @@ export function ControlAccess() {
       <div className="wrap">
         <div className="ctrl-grid">
           <div className="ctrl-copy">
-            <span className="section-eyebrow">Guardrails</span>
             <h2 className="section-h2">Give each agent only the access it needs.</h2>
             <p className="ctrl-lead">
               Fine-grained control down to the single capability. Read and scan pass. Mutate, push and delete are
@@ -64,13 +74,13 @@ export function ControlAccess() {
               <span className="ctrl-agent">Agent</span>
               <span className="ctrl-wire" />
               <span className="ctrl-hub">
-                <img src="./assets/img/agentz-logo.svg" alt="" width={26} height={26} />
+                <img src="./assets/img/agentz-logo.svg" alt="" width={28} height={28} />
               </span>
             </div>
 
-            <div className="ctrl-lanes">
+            <div className="ctrl-tree">
               {LANES.map((lane) => (
-                <div className="ctrl-lane" key={lane.name}>
+                <div className="ctrl-branch" key={lane.name}>
                   <span className="ctrl-tool">
                     <img
                       className={lane.mono ? 'logo-img logo-img--mono' : 'logo-img'}
@@ -81,11 +91,14 @@ export function ControlAccess() {
                     />
                     {lane.name}
                   </span>
-                  <ul className="ctrl-caps">
+                  <ul className="ctrl-rails">
                     {lane.caps.map((c) => (
-                      <li key={c.label} className={c.allow ? 'cap cap-allow' : 'cap cap-deny'}>
-                        <Icon name={c.allow ? 'check' : 'close'} className="ico-sm" />
-                        {c.label}
+                      <li key={c.label} className={`rail ${c.allow ? 'rail-allow' : 'rail-deny'}`}>
+                        <span className="rail-line" />
+                        <span className="rail-mark">
+                          <Icon name={c.allow ? 'check' : 'close'} className="ico-sm" />
+                        </span>
+                        <span className="rail-label">{c.label}</span>
                       </li>
                     ))}
                   </ul>

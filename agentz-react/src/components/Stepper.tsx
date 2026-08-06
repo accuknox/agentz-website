@@ -11,7 +11,7 @@ const STEPS = [
   {
     n: '02 / 04',
     h: 'Run',
-    p: 'Chat, API, CLI, or a schedule. Any framework, any model, no redeploy.',
+    p: 'Chat, API, CLI, or a schedule. Any framework, no redeploy.',
     src: 'run-chat-workflows',
     label: 'Running workflows from chat in AgentZ, with the file explorer and run history open',
   },

@@ -7,8 +7,9 @@ import { Comparison } from './components/Comparison'
 import { WhyAgentZ } from './components/WhyAgentZ'
 import { PlatformArch } from './components/PlatformArch'
 import { Stepper } from './components/Stepper'
+import { SwapModels } from './components/SwapModels'
 import { SeeInAction } from './components/SeeInAction'
-import { Prompts } from './components/Prompts'
+import { AgentRun } from './components/AgentRun'
 import { ControlAccess } from './components/ControlAccess'
 import { OrgChart } from './components/OrgChart'
 import { Trust } from './components/Trust'
@@ -37,8 +38,9 @@ export default function App() {
         <WhyAgentZ />
         <Stepper />
         <PlatformArch />
+        <SwapModels />
+        <AgentRun />
         <SeeInAction />
-        <Prompts />
         <Comparison />
         <ControlAccess />
         <OrgChart />
