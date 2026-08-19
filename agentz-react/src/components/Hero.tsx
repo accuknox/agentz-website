@@ -4,6 +4,7 @@ import { Icon } from './ui/Icon'
 import { NoiseBackground } from './ui/aceternity/NoiseBackground'
 import { LazyVideo } from './ui/LazyVideo'
 import { PointerHighlight } from './ui/aceternity/PointerHighlight'
+import { PRODUCT_HUNT_URL } from './Nav'
 
 const CAPS = [
   { icon: 'skills', label: 'Skills' },
@@ -69,6 +70,10 @@ export function Hero() {
           <span>Agent</span>
           <img className="hero-brand-mark" src="./assets/img/agentz-logo.svg" alt="Z" />
         </h1>
+        <p className="hero-say">
+          <span>Pronounced</span>
+          Agent <span className="hl hl-a">Zee</span>
+        </p>
         <p className="hero-title">Zero Trust Agentic AI Platform</p>
         <p className="hero-sub">
           Build, run, and govern{' '}
@@ -81,6 +86,21 @@ export function Hero() {
           </a>
           <a className="btn btn-line btn-lg" href="https://agentzharness.ai/" target="_blank" rel="noopener">
             Try AgentZ
+          </a>
+          <a
+            className="ph-badge"
+            href={PRODUCT_HUNT_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="AgentZ on Product Hunt. Upvote it."
+          >
+            <img
+              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1216150&theme=light&t=1787120477230"
+              alt="AgentZ - Zero Trust Platform to Build, Run Govern AI Agents | Product Hunt"
+              width={250}
+              height={54}
+              loading="lazy"
+            />
           </a>
         </div>
         <HeroCapabilities />

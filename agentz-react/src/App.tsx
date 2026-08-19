@@ -3,6 +3,7 @@ import { useSiteEffects } from './hooks/useSiteEffects'
 import { IconSprite } from './components/ui/Icon'
 import { Nav } from './components/Nav'
 import { Hero } from './components/Hero'
+import { Deck } from './components/Deck'
 import { Comparison } from './components/Comparison'
 import { WhyAgentZ } from './components/WhyAgentZ'
 import { PlatformArch } from './components/PlatformArch'
@@ -35,6 +36,7 @@ export default function App() {
 
       <main id="top">
         <Hero />
+        <Deck />
         <WhyAgentZ />
         <Stepper />
         <PlatformArch />

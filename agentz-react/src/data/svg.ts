@@ -41,6 +41,10 @@ export const ICON_SPRITE = `<svg width="0" height="0" style="position:absolute" 
     <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 7.8h.01"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.8l4.4 4.4L19 7.6"/></symbol>
     <symbol id="i-dash" viewBox="0 0 24 24"><path d="M6 12h12"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 2.6l2.9 5.88 6.49.95-4.7 4.58 1.11 6.46L12 17.42l-5.8 3.05 1.11-6.46-4.7-4.58 6.49-.95L12 2.6Z"/></symbol>
+    <symbol id="i-producthunt" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.2"/><path d="M9.9 17.2V6.8h3.5a2.85 2.85 0 0 1 0 5.7H9.9"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 4.6h5.4A2.6 2.6 0 0 1 12 7.2v12a2.2 2.2 0 0 0-2.2-1.7H4V4.6Z"/><path d="M20 4.6h-5.4A2.6 2.6 0 0 0 12 7.2v12a2.2 2.2 0 0 1 2.2-1.7H20V4.6Z"/></symbol>
+    <symbol id="i-caret-up" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 7.4l6.4 7.6H5.6L12 7.4Z"/></symbol>
   </defs>
 </svg>`;
 

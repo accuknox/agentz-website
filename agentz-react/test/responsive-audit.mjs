@@ -55,6 +55,9 @@ const WAIVERS = [
   // .sr-only is the standard visually-hidden recipe: a 1px box that clips its
   // own text on purpose, so CLIPPED_X/Y on it is the pattern working
   /CLIPPED_[XY] (span|caption)\.sr-only/,
+  // the coverflow deck is an arc wider than any viewport, clipped to the
+  // section on purpose; its cards carry [data-audit-offstage] individually
+  /CLIPPED_X section#tour\.deck /,
 ]
 
 const AUDIT = `(() => {
@@ -76,7 +79,9 @@ const AUDIT = `(() => {
     const r = el.getBoundingClientRect(); if (!r.width && !r.height) continue;
     const sc = scroller(el);
     // painted outside the viewport, and not inside a scroller that can reach it
-    if (r.right > VW + 1 || r.left < -1) {
+    // a 3D carousel puts cards outside the viewport by design and clips them
+    // at the section; the arc is marked so this stays an opt-in, not a blanket
+    if ((r.right > VW + 1 || r.left < -1) && !el.closest('[data-audit-offstage]')) {
       if (sc) { const sr = sc.getBoundingClientRect(); const rel = r.left - sr.left + sc.scrollLeft;
         if (rel < -1.5 || rel + r.width > sc.scrollWidth + 2) out.push('UNREACHABLE ' + nm(el) + ' in ' + nm(sc)); }
       else out.push('OUT_OF_VIEWPORT ' + nm(el) + ' [' + Math.round(r.left) + ',' + Math.round(r.right) + ']');
