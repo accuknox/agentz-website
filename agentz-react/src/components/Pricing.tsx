@@ -97,7 +97,7 @@ export function Pricing() {
                   <span className="pt-price-sub">Evaluate the platform</span>
                   <a
                     className="btn btn-line pt-cta"
-                    href="https://agentz.accuknox.com/"
+                    href="https://agentzharness.ai/"
                     target="_blank"
                     rel="noopener"
                   >

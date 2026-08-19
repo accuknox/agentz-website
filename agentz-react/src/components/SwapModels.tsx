@@ -41,7 +41,7 @@ export function SwapModels() {
                 </li>
               ))}
             </ul>
-            <a className="swap-cta" href="https://agentz.accuknox.com/" target="_blank" rel="noopener">
+            <a className="swap-cta" href="https://agentzharness.ai/" target="_blank" rel="noopener">
               Try AgentZ
               <Icon name="arrow" className="ico-sm" />
             </a>

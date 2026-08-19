@@ -3,7 +3,7 @@ import { Icon } from './ui/Icon'
 const COLS = [
   { h: 'Platform', links: [['Capabilities', '#platform'], ['Build · Run · Govern', '#brg'], ['See it in action', '#demos'], ['Governance', '#governance']] },
   { h: 'Company', links: [['AccuKnox', 'https://accuknox.com'], ['View on GitHub', 'https://github.com/accuknox/agentZ'], ['Integrations', '#integrations']] },
-  { h: 'Get started', links: [['Go to the platform', 'https://agentz.accuknox.com/'], ['Book a demo', 'https://accuknox.com/demo']] },
+  { h: 'Get started', links: [['Go to the platform', 'https://agentzharness.ai/'], ['Book a demo', 'https://accuknox.com/demo']] },
 ]
 
 export function Footer() {

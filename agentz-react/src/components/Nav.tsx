@@ -35,7 +35,7 @@ export function Nav() {
 
         <div className="nav-actions">
           <ThemeToggle />
-          <a className="nav-cta" href="https://agentz.accuknox.com/" target="_blank" rel="noopener">
+          <a className="nav-cta" href="https://agentzharness.ai/" target="_blank" rel="noopener">
             Try AgentZ
           </a>
           <a

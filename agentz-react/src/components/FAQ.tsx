@@ -58,7 +58,7 @@ export function FAQ() {
             <b>Still need help?</b>
             <p>We're happy to walk your team through it and look at your stack.</p>
           </div>
-          <a className="btn btn-line" href="https://agentz.accuknox.com/" target="_blank" rel="noopener">
+          <a className="btn btn-line" href="https://agentzharness.ai/" target="_blank" rel="noopener">
             See the platform
           </a>
         </div>

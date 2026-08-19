@@ -56,7 +56,6 @@ function HeroCapabilities() {
 }
 
 export function Hero() {
-  const [triedAgentZ, setTriedAgentZ] = useState(false)
   return (
     <section className="hero" id="top">
       <NoiseBackground className="hero-noise" />
@@ -80,19 +79,9 @@ export function Hero() {
             <Icon name="github" />
             View Github
           </a>
-          <span className="soon-wrap">
-            <button
-              type="button"
-              className="btn btn-line btn-lg btn-soon"
-              onClick={() => setTriedAgentZ(true)}
-              aria-label="Try AgentZ"
-            >
-              Try AgentZ
-            </button>
-            {triedAgentZ && (
-              <span className="soon-inline" aria-live="polite">Coming soon!</span>
-            )}
-          </span>
+          <a className="btn btn-line btn-lg" href="https://agentzharness.ai/" target="_blank" rel="noopener">
+            Try AgentZ
+          </a>
         </div>
         <HeroCapabilities />
         <div className="vw vw-hero hero-vid">
