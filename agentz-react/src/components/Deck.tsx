@@ -92,10 +92,17 @@ const tiltAt = (n: number) => MAX_TILT * (1 - 1 / (1 + n * 0.9))
 /** Cards further out than this are folded away and dropped from the arc. */
 const VISIBLE = 3
 const AUTOPLAY_MS = 5200
+/**
+ * The deck rests on the second slide, not the first. Parked at index 0 there is
+ * nothing to the left, so the arc opens with two cards and reads as a strip
+ * that only travels one way. From here it opens with three, the cover peeking
+ * in from the left, which says at a glance that the deck moves both ways.
+ */
+const START_INDEX = 1
 
 export function Deck() {
   const reduce = useReducedMotion()
-  const [index, setIndex] = useState(0)
+  const [index, setIndex] = useState(START_INDEX)
   const [drag, setDrag] = useState(0) // live pointer travel, in px
   const [zoom, setZoom] = useState(-1) // slide open full screen, -1 for none
   const [paused, setPaused] = useState(false)
