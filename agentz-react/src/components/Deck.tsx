@@ -101,7 +101,10 @@ export function Deck() {
   const [paused, setPaused] = useState(false)
 
   const stage = useRef<HTMLDivElement>(null)
-  const pointer = useRef({ id: -1, x: 0, moved: false })
+  const pointer = useRef({ id: -1, x: 0, moved: false, card: -1 })
+  /* set when a pointer release already acted, so the synthetic click that some
+     browsers still deliver afterwards does not act a second time */
+  const handledAt = useRef(0)
   const step = useRef(320) // px of travel that equals one slide
 
   const clamp = (n: number) => Math.max(0, Math.min(SLIDES.length - 1, n))
@@ -164,13 +167,31 @@ export function Deck() {
 
   const takeOver = () => setManual(true)
 
-  /* ── pointer drag ── */
+  /* ── pointer drag ──
+     The stage captures the pointer so a drag survives leaving the card, but
+     capture also moves the following click to the stage, which is why the
+     arrows and the cards used to swallow their own taps. So: the discrete
+     controls opt out of capture entirely, and a tap on a card is resolved here
+     on release rather than by waiting for a click that never arrives. */
   function onDown(e: React.PointerEvent) {
     if (e.button !== 0 && e.pointerType === 'mouse') return
-    pointer.current = { id: e.pointerId, x: e.clientX, moved: false }
+    const t = e.target as HTMLElement
+    if (t.closest('.deck-arrow, .deck-tick')) return
+    const card = t.closest('.deck-card') as HTMLElement | null
+    pointer.current = {
+      id: e.pointerId,
+      x: e.clientX,
+      moved: false,
+      card: card ? Number(card.dataset.i) : -1,
+    }
     measure()
     takeOver()
-    ;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
+    // throws if the pointer is already gone; the drag still works without it
+    try {
+      ;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
+    } catch {
+      /* no capture, no problem */
+    }
   }
   function onMove(e: React.PointerEvent) {
     if (pointer.current.id !== e.pointerId) return
@@ -183,9 +204,17 @@ export function Deck() {
   }
   function onUp(e: React.PointerEvent) {
     if (pointer.current.id !== e.pointerId) return
+    const { moved, card } = pointer.current
     pointer.current.id = -1
-    go(Math.round(index + drag))
+    const landed = Math.round(index + drag)
     setDrag(0)
+    if (!moved && card >= 0) {
+      handledAt.current = Date.now()
+      if (card === index) setZoom(card)
+      else go(card)
+      return
+    }
+    go(landed)
   }
 
   /* ── trackpad: horizontal intent only, so the page keeps scrolling ── */
@@ -199,16 +228,35 @@ export function Deck() {
     go(index + (e.deltaX > 0 ? 1 : -1))
   }
 
-  function onKey(e: React.KeyboardEvent) {
-    const map: Record<string, number> = { ArrowRight: 1, ArrowLeft: -1 }
-    if (e.key in map) {
-      e.preventDefault()
-      takeOver()
-      go(index + map[e.key])
+  /* Arrow keys steer the deck whenever it is the thing on screen, not only
+     once it has been clicked into focus. Left and right never scroll a page
+     that has no horizontal overflow, so nothing is taken away. */
+  useEffect(() => {
+    if (zoom >= 0) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return
+      /* measured rather than observed: an IntersectionObserver that never
+         fires would leave the keys dead, and the rect is the truth anyway */
+      const r = stage.current?.getBoundingClientRect()
+      if (!r || r.bottom < 0 || r.top > window.innerHeight) return
+      const t = e.target as HTMLElement | null
+      if (t && (t.isContentEditable || /^(input|textarea|select)$/i.test(t.tagName))) return
+      const map: Record<string, number> = { ArrowRight: 1, ArrowLeft: -1 }
+      if (e.key in map) {
+        e.preventDefault()
+        takeOver()
+        setIndex((i) => clamp(i + map[e.key]))
+      } else if (e.key === 'Home') {
+        takeOver()
+        setIndex(0)
+      } else if (e.key === 'End') {
+        takeOver()
+        setIndex(SLIDES.length - 1)
+      }
     }
-    if (e.key === 'Home') go(0)
-    if (e.key === 'End') go(SLIDES.length - 1)
-  }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [zoom])
 
   /* ── zoom overlay ── */
   useEffect(() => {
@@ -246,7 +294,6 @@ export function Deck() {
       <div
         className={`deck-stage${dragging ? ' is-dragging' : ''}${reduce ? ' is-flat' : ''}`}
         ref={stage}
-        tabIndex={0}
         role="group"
         aria-label={`Slide ${index + 1} of ${SLIDES.length}: ${SLIDES[index].title}`}
         onPointerDown={onDown}
@@ -254,7 +301,6 @@ export function Deck() {
         onPointerUp={onUp}
         onPointerCancel={onUp}
         onWheel={onWheel}
-        onKeyDown={onKey}
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
         onFocus={() => setPaused(true)}
@@ -284,14 +330,15 @@ export function Deck() {
                 }
             const current = Math.round(pos) === i
             return (
-              <figure className="deck-card" key={s.src} style={style} aria-hidden={abs > 0.5}>
+              <figure className="deck-card" key={s.src} data-i={i} style={style} aria-hidden={abs > 0.5}>
                 <button
                   type="button"
                   className="deck-hit"
                   tabIndex={current ? 0 : -1}
                   aria-label={current ? `Open ${s.title} full screen` : `Go to ${s.title}`}
                   onClick={() => {
-                    if (pointer.current.moved) return
+                    // pointer taps are resolved in onUp; this is the keyboard path
+                    if (Date.now() - handledAt.current < 400) return
                     takeOver()
                     if (current) setZoom(i)
                     else go(i)

@@ -1910,8 +1910,10 @@ body{overflow-x:clip}
   position:relative;height:calc(var(--cw) + 26px);
   perspective:1500px;perspective-origin:50% 46%;
   touch-action:pan-y;cursor:grab;outline:none;
-  -webkit-mask:linear-gradient(90deg,transparent 0,#000 13%,#000 87%,transparent 100%);
-          mask:linear-gradient(90deg,transparent 0,#000 13%,#000 87%,transparent 100%)}
+  /* A short fade, not a wash. On the off-white base a long ramp reads as a
+     blur laid over the two outer cards rather than as an edge. */
+  -webkit-mask:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%);
+          mask:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%)}
 .deck-stage:focus-visible{outline:2px solid var(--blue);outline-offset:6px;border-radius:24px}
 .deck-stage.is-dragging{cursor:grabbing}
 .deck-arc{position:absolute;inset:0;transform-style:preserve-3d}
@@ -1993,8 +1995,8 @@ body{overflow-x:clip}
 
 @media(max-width:820px){
   .deck-stage{--cw:clamp(220px,62vw,360px);
-    -webkit-mask:linear-gradient(90deg,transparent 0,#000 8%,#000 92%,transparent 100%);
-            mask:linear-gradient(90deg,transparent 0,#000 8%,#000 92%,transparent 100%)}
+    -webkit-mask:linear-gradient(90deg,transparent 0,#000 4%,#000 96%,transparent 100%);
+            mask:linear-gradient(90deg,transparent 0,#000 4%,#000 96%,transparent 100%)}
   /* Ten dots cannot each carry a 44px hit box on a phone, so the rail goes and
      the two arrows stay, at full size, on the faded edges of the stage. */
   .deck-rail{display:none}
