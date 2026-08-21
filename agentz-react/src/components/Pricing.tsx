@@ -17,8 +17,8 @@ const ROWS: Row[] = [
   {
     label: 'Users',
     cells: [
-      c('2 users', 'enough to evaluate with a colleague'),
-      c('Talk to sales', 'seat count sized to your org'),
+      c('Unlimited', 'invite your whole team'),
+      c('Unlimited', 'seat count sized to your org'),
     ],
   },
   {
@@ -39,7 +39,7 @@ const ROWS: Row[] = [
   },
   {
     label: 'Workflows and compute',
-    cells: [c('One small agent', '1 vCPU, 1 GB RAM'), c('Sized to your workload', 'custom pricing')],
+    cells: [c('2 agents', '1 vCPU, 1 GB RAM each'), c('Sized to your workload', 'custom pricing')],
   },
   { section: 'Govern' },
   {
