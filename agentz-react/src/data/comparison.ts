@@ -24,10 +24,11 @@ export type Vendor = {
 
 export const VENDORS: Vendor[] = [
   { id: 'agentz',    name: 'AgentZ',      kind: 'Zero Trust platform',   logo: './assets/img/agentz-logo.svg' },
-  { id: 'langgraph', name: 'LangGraph',   kind: 'Framework + platform',  logo: './assets/img/logos/langgraph.webp' },
-  { id: 'crewai',    name: 'CrewAI AMP',  kind: 'Multi-agent platform',  logo: './assets/img/logos/crewai.svg' },
-  { id: 'microsoft', name: 'Microsoft',   kind: 'Foundry Agents',        logo: './assets/img/logos/microsoft.svg' },
-  { id: 'aws',       name: 'AWS',         kind: 'Bedrock AgentCore',     logo: './assets/img/logos/aws.svg' },
+  // Hidden for now, kept for later. Only Hermes, n8n and OpenClaw show alongside AgentZ.
+  // { id: 'langgraph', name: 'LangGraph',   kind: 'Framework + platform',  logo: './assets/img/logos/langgraph.webp' },
+  // { id: 'crewai',    name: 'CrewAI AMP',  kind: 'Multi-agent platform',  logo: './assets/img/logos/crewai.svg' },
+  // { id: 'microsoft', name: 'Microsoft',   kind: 'Foundry Agents',        logo: './assets/img/logos/microsoft.svg' },
+  // { id: 'aws',       name: 'AWS',         kind: 'Bedrock AgentCore',     logo: './assets/img/logos/aws.svg' },
   { id: 'openclaw',  name: 'OpenClaw',    kind: 'Free, self-hosted',     logo: './assets/img/logos/openclaw.webp' },
   { id: 'hermes',    name: 'Hermes',      kind: 'Free, self-hosted',     logo: './assets/img/logos/hermes.webp' },
   { id: 'n8n',       name: 'n8n',         kind: 'Free, self-hosted',     logo: './assets/img/logos/n8n.svg' },

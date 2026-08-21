@@ -4,7 +4,7 @@ import { IconSprite } from './components/ui/Icon'
 import { Nav } from './components/Nav'
 import { Hero } from './components/Hero'
 import { Deck } from './components/Deck'
-// import { Comparison } from './components/Comparison'
+import { Comparison } from './components/Comparison'
 import { WhyAgentZ } from './components/WhyAgentZ'
 import { PlatformArch } from './components/PlatformArch'
 import { Stepper } from './components/Stepper'
@@ -43,7 +43,7 @@ export default function App() {
         <SwapModels />
         <AgentRun />
         <SeeInAction />
-        {/* <Comparison /> */}
+        <Comparison />
         <ControlAccess />
         <OrgChart />
         <Trust />

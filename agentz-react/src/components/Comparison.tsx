@@ -112,8 +112,7 @@ export function Comparison() {
         >
           <table className="cmp-table">
             <caption className="sr-only">
-              AgentZ compared with LangGraph, CrewAI AMP, Microsoft Foundry Agents, AWS Bedrock AgentCore, OpenClaw,
-              Hermes Agent and n8n
+              AgentZ compared with OpenClaw, Hermes Agent and n8n
             </caption>
             <thead>
               <tr>
