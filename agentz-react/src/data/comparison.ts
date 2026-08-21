@@ -1,7 +1,9 @@
 /**
  * Competitor comparison data. Mirrors marketing/competitor-comparison.md.
- * Researched 27 July 2026 from vendor documentation and public reporting;
- * re-check before a release, this category moves fast.
+ * Researched 27 July 2026, re-verified 21 August 2026 against vendor docs,
+ * pricing pages and public security reporting (one source per cell logged in
+ * marketing/comparison-sources.xlsx). Re-check before a release, this category
+ * moves fast.
  *
  * Every mark carries a `note` so the reasoning is on the page rather than in
  * someone's head. The notes surface behind the info button on each row.
@@ -54,10 +56,10 @@ export const ROWS: Row[] = [
       agentz: y('Every action is checked against policy before it runs.'),
       langgraph: n('Open by default. Security is entirely your own work.'),
       crewai: p('Available on the business tier, configured separately.'),
-      microsoft: p('Guardrails apply per tenant, not per action.'),
+      microsoft: p('Guardrails are project policies, not a per-action default deny.'),
       aws: p('Scoped through IAM policies that you write and maintain.'),
       openclaw: n('Ships wide open. Credentials sit on disk in plain text.'),
-      hermes: p('Asks before each tool call and hardens its container.'),
+      hermes: p('Hardened container. Default mode auto-approves low-risk calls, prompts on risky ones.'),
       n8n: n('Open by default. Security is entirely your own work.'),
     },
   },
@@ -73,7 +75,7 @@ export const ROWS: Row[] = [
       aws: p('Only in VPC mode. The default sandbox has been escaped twice publicly.'),
       openclaw: n('Reaches the whole internet, your files and your shell.'),
       hermes: p('Container isolation, but no allow-list of destinations.'),
-      n8n: n('No outbound controls.'),
+      n8n: p('SSRF filter limits which hosts nodes reach, opt-in, not default deny.'),
     },
   },
   {
@@ -112,7 +114,7 @@ export const ROWS: Row[] = [
     plain: 'Every step is recorded as it happens, so you can prove later what the agent actually did. Useful when an auditor asks.',
     cells: {
       agentz: y('Full and replayable, down to the token.'),
-      langgraph: p('Traces are captured for debugging, not built for audit.'),
+      langgraph: p('Traces for debugging. Audit logs on the Enterprise tier.'),
       crewai: p('Audit logs, editable by an administrator.'),
       microsoft: p('Activity logs, editable by an administrator.'),
       aws: p('CloudTrail records API calls, not agent reasoning.'),
@@ -157,7 +159,7 @@ export const ROWS: Row[] = [
     plain: 'Works in a room with no connection to the outside world. Usually a hard requirement in defence, government and healthcare.',
     cells: {
       agentz: y('Supported as a first-class deployment.'),
-      langgraph: n('Requires a connection.'),
+      langgraph: p('Air-gapped self-hosted, on the Enterprise tier only.'),
       crewai: p('Private network, still expects some connectivity.'),
       microsoft: p('Only through Foundry Local on Azure Local.'),
       aws: n('Cloud only.'),
@@ -175,7 +177,7 @@ export const ROWS: Row[] = [
       langgraph: y('Any provider.'),
       crewai: y('Any provider.'),
       microsoft: p('Limited to the Azure model catalogue.'),
-      aws: p('Limited to the Bedrock model catalogue.'),
+      aws: y('Any model, in or outside Bedrock.'),
       openclaw: y('Any provider, including local models.'),
       hermes: y('Hundreds of models, including local ones.'),
       n8n: y('Any provider.'),
@@ -203,7 +205,7 @@ export const ROWS: Row[] = [
     cells: {
       agentz: y('Describe the job, AgentZ writes the skill and wires the steps.'),
       langgraph: n('You write the graph yourself.'),
-      crewai: n('You write the crew yourself.'),
+      crewai: p('Crew Studio builds no-code workflows from a prompt.'),
       microsoft: p('Prompt templates, not generated skills.'),
       aws: n('You write the code yourself.'),
       openclaw: p('Community skills exist. Roughly one in four has a security hole.'),

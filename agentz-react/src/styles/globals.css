@@ -1422,80 +1422,90 @@ b,strong,summary,.faq-q,.pill,.uchip,.partner-chip,.cc-msg b,.node-admin b,
    grid itself stays scannable.
    ══════════════════════════════════════════════ */
 /* ══ COMPARISON — dark navy, matches stepper ══ */
-.cmp{padding:clamp(84px,12vh,150px) 0;background:var(--navy);color:#fff}
-.cmp .fhead-h{color:#fff}
-.cmp .fhead-p{color:rgba(255,255,255,.58)}
+/* Theme-aware panel. The Build/Run/Govern stepper is the site's one committed
+   dark zone; this table reads on paper in light and on the dark ground in dark,
+   using the shared tokens so contrast holds in both. One accent (blue) plus
+   neutrals: no amber, no red, no traffic-light. */
+.cmp{padding:clamp(84px,12vh,150px) 0;background:var(--paper);color:var(--ink)}
+.cmp .fhead-h{color:var(--ink)}
+.cmp .fhead-p{color:var(--ink-soft)}
 .cmp-logo-inline{display:inline-block;height:.72em;width:auto;vertical-align:middle;margin:0 6px;position:relative;top:-.04em}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
   clip-path:inset(50%);white-space:nowrap;border:0}
 
 .cmp-key{display:flex;flex-wrap:wrap;gap:10px 26px;margin:0 0 22px;
-  font-size:13px;color:rgba(255,255,255,.45)}
+  font-size:13px;color:var(--ink-soft)}
 .cmp-key>span{display:inline-flex;align-items:center;gap:8px}
 
-.cmp-scroll{overflow-x:auto;border:1px solid rgba(255,255,255,.14);border-radius:18px;
-  background:rgba(255,255,255,.03);-webkit-overflow-scrolling:touch}
-.cmp-scroll:focus-visible{outline:2px solid var(--blue-bright);outline-offset:2px}
+.cmp-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:18px;
+  background:var(--white);-webkit-overflow-scrolling:touch}
+.cmp-scroll:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .cmp-table{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
 .cmp-table th,.cmp-table td{position:relative;text-align:center;vertical-align:middle;
-  padding:13px 10px;border-bottom:1px solid rgba(255,255,255,.1)}
+  padding:13px 10px;border-bottom:1px solid var(--line)}
 .cmp-table tbody tr:last-child td,.cmp-table tbody tr:last-child th{border-bottom:0}
-.cmp-table tbody tr:nth-child(even) td,.cmp-table tbody tr:nth-child(even) th{background:rgba(255,255,255,.03)}
-.cmp-table tbody tr:nth-child(even) .cmp-us,.cmp-table tbody tr:nth-child(even) .cmp-us{background:rgba(47,75,214,.28)}
-.cmp-table thead th{position:sticky;top:0;z-index:3;background:#00082a;
-  border-bottom:1px solid rgba(255,255,255,.14);padding-top:20px;padding-bottom:16px}
+/* zebra as a tint of the ink token so it shows in both themes (paper-2 collapses
+   onto white in dark) */
+.cmp-table tbody tr:nth-child(even) td,.cmp-table tbody tr:nth-child(even) th{background:color-mix(in srgb,var(--ink) 4%,transparent)}
+.cmp-table thead th{position:sticky;top:0;z-index:3;background:var(--white);
+  border-bottom:1px solid var(--line);padding-top:20px;padding-bottom:16px}
 
 /* vendor logo / monogram in header */
 .cmp-th-logo{display:block;width:28px;height:28px;object-fit:contain;margin:0 auto 7px}
 .cmp-th-logo--us{filter:none}
-.cmp-th-logo--grey{filter:grayscale(1) brightness(4) opacity(.6)}
+/* competitors read as quiet greyscale marks; dark ground needs them lifted */
+.cmp-th-logo--grey{filter:grayscale(1) opacity(.5)}
+[data-theme="dark"] .cmp-th-logo--grey{filter:grayscale(1) brightness(3.2) opacity(.55)}
 .cmp-th-mono{display:grid;place-items:center;width:28px;height:28px;border-radius:8px;
-  background:rgba(255,255,255,.12);color:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.15);
+  background:var(--paper-2);color:var(--ink-mute);border:1px solid var(--line);
   font-size:10px;font-weight:700;font-family:var(--mono);margin:0 auto 7px}
-.cmp-vendor{display:block;font-size:13px;color:rgba(255,255,255,.7);white-space:nowrap;font-weight:600}
-.cmp-kind{display:block;margin-top:2px;font-size:11px;color:rgba(255,255,255,.3);
+.cmp-vendor{display:block;font-size:13px;color:var(--ink);white-space:nowrap;font-weight:600}
+.cmp-kind{display:block;margin-top:2px;font-size:11px;color:var(--ink-mute);
   max-width:11ch;margin-inline:auto;line-height:1.3}
 
 /* sticky first column */
-.cmp-table .cmp-rowhead{position:sticky;left:0;z-index:2;background:#00082a;text-align:left;
+.cmp-table .cmp-rowhead{position:sticky;left:0;z-index:2;background:var(--white);text-align:left;
   min-width:230px;max-width:270px;padding-left:20px}
 .cmp-table thead .cmp-rowhead{z-index:4}
 .cmp-scroll .cmp-rowhead::after{content:"";position:absolute;top:0;right:0;bottom:0;width:1px;
-  background:rgba(255,255,255,.1)}
-.cmp-label{display:block;color:rgba(255,255,255,.88);line-height:1.35;padding-right:32px}
-.cmp-term{color:rgba(255,255,255,.35);font-size:12px}
+  background:var(--line)}
+.cmp-label{display:block;color:var(--ink);line-height:1.35;padding-right:32px;font-weight:500}
+.cmp-term{color:var(--ink-mute);font-size:12px;font-weight:400}
 
-/* AgentZ column highlight */
-.cmp-table .cmp-us{background:rgba(47,75,214,.22)}
-.cmp-table thead .cmp-us{background:rgba(47,75,214,.35)}
-.cmp-table thead .cmp-us .cmp-vendor{color:var(--blue-bright)}
+/* AgentZ column highlight: a single calm blue band, no per-row shade shift */
+.cmp-table .cmp-us{background:var(--blue-soft)}
+.cmp-table thead .cmp-us{background:var(--blue-soft)}
+.cmp-table tbody tr:nth-child(even) .cmp-us{background:var(--blue-soft)}
+.cmp-table thead .cmp-us .cmp-vendor{color:var(--blue)}
 
-/* marks */
+/* marks: emphasis gradient, not a colour code. Filled blue = built in,
+   neutral ring = partial, ghost = absent. Meaning is also in the icon shape
+   and the aria-label, so it never rests on colour alone. */
 .cmp-mark{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;flex:none}
 .cmp-mark .ico{width:15px;height:15px;stroke-width:2.4}
-.cmp-mark.is-yes{background:var(--blue-bright);color:#fff}
-.cmp-mark.is-part{background:rgba(245,158,11,.15);color:#F59E0B;border:1px solid rgba(245,158,11,.4)}
-.cmp-mark.is-no{background:rgba(239,68,68,.1);color:rgba(239,68,68,.65);border:1px solid rgba(239,68,68,.25)}
+.cmp-mark.is-yes{background:var(--blue);color:#fff}
+.cmp-mark.is-part{background:transparent;color:var(--ink-soft);border:1.5px solid var(--ink-mute)}
+.cmp-mark.is-no{background:transparent;color:var(--ink-mute);opacity:.5}
 
 .cmp-cell{display:grid;place-items:center;width:100%;min-height:34px;padding:0;cursor:pointer;
   background:transparent;border:0;border-radius:10px;transition:background .15s ease}
-.cmp-cell:hover{background:rgba(255,255,255,.06)}
-.cmp-cell.is-on{background:rgba(255,255,255,.1)}
-.cmp-cell:focus-visible{outline:2px solid var(--blue-bright);outline-offset:-2px}
+.cmp-cell:hover{background:color-mix(in srgb,var(--ink) 7%,transparent)}
+.cmp-cell.is-on{background:color-mix(in srgb,var(--ink) 11%,transparent)}
+.cmp-cell:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
 
 /* info button */
 .cmp-info{position:absolute;top:50%;right:10px;transform:translateY(-50%);
   width:22px;height:22px;border-radius:50%;display:grid;place-items:center;cursor:pointer;
-  background:transparent;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.3);transition:.16s}
+  background:transparent;border:1px solid var(--line);color:var(--ink-mute);transition:.16s}
 .cmp-info .ico{width:12px;height:12px}
-.cmp-info:hover{color:var(--blue-bright);border-color:var(--blue-bright)}
-.cmp-info.is-on{background:var(--blue-bright);border-color:var(--blue-bright);color:#fff}
-.cmp-info:focus-visible{outline:2px solid var(--blue-bright);outline-offset:2px}
+.cmp-info:hover{color:var(--blue);border-color:var(--blue)}
+.cmp-info.is-on{background:var(--blue);border-color:var(--blue);color:#fff}
+.cmp-info:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 
-/* tooltip popup stays light so it pops against the dark table */
+/* tooltip popup: token-based, so it inherits the same marks and reads in both themes */
 .cmp-pop{position:fixed;z-index:260;transform:translateX(-50%);width:min(320px,calc(100vw - 24px));
   padding:14px 16px;border-radius:14px;text-align:left;
-  background:#fff;border:1px solid var(--line);box-shadow:0 24px 50px -18px rgba(0,0,0,.5)}
+  background:var(--white);border:1px solid var(--line);box-shadow:var(--shadow)}
 .cmp-pop-head{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
 .cmp-pop-head b{font-size:15px;color:var(--ink)}
 .cmp-pop-sub{font-size:12.5px;color:var(--ink-mute)}
@@ -1503,12 +1513,8 @@ b,strong,summary,.faq-q,.pill,.uchip,.partner-chip,.cc-msg b,.node-admin b,
 .cmp-pop p{margin-top:8px;font-size:14px;line-height:1.5;color:var(--ink-soft)}
 .cmp-pop .cmp-mark{width:22px;height:22px}
 .cmp-pop .cmp-mark .ico{width:13px;height:13px}
-/* override dark mark styles inside the light popup */
-.cmp-pop .cmp-mark.is-yes{background:var(--blue);color:#fff}
-.cmp-pop .cmp-mark.is-part{background:var(--paper-2);color:var(--ink-mute);border-color:var(--line)}
-.cmp-pop .cmp-mark.is-no{color:var(--ink-mute);opacity:.5}
 
-.cmp-foot{margin-top:18px;font-size:13px;color:rgba(255,255,255,.35)}
+.cmp-foot{margin-top:18px;font-size:13px;color:var(--ink-mute)}
 
 @media(max-width:900px){
   .cmp-rowhead{min-width:230px}

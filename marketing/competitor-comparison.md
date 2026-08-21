@@ -1,6 +1,6 @@
 # AgentZ Competitor Comparison
 
-Written 27 July 2026. This space moves fast, so check anything before it goes in a deck or on the site.
+Written 27 July 2026. Re-verified 21 August 2026: every competitor cell now has one public source, a verbatim quote, and a verdict in `comparison-sources.xlsx` beside this file. This space moves fast, so check anything before it goes in a deck or on the site.
 
 **This is now live on the site** in the Comparison section, one table with all eight products. Row labels lead with the industry term and carry the plain reading in brackets, and every mark reveals its own reasoning on hover. All of it comes from `agentz-react/src/data/comparison.ts`. Edit that file and the site follows. Keep this document and that file in step.
 
@@ -49,10 +49,10 @@ Left out on purpose: OpenAI's Agent Builder is being switched off on 30 November
 | **Fine-grained access control** (permission for each action) | ✅ | ➖ | ➖ | ➖ | ➖ |
 | **Tamper-evident audit trail** (a record that cannot be edited) | ✅ | ➖ | ➖ | ➖ | ➖ |
 | **On-premises** (runs on your own servers) | ✅ | ➖ | ✅ | ➖ | ❌ |
-| **Air-gapped** (no internet connection at all) | ✅ | ❌ | ➖ | ➖ | ❌ |
-| **Model agnostic** (any AI model, on your own account) | ✅ | ✅ | ✅ | ➖ | ➖ |
+| **Air-gapped** (no internet connection at all) | ✅ | ➖ | ➖ | ➖ | ❌ |
+| **Model agnostic** (any AI model, on your own account) | ✅ | ✅ | ✅ | ➖ | ✅ |
 | **Inference pricing and pool picking** (see what the AI costs) | ✅ | ❌ | ❌ | ❌ | ❌ |
-| **Dynamic skill creation** (describe a job, it builds it) | ✅ | ❌ | ❌ | ➖ | ❌ |
+| **Dynamic skill creation** (describe a job, it builds it) | ✅ | ❌ | ➖ | ➖ | ❌ |
 | **Single control plane** (agents, models and people in one place) | ✅ | ➖ | ➖ | ➖ | ➖ |
 | **Time to a working agent** | Minutes | Days | Days | Hours | Days |
 
@@ -61,7 +61,7 @@ Left out on purpose: OpenAI's Agent Builder is being switched off on 30 November
 | | **AgentZ** | OpenClaw | Hermes Agent | n8n |
 |---|---|---|---|---|
 | **Zero trust, default deny** (safe on day one) | ✅ | ❌ | ➖ | ❌ |
-| **Network egress control** (you choose where it can go online) | ✅ | ❌ | ➖ | ❌ |
+| **Network egress control** (you choose where it can go online) | ✅ | ❌ | ➖ | ➖ |
 | **Zero secret exposure** (the agent never sees your passwords) | ✅ | ❌ stored as plain text | ➖ | ❌ |
 | **Fine-grained access control** (permission for each action) | ✅ | ❌ | ➖ asks before each tool | ➖ |
 | **Tamper-evident audit trail** (a record that cannot be edited) | ✅ | ❌ | ❌ | ❌ |
@@ -99,7 +99,7 @@ Some numbers from this year:
 - Agents being tricked by hidden instructions is now the **number one AI security problem** in the industry.
 - A flaw called **EchoLeak** let an attacker quietly pull company data out of Microsoft 365 Copilot by hiding instructions in the notes of a PowerPoint slide. Nobody had to click anything.
 - **AWS's agent sandbox has been broken into twice** in public, by two different security teams. Amazon now tells customers who need real separation to use a different setting.
-- **OpenClaw has had a full takeover flaw** (CVE-2026-25253), hundreds of malicious add-ons built to steal passwords and crypto, and roughly **one in four community add-ons carries a security hole**. Microsoft has published a guide on how to run it without getting hurt.
+- **OpenClaw has had a full takeover flaw**, fixed in version 2026.2.25, hundreds of malicious add-ons built to steal passwords and crypto, and roughly **one in four community add-ons carries a security hole** (Snyk and ClawSecure put it higher, at 37 to 42 percent). Microsoft has published a guide on how to run it without getting hurt.
 
 The shape of the problem is the same every time. The agent reads something from outside, the agent can reach the internet, and the agent can get at a password. Take away any one of those three and the attack stops working.
 
@@ -130,7 +130,7 @@ Most products bolt security on after the fact and keep all three. AgentZ starts 
 - [CrewAI pricing, free versus business](https://techjacksolutions.com/ai-tools/crewai/crewai-pricing/)
 - [What's new in Microsoft Foundry, June 2026](https://devblogs.microsoft.com/foundry/whats-new-in-microsoft-foundry-june-2026/)
 - [OpenClaw on Wikipedia](https://en.wikipedia.org/wiki/OpenClaw) and [what OpenClaw is, DigitalOcean](https://www.digitalocean.com/resources/articles/what-is-openclaw)
-- [ClawJacked, full agent takeover, Oasis Security](https://www.oasis.security/blog/openclaw-vulnerability)
+- [Full agent takeover, Oasis Security](https://www.oasis.security/blog/openclaw-vulnerability)
 - [Running OpenClaw safely, Microsoft Security](https://www.microsoft.com/en-us/security/blog/2026/02/19/running-openclaw-safely-identity-isolation-runtime-risk/)
 - [OpenClaw security risks, NordLayer](https://nordlayer.com/blog/openclaw-security-risks/) and [Bitsight on exposed instances](https://www.bitsight.com/blog/openclaw-ai-security-risks-exposed-instances)
 - [Hermes Agent documentation](https://hermes-agent.nousresearch.com/docs/) and [the project site](https://hermes-agent.org/)
@@ -139,3 +139,5 @@ Most products bolt security on after the fact and keep all three. AgentZ starts 
 - [Open source agent platform comparison 2026](https://jimmysong.io/blog/open-source-ai-agent-workflow-comparison/)
 - [Hidden instructions remain the top cause of agent failures, OWASP](https://www.helpnetsecurity.com/2026/06/11/owasp-prompt-injection-ai-security-failures/)
 - [The three conditions that make an agent exploitable](https://airia.com/ai-security-in-2026-prompt-injection-the-lethal-trifecta-and-how-to-defend/)
+
+**One caveat to fix before this goes in a deck.** The takeover flaw above is real: the Oasis Security write-up confirms it and names the fix version 2026.2.25. It does not state the id "CVE-2026-25253" or the name "ClawJacked" that earlier drafts used, so verify that CVE number against the official record or drop it. Everything else in the tables is backed cell by cell in `comparison-sources.xlsx`.
