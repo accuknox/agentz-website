@@ -123,7 +123,7 @@ export function Comparison() {
                     {v.id === 'agentz' && v.logo ? (
                       <img src={v.logo} alt="" aria-hidden="true" className="cmp-th-logo cmp-th-logo--us" />
                     ) : v.logo ? (
-                      <img src={v.logo} alt="" aria-hidden="true" className="cmp-th-logo cmp-th-logo--grey" />
+                      <img src={v.logo} alt="" aria-hidden="true" data-vendor={v.id} className="cmp-th-logo cmp-th-logo--grey" />
                     ) : (
                       <span className="cmp-th-mono" aria-hidden="true">{v.mono}</span>
                     )}

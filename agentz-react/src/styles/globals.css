@@ -1456,6 +1456,13 @@ b,strong,summary,.faq-q,.pill,.uchip,.partner-chip,.cc-msg b,.node-admin b,
 /* competitors read as quiet greyscale marks; dark ground needs them lifted */
 .cmp-th-logo--grey{filter:grayscale(1) opacity(.5)}
 [data-theme="dark"] .cmp-th-logo--grey{filter:grayscale(1) brightness(3.2) opacity(.55)}
+/* OpenClaw and Hermes ship white-on-transparent artwork, which disappears on
+   light paper. Invert those two to grey in light mode; they stay white and
+   visible under the dark rule above. */
+.cmp-th-logo--grey[data-vendor="openclaw"],
+.cmp-th-logo--grey[data-vendor="hermes"]{filter:invert(1) grayscale(1) opacity(.55)}
+[data-theme="dark"] .cmp-th-logo--grey[data-vendor="openclaw"],
+[data-theme="dark"] .cmp-th-logo--grey[data-vendor="hermes"]{filter:grayscale(1) opacity(.72)}
 .cmp-th-mono{display:grid;place-items:center;width:28px;height:28px;border-radius:8px;
   background:var(--paper-2);color:var(--ink-mute);border:1px solid var(--line);
   font-size:10px;font-weight:700;font-family:var(--mono);margin:0 auto 7px}
