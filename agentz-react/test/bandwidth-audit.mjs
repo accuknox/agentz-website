@@ -39,8 +39,16 @@ const BUDGET = {
   initial: 1500,
   /** video fetched before the visitor scrolls at all: the hero clip, and only it */
   initialVideo: 1200,
-  /** the whole page, every clip loaded, i.e. the worst case a reader can reach */
-  full: 14000,
+  /**
+   * The whole page, every clip loaded, i.e. the worst case a reader can reach.
+   * Raised from 14000 in Aug 2026. The five product clips were re-cut from new
+   * recordings at a higher quality, and Build, Run, Automate and Govern stopped
+   * sharing two files with the See-it-in-action cards, so the page carries one
+   * more clip than it did. First paint, which is what the egress incident was
+   * actually about, is unchanged and every clip below the fold still waits for
+   * the scroll.
+   */
+  full: 14800,
 }
 
 const kb = (n) => Math.round(n / 1024)
@@ -142,7 +150,19 @@ async function main() {
     // regression here would look identical in the byte counts above.
     const { result: playback } = await cdp.send('Runtime.evaluate', {
       expression: `(async () => {
-        // park on the stepper, whose clips are unambiguously in view
+        // The hero is the one clip a visitor sees without doing anything, so it
+        // is checked where they meet it: at the top of the page, before any
+        // scroll, running with nothing drawn over it.
+        window.scrollTo(0, 0)
+        await new Promise((r) => setTimeout(r, 2500))
+        const heroV = document.querySelector('.vw-hero video')
+        const heroCue = document.querySelector('.vw-hero .vw-play')
+        const hero = {
+          playing: Boolean(heroV && !heroV.paused && heroV.currentTime > 0),
+          cueUp: Boolean(heroCue && getComputedStyle(heroCue).opacity !== '0'),
+        }
+
+        // then park on the stepper, whose clips are unambiguously in view
         const step = document.querySelector('.step .vw video')
         step && step.scrollIntoView({ block: 'center' })
         await new Promise((r) => setTimeout(r, 2000))
@@ -151,11 +171,17 @@ async function main() {
           const r = v.getBoundingClientRect()
           return r.top < innerHeight && r.bottom > 0 && r.width > 0
         })
-        // the play cue must clear once a clip is actually running, and must
-        // still be up on anything that is not
+        // The play cue must clear once a clip is actually running, and must
+        // still be up on anything that is not. The exception is a clip marked
+        // data-cue="held": those are the hero and the four Build/Run/Automate/
+        // Govern clips, which are meant to run by themselves with nothing drawn
+        // over them, so they carry a cue only for a visitor who gets no inline
+        // playback at all. They answer a stricter question instead, below: on
+        // screen, they have to be playing.
         const cueOf = (v) => v.parentElement.querySelector('.vw-play')
+        const held = (v) => v.dataset.cue === 'held'
         const live = onscreen.filter((v) => !v.paused && v.currentTime > 0)
-        const idle = [...document.querySelectorAll('video')].filter((v) => v.paused)
+        const idle = [...document.querySelectorAll('video')].filter((v) => v.paused && !held(v))
         return JSON.stringify({
           loaded: vs.length,
           onscreen: onscreen.length,
@@ -170,6 +196,9 @@ async function main() {
             const c = cueOf(v)
             return !c || getComputedStyle(c).opacity === '0'
           }).length,
+          hero,
+          selfRunOnscreen: onscreen.filter(held).length,
+          selfRunStalled: onscreen.filter((v) => held(v) && (v.paused || v.currentTime === 0)).length,
         })
       })()`,
       awaitPromise: true,
@@ -179,6 +208,8 @@ async function main() {
     console.log(`\n── playback ──`)
     console.log(`  loaded ${pb.loaded}, on screen ${pb.onscreen}, playing ${pb.playing}, rate ${pb.rate}`)
     console.log(`  play cues ${pb.cues}, stuck over a playing clip ${pb.cueStuckOnPlaying}, missing on a still clip ${pb.cueMissingOnIdle}`)
+    console.log(`  self-running on screen ${pb.selfRunOnscreen}, of those stalled ${pb.selfRunStalled}`)
+    console.log(`  hero at rest: playing ${pb.hero.playing}, cue drawn over it ${pb.hero.cueUp}`)
     if (pb.onscreen && pb.playing < pb.onscreen) {
       fails.push(`${pb.onscreen - pb.playing} on-screen clip(s) loaded but never started playing`)
     }
@@ -186,6 +217,9 @@ async function main() {
     if (!pb.cues) fails.push('no play cues rendered')
     if (pb.cueStuckOnPlaying) fails.push(`${pb.cueStuckOnPlaying} play cue(s) still visible over a playing clip`)
     if (pb.cueMissingOnIdle) fails.push(`${pb.cueMissingOnIdle} still clip(s) with no play cue`)
+    if (pb.selfRunStalled) fails.push(`${pb.selfRunStalled} self-running clip(s) on screen and not playing`)
+    if (!pb.hero.playing) fails.push('the hero clip is not playing at the top of the page')
+    if (pb.hero.cueUp) fails.push('a play cue is drawn over the hero clip')
 
     // ── second pass: a reduced-motion visitor must never be sent an mp4 ──
     hits.clear()

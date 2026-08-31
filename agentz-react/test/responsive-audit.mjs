@@ -112,13 +112,15 @@ const AUDIT = `(() => {
       if (fs < 12) out.push('TEXT<12px ' + nm(el) + ' ' + fs + 'px');
     }
     if (atTop && cs.position === 'fixed' && r.height > 0 && r.height < VH * 0.5) {
-      for (const t of document.querySelectorAll('main a[href],main button,main h1,main h2,main img,main p')) {
+      /* a decorative ground is a background that happens to be an <img>, so the
+         nav sitting over it is the design, not a collision */
+      for (const t of document.querySelectorAll('main a[href],main button,main h1,main h2,main img:not([data-audit-ground] img),main p')) {
         const tr = t.getBoundingClientRect(); if (!tr.height || tr.bottom < 0 || tr.top > VH) continue;
         if (Math.min(r.right, tr.right) - Math.max(r.left, tr.left) > 4 &&
             Math.min(r.bottom, tr.bottom) - Math.max(r.top, tr.top) > 4) { out.push('FIXED_OVERLAP ' + nm(el) + ' over ' + nm(t)); break; }
       }
     }
-    if (/^(img|video)$/i.test(el.tagName) && r.height > VH * 1.05)
+    if (/^(img|video)$/i.test(el.tagName) && r.height > VH * 1.05 && !el.closest('[data-audit-ground]'))
       out.push('MEDIA_TALLER_THAN_VIEWPORT ' + nm(el) + ' ' + Math.round(r.height));
   }
   return out;

@@ -317,11 +317,11 @@ h1,h2,h3{font-family:var(--display);letter-spacing:-.025em;line-height:1.05;font
 .vw{position:relative;display:block;overflow:hidden;border-radius:16px;
   background:var(--paper-2);border:1px solid var(--line)}
 .vw video{display:block;width:100%;height:100%;object-fit:cover;background:var(--paper-2)}
-.vw-hero{aspect-ratio:1920/984;min-height:340px;border-radius:24px}
+.vw-hero{aspect-ratio:1920/928;min-height:340px;max-width:100%;border-radius:24px}
 .vw-wide{aspect-ratio:1920/984}
 /* card wells stay 16:9 so they line up with the .ph placeholders beside them */
 .vw-thumb{aspect-ratio:16/9}
-.vw-step{width:100%;aspect-ratio:1920/984;border-radius:18px;
+.vw-step{width:100%;aspect-ratio:1920/928;border-radius:18px;
   box-shadow:0 50px 100px -40px rgba(0,0,0,.6)}
 .vw-dark{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.18)}
 .vw-dark video{background:transparent}
@@ -1629,10 +1629,13 @@ body{overflow-x:clip}
 
 @media(max-width:720px){
   /* ── hero clip ──
-     `min-height:340px` combined with `aspect-ratio:1920/984` resolved the box
-     to 663px wide inside a 342px column, so the clip rendered as a cropped
-     sliver spilling off-screen. Below the crossover width the aspect ratio
-     alone must drive the height. */
+     `min-height:340px` combined with the aspect ratio resolves the box to a
+     width the column cannot hold, so the clip renders as a cropped sliver
+     spilling off-screen. Below the crossover width the aspect ratio alone must
+     drive the height. The clips moved to 1920x928 in Aug 2026, which pushed
+     that crossover from 711px to 751px, past this 720px guard; `max-width:100%`
+     on `.vw-hero` is what now holds the box in at every width, and this block
+     keeps the ratio honest on a phone. */
   .vw-hero,.ph-hero{min-height:0}
   .vw-hero{border-radius:16px}
   .vw-step{border-radius:14px;box-shadow:0 24px 50px -26px rgba(0,0,0,.6)}
@@ -2028,3 +2031,96 @@ body{overflow-x:clip}
 .ph-badge:hover{transform:translateY(-2px);filter:drop-shadow(0 10px 18px rgba(218,85,47,.28))}
 .ph-badge:focus-visible{outline:2px solid var(--blue);outline-offset:4px}
 @media(max-width:520px){.ph-badge img{width:216px;height:47px}}
+
+/* ══════════════════════════════════════════════
+   PHOTOGRAPHIC GROUNDS (PhotoGround.tsx)
+   Four landscape plates, re-graded through a navy-to-electric-blue ramp so the
+   palette holds. They sit behind a section, never beside its content, and every
+   section that carries one raises its own content above with z-index.
+   ══════════════════════════════════════════════ */
+/* The plate is capped rather than stretched to the whole section. A section can
+   run 2800px tall on a phone, and object-fit:cover in a box that tall crops a
+   16:9 photograph down to a narrow vertical slice, magnified past the point
+   where anything in it is legible. Capped, the crop stays close to the frame
+   the photograph was taken in. Each variant then anchors its band. */
+.pground{position:absolute;left:0;right:0;z-index:0;pointer-events:none;overflow:hidden;
+  height:min(100%,880px)}
+.pground img{display:block;width:100%;height:100%;object-fit:cover}
+
+/* hero: a faint ground at the bottom edge, under the wordmark and the CTA row.
+   Light mode keeps it near the threshold of visible, because the plate is deep
+   navy and the hero is off-white paper. */
+.pground-hero{bottom:0}
+/* The ramp is weighted rather than linear: nothing at the very top so the plate
+   grows out of the paper instead of starting on an edge, a long soft rise
+   through the wordmark, then full strength from the halfway mark down, where
+   the ground sits under the CTA row and the clip and can carry real colour. */
+.pground-hero img{object-position:50% 74%;opacity:.24;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,rgba(0,0,0,.12) 18%,rgba(0,0,0,.45) 34%,#000 52%,#000 100%);
+          mask-image:linear-gradient(180deg,transparent 0,rgba(0,0,0,.12) 18%,rgba(0,0,0,.45) 34%,#000 52%,#000 100%)}
+[data-theme="dark"] .pground-hero img{opacity:.46}
+
+/* stepper: the staircase reads as Build, Run, Automate, Govern in order, and
+   the band is already navy, so the plate can carry real weight here */
+.pground-stepper{top:0}
+.pground-stepper img{object-position:50% 60%;opacity:.26;
+  -webkit-mask-image:linear-gradient(180deg,#000 0,#000 42%,transparent 96%);
+          mask-image:linear-gradient(180deg,#000 0,#000 42%,transparent 96%)}
+[data-theme="dark"] .pground-stepper img{opacity:.22}
+
+/* footer: the horizon sits behind the giant wordmark, low enough that the
+   letterforms stay the loudest thing in the band */
+.pground-footer{top:0}
+.pground-footer img{object-position:50% 30%;opacity:.2;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 30%,#000 100%);
+          mask-image:linear-gradient(180deg,transparent 0,#000 30%,#000 100%)}
+.footer{position:relative}
+.footer > .wrap,.foot-wordmark-wrap{position:relative;z-index:2}
+
+/* ══════════════════════════════════════════════
+   WATCH — the two AccuKnox films (Watch.tsx)
+   A dark navy band with a photographic ground, two 16:9 facades side by side.
+   ══════════════════════════════════════════════ */
+.watch{position:relative;overflow:hidden;background:var(--navy);color:#fff;
+  padding:clamp(72px,10vh,124px) 0}
+.pground-watch{top:0}
+.pground-watch img{object-position:50% 62%;opacity:.24;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 34%,#000 72%,transparent 100%);
+          mask-image:linear-gradient(180deg,transparent 0,#000 34%,#000 72%,transparent 100%)}
+.watch-inner{position:relative;z-index:2}
+.watch-head{max-width:var(--maxw);margin:0 auto clamp(30px,4.5vh,46px)}
+.watch-head .section-h2{color:#fff;max-width:18ch}
+.watch-lead{margin-top:16px;max-width:52ch;font-size:17px;line-height:1.55;color:rgba(255,255,255,.72)}
+
+.watch-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,3vw,40px)}
+.film{display:flex;flex-direction:column;gap:18px}
+/* the frame owns the 16:9 box, so the poster and the player that replaces it
+   occupy exactly the same space and nothing reflows on the first click */
+.film-frame{position:relative;aspect-ratio:16/9;border-radius:18px;overflow:hidden;
+  border:1px solid rgba(255,255,255,.16);background:#05051f;
+  box-shadow:0 40px 80px -38px rgba(0,0,0,.8)}
+.film-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.film-hit{position:absolute;inset:0;display:block;width:100%;height:100%;padding:0;
+  border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.film-hit img{width:100%;height:100%;object-fit:cover;
+  transition:transform .5s cubic-bezier(.22,1,.36,1),filter .3s ease}
+.film-hit:hover img{transform:scale(1.03)}
+.film-hit:focus-visible{outline:2px solid var(--blue-bright);outline-offset:3px;border-radius:18px}
+.film-play{position:absolute;left:50%;top:50%;width:74px;height:74px;margin:-37px 0 0 -37px;
+  border-radius:50%;display:grid;place-items:center;color:#fff;background:var(--blue);
+  box-shadow:0 18px 40px -14px rgba(0,0,0,.7);
+  transition:transform .22s cubic-bezier(.22,1,.36,1),background .22s ease}
+.film-play .ico{width:30px;height:30px;margin-left:4px}
+.film-hit:hover .film-play{transform:scale(1.08);background:var(--blue-bright)}
+.film-copy b{display:block;font-family:var(--display);font-size:clamp(19px,1.9vw,24px);
+  font-weight:600;letter-spacing:-.02em;color:#fff}
+.film-copy p{margin-top:8px;font-size:15.5px;line-height:1.55;color:rgba(255,255,255,.7)}
+.film-copy a{display:inline-block;margin-top:12px;font-family:var(--mono);font-size:13px;
+  letter-spacing:.06em;color:var(--blue-bright);border-bottom:1px solid rgba(120,150,255,.4)}
+.film-copy a:hover{border-bottom-color:var(--blue-bright)}
+
+@media(max-width:860px){
+  .watch-grid{grid-template-columns:1fr;gap:40px}
+  .film-play{width:60px;height:60px;margin:-30px 0 0 -30px}
+  .film-play .ico{width:25px;height:25px}
+}

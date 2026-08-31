@@ -2,6 +2,7 @@ import { Fragment, useEffect, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { Icon } from './ui/Icon'
 import { NoiseBackground } from './ui/aceternity/NoiseBackground'
+import { PhotoGround } from './ui/PhotoGround'
 import { LazyVideo } from './ui/LazyVideo'
 import { PointerHighlight } from './ui/aceternity/PointerHighlight'
 import { PRODUCT_HUNT_URL } from './Nav'
@@ -59,6 +60,7 @@ function HeroCapabilities() {
 export function Hero() {
   return (
     <section className="hero" id="top">
+      <PhotoGround plate="masthead" className="pground-hero" />
       <NoiseBackground className="hero-noise" />
       <div className="wrap hero-inner">
         <a className="brandby" href="https://accuknox.com" target="_blank" rel="noopener">
@@ -109,6 +111,7 @@ export function Hero() {
             src="./assets/video/hero-workflow-graph.mp4"
             poster="./assets/video/hero-workflow-graph.jpg"
             label="A workflow running live in AgentZ, steps moving through running and succeeded"
+            cue="held"
           />
         </div>
       </div>

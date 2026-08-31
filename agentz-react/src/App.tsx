@@ -10,6 +10,7 @@ import { PlatformArch } from './components/PlatformArch'
 import { Stepper } from './components/Stepper'
 import { SwapModels } from './components/SwapModels'
 import { SeeInAction } from './components/SeeInAction'
+import { Watch } from './components/Watch'
 import { AgentRun } from './components/AgentRun'
 import { ControlAccess } from './components/ControlAccess'
 import { OrgChart } from './components/OrgChart'
@@ -43,6 +44,7 @@ export default function App() {
         <SwapModels />
         <AgentRun />
         <SeeInAction />
+        <Watch />
         <Comparison />
         <ControlAccess />
         <OrgChart />

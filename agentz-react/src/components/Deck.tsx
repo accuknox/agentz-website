@@ -79,7 +79,7 @@ const SLIDES: Slide[] = [
 ]
 
 /** How far a card travels per step, as a share of its own width. */
-const SPREAD = 0.56
+const SPREAD = 0.62
 /** Depth added per step away from centre, in px. */
 const DEPTH = 180
 /**
@@ -330,9 +330,16 @@ export function Deck() {
                 }
               : {
                   transform: `translate3d(${off * SPREAD * 100}%,0,${-capped * DEPTH}px) rotateY(${-dir * tiltAt(capped)}deg) scale(${1 - capped * 0.055})`,
-                  opacity: abs > VISIBLE + 0.4 ? 0 : 1 - capped * 0.14,
+                  /* Cards stay fully opaque out to the last visible slot. A
+                     translucent card shows every card stacked behind it, and
+                     with 38% of each card covered by its neighbour that reads
+                     as one smeared image rather than as a deck. Depth comes
+                     from brightness and saturation instead, which keep the
+                     card solid. Only the outermost slot fades, and it does so
+                     under the stage's own edge mask. */
+                  opacity: abs > VISIBLE + 0.4 ? 0 : Math.min(1, Math.max(0, (VISIBLE + 0.4 - abs) / 0.4)),
                   zIndex: 100 - Math.round(abs * 10),
-                  filter: abs > 1.2 ? `saturate(${Math.max(0.55, 1 - (abs - 1) * 0.25)})` : undefined,
+                  filter: `saturate(${1 - capped * 0.13}) brightness(${1 - capped * 0.1})`,
                   pointerEvents: abs > VISIBLE + 0.4 ? ('none' as const) : undefined,
                 }
             const current = Math.round(pos) === i

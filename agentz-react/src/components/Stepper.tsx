@@ -1,4 +1,5 @@
 import { LazyVideo } from './ui/LazyVideo'
+import { PhotoGround } from './ui/PhotoGround'
 
 const STEPS = [
   {
@@ -6,28 +7,27 @@ const STEPS = [
     h: 'Build',
     p: 'Describe the job in a sentence. AgentZ writes the skill and wires every step.',
     src: 'build-create-agent',
-    label: 'Creating an agent in AgentZ: sandbox, skills, persistent memory and model provider',
+    label: 'Setting an agent up in AgentZ: workspace, inference providers and the model picker',
   },
   {
     n: '02 / 04',
     h: 'Run',
     p: 'Chat, API, CLI, or a schedule. Any framework, no redeploy.',
     src: 'run-chat-workflows',
-    label: 'Running workflows from chat in AgentZ, with the file explorer and run history open',
+    label: 'Running an agent from chat in AgentZ, from the typed task to the report it writes',
   },
   {
     n: '03 / 04',
     h: 'Automate',
     p: 'Trigger on a cron, an event, or an API call. Skills chain in sequence or parallel, no wiring.',
-    // same recording SeeInAction uses; one URL so it is fetched and cached once
-    src: 'dynamic-skill-generation',
-    label: 'Dynamic skill generation and automation in AgentZ',
+    src: 'automate-dashboards',
+    label: 'A scheduled AgentZ workflow keeping an asset dashboard current, with charts and a date range',
   },
   {
     n: '04 / 04',
     h: 'Govern',
     p: 'Resolved at the edge, checked at the kernel, written to a full trace.',
-    src: 'govern-sandbox-permissions',
+    src: 'govern-sandbox-scope',
     label: 'Scoping a sandbox in AgentZ down to per-tool permissions and allowed hosts',
   },
 ]
@@ -35,6 +35,7 @@ const STEPS = [
 export function Stepper() {
   return (
     <section className="stepper" id="brg">
+      <PhotoGround plate="climb" className="pground-stepper" />
       <div className="stepper-sticky">
         <div className="wrap steps-wrap">
           <div className="steps">
@@ -51,6 +52,7 @@ export function Stepper() {
                       src={`./assets/video/${s.src}.mp4`}
                       poster={`./assets/video/${s.src}.jpg`}
                       label={s.label}
+                      cue="held"
                     />
                   </div>
                 </div>

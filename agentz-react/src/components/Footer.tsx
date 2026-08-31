@@ -1,4 +1,5 @@
 import { Icon } from './ui/Icon'
+import { PhotoGround } from './ui/PhotoGround'
 
 const COLS = [
   { h: 'Platform', links: [['Capabilities', '#platform'], ['Build · Run · Govern', '#brg'], ['See it in action', '#demos'], ['Governance', '#governance']] },
@@ -9,6 +10,7 @@ const COLS = [
 export function Footer() {
   return (
     <footer className="footer">
+      <PhotoGround plate="horizon" className="pground-footer" />
       <div className="wrap foot-cols">
         <div className="foot-lead">
           <div className="foot-brand"><img className="foot-mark" src="./assets/img/agentz-logo.svg" alt="" /> AgentZ</div>
