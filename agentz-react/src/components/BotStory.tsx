@@ -155,9 +155,13 @@ function Stream({ chapter, playing }: { chapter: number; playing: boolean }) {
   const [lines, setLines] = useState<Line[]>([])
   const seq = useRef(0)
   const clock = useRef(0)
+  const shown = useRef(-1)
   useEffect(() => {
     const pool = CHAPTERS[chapter].events
-    let i = 0
+    // resuming the same chapter (after scrolling away and back) continues
+    // with background lines instead of replaying its events
+    let i = shown.current === chapter ? pool.length : 0
+    shown.current = chapter
     const push = () => {
       // each chapter event appears once, then the stream falls back to the
       // steady background a real sandbox emits, so no line ever repeats
@@ -351,7 +355,7 @@ export function BotStory() {
     <section className={`bots is-${state} ch-${c.id}`} id="run" ref={section} aria-labelledby="bots-h">
       <div className="wrap bots-head">
         <h2 className="bots-h" id="bots-h">
-          Every syscall, tool call and packet, decided at runtime.
+          One run, start to finish.
         </h2>
         <p className="bots-sub">KubeArmor gates processes and files. Cilium gates egress. The proxy holds the keys.</p>
 
@@ -381,6 +385,19 @@ export function BotStory() {
             )
           })}
         </div>
+
+        <AnimatePresence mode="wait">
+          <motion.p
+            key={c.id}
+            className="stage-caption"
+            aria-live="polite"
+            initial={{ opacity: 0, y: 10, filter: 'blur(6px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }}
+            exit={{ opacity: 0, transition: { duration: 0.2 } }}
+          >
+            {c.caption}
+          </motion.p>
+        </AnimatePresence>
       </div>
 
       <div className="stage" onPointerMove={onMove} onPointerLeave={() => bot.current?.setPointer(0, 0)}>
@@ -430,20 +447,6 @@ export function BotStory() {
         </div>
       </div>
 
-      <div className="wrap">
-        <AnimatePresence mode="wait">
-          <motion.p
-            key={c.id}
-            className="stage-caption"
-            aria-live="polite"
-            initial={{ opacity: 0, y: 10, filter: 'blur(6px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }}
-            exit={{ opacity: 0, transition: { duration: 0.2 } }}
-          >
-            {c.caption}
-          </motion.p>
-        </AnimatePresence>
-      </div>
     </section>
   )
 }
