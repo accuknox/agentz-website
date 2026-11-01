@@ -28,7 +28,7 @@ export function SwapModels() {
       <div className="wrap">
         <div className="swap-grid">
           <div className="swap-copy">
-            <h2 className="section-h2">Stay on the best model.</h2>
+            <h2 className="section-h2">Swap the model. Keep the keys and policy.</h2>
             <p className="swap-lead">
               Connections and policy live on AgentZ, not on the agent. When a stronger model ships, switch without
               re-wiring credentials, scopes, or security.

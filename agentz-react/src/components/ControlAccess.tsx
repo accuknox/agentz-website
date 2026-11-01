@@ -1,11 +1,12 @@
+import { useEffect, useRef, type CSSProperties } from 'react'
 import { Icon } from './ui/Icon'
+import '../styles/sections.css'
 
 /**
- * Guardrails diagram. An agent reaches every tool through AgentZ, and AgentZ
- * gates each capability: read and scan pass, mutate and delete are denied by
- * default. Each tool fans out into capability rails, allowed rails ending in a
- * marker, denied rails dashed and struck through. This is the per-capability
- * view of Zero Trust, distinct from the role tree in OrgChart.
+ * Least privilege, per capability. An agent reaches each tool through AgentZ,
+ * and AgentZ gates every action: read and scan pass, mutate and delete stay
+ * denied. When the diagram comes into view a request runs down each lane;
+ * allowed actions light in blue, denied ones shake once and stay struck.
  */
 type Cap = { label: string; allow: boolean }
 type Lane = { logo: string; name: string; mono?: boolean; caps: Cap[] }
@@ -37,74 +38,65 @@ const LANES: Lane[] = [
     caps: [
       { label: 'Read', allow: true },
       { label: 'Comment', allow: true },
-      { label: 'Force-push', allow: false },
+      { label: 'Force push', allow: false },
     ],
   },
 ]
 
 export function ControlAccess() {
+  const ref = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    if (!('IntersectionObserver' in window)) return el.classList.add('is-live')
+    const io = new IntersectionObserver(([e]) => el.classList.toggle('is-live', e.isIntersecting), { threshold: 0.4 })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+
   return (
-    <section className="ctrl feature" id="guardrails">
-      <div className="wrap">
-        <div className="ctrl-grid">
-          <div className="ctrl-copy">
-            <h2 className="section-h2">Give each agent only the access it needs.</h2>
-            <p className="ctrl-lead">
-              Fine-grained control down to the single capability. Read and scan pass. Mutate, push and delete are
-              denied by default, so a prompt injection cannot turn a lookup into a teardown.
-            </p>
-            <ul className="ctrl-points">
-              <li>
-                <Icon name="check" className="ico-sm" />
-                Scope every tool call before it leaves the sandbox
-              </li>
-              <li>
-                <Icon name="check" className="ico-sm" />
-                Default deny, allow only what the task requires
-              </li>
-              <li>
-                <Icon name="check" className="ico-sm" />
-                Every allow and every block lands in the trace
-              </li>
-            </ul>
+    <section className="ca" id="guardrails" aria-labelledby="ca-h">
+      <div className="wrap ca-grid">
+        <header className="ca-copy">
+          <h2 className="sx-h" id="ca-h">
+            Least privilege, down to each tool action.
+          </h2>
+          <p className="sx-sub">Read and scan pass. Mutate, push and delete stay denied until you allow them.</p>
+        </header>
+
+        <div className="ca-diagram" ref={ref} aria-label="AWS scan and read config allowed, delete denied. Kubernetes inspect allowed, patch and drain node denied. GitHub read and comment allowed, force push denied.">
+          <div className="ca-source" aria-hidden="true">
+            <span className="ca-agent">
+              <Icon name="d-model" className="duo hue-violet" />
+              Agent
+            </span>
+            <span className="ca-wire" />
+            <span className="ca-hub">
+              <img src="./assets/img/agentz-logo.svg" alt="" width={26} height={26} />
+            </span>
           </div>
 
-          <div className="ctrl-diagram" aria-hidden="true">
-            <div className="ctrl-source">
-              <span className="ctrl-agent">Agent</span>
-              <span className="ctrl-wire" />
-              <span className="ctrl-hub">
-                <img src="./assets/img/agentz-logo.svg" alt="" width={28} height={28} />
-              </span>
-            </div>
-
-            <div className="ctrl-tree">
-              {LANES.map((lane) => (
-                <div className="ctrl-branch" key={lane.name}>
-                  <span className="ctrl-tool">
-                    <img
-                      className={lane.mono ? 'logo-img logo-img--mono' : 'logo-img'}
-                      src={`./assets/img/logos/${lane.logo}.svg`}
-                      alt=""
-                      width={26}
-                      height={26}
-                    />
-                    {lane.name}
-                  </span>
-                  <ul className="ctrl-rails">
-                    {lane.caps.map((c) => (
-                      <li key={c.label} className={`rail ${c.allow ? 'rail-allow' : 'rail-deny'}`}>
-                        <span className="rail-line" />
-                        <span className="rail-mark">
-                          <Icon name={c.allow ? 'check' : 'close'} className="ico-sm" />
-                        </span>
-                        <span className="rail-label">{c.label}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
+          <div className="ca-lanes" aria-hidden="true">
+            {LANES.map((lane, li) => (
+              <div className="ca-lane" key={lane.name}>
+                <span className="ca-tool">
+                  <img className={lane.mono ? 'pa-logo is-mono' : 'pa-logo'} src={`./assets/img/logos/${lane.logo}.svg`} alt="" width={26} height={26} />
+                  {lane.name}
+                </span>
+                <ul className="ca-caps">
+                  {lane.caps.map((c, ci) => (
+                    <li
+                      key={c.label}
+                      className={c.allow ? 'is-allow hue-blue' : 'is-deny hue-red'}
+                      style={{ '--i': li * 3 + ci } as CSSProperties}
+                    >
+                      <Icon name={c.allow ? 'check' : 'close'} className="ca-mark" />
+                      {c.label}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </div>
       </div>

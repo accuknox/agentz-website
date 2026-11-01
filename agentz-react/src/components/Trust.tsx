@@ -1,85 +1,74 @@
 import { Icon } from './ui/Icon'
+import '../styles/sections.css'
 
 /**
- * Two guarantees, side by side. Left: secrets never enter the agent context, so
- * an injection has nothing to leak. Right: the platform runs on the customer's
- * own infrastructure, so no data leaves the perimeter. Plain hairline panels,
- * no fake OS chrome (see CLAUDE.md).
+ * Two guarantees, as two tiles. Left: the agent carries a placeholder and the
+ * proxy swaps in the real key at the door, so a prompt injection has nothing
+ * to leak. Right: logs, traces and audit stay inside the customer's own
+ * perimeter, and nothing goes out.
  */
-
-/** Fuzzy, redacted content standing in for logs and evidence the platform never reads. */
-function RedactedCard({ className }: { className: string }) {
-  return (
-    <div className={`resid-card ${className}`}>
-      <div className="resid-head">
-        <span className="resid-dot" />
-        <div className="resid-lines">
-          <span className="resid-line w-60" />
-          <span className="resid-line w-40" />
-        </div>
-      </div>
-      <span className="resid-line w-90" />
-      <span className="resid-line w-80" />
-      <span className="resid-line w-70" />
-      <span className="resid-line w-85" />
-    </div>
-  )
-}
-
 export function Trust() {
   return (
-    <section className="trust" id="trust">
-      <div className="wrap">
-        <div className="trust-grid">
-          <article className="trust-card">
-            <h2 className="trust-h">Agents never hold secrets.</h2>
-            <p className="trust-p">
-              AgentZ injects scoped credentials at runtime and never stores them in the agent context. A prompt
-              injection cannot leak what the agent never receives.
-            </p>
+    <section className="tr" id="trust">
+      <div className="wrap tr-grid">
+        <article className="tr-tile hue-cyan">
+          <h2 className="tr-h">Agents never hold secrets.</h2>
+          <p className="sx-sub">The proxy injects a scoped key at runtime. A prompt injection has nothing to leak.</p>
 
-            <div className="trust-visual" aria-hidden="true">
-              <div className="env-panel">
-                <span className="env-name">.env</span>
-                <code className="env-line struck">AWS_SECRET_KEY=…</code>
-                <code className="env-line struck">GITHUB_TOKEN=…</code>
-                <code className="env-line struck">SLACK_TOKEN=…</code>
-              </div>
-              <div className="trust-flow">
-                <span className="tf-node">Agent</span>
-                <span className="tf-wire" />
-                <span className="tf-node tf-hub">
-                  <img src="./assets/img/agentz-logo.svg" alt="" width={22} height={22} />
-                </span>
-                <span className="tf-wire" />
-                <span className="tf-token">
-                  <Icon name="key" className="ico-sm" />
-                  scoped
-                </span>
-              </div>
+          <div className="tr-visual tr-broker" aria-hidden="true">
+            <div className="tr-node">
+              <Icon name="d-model" className="duo hue-violet" />
+              <span>Agent</span>
+              <code className="tr-fake">PLACEHOLDER</code>
             </div>
-          </article>
-
-          <article className="trust-card">
-            <h2 className="trust-h">Data never leaves the perimeter.</h2>
-            <p className="trust-p">
-              Deploy on-prem or fully air-gapped. Logs, traces, and audit evidence remain on customer infrastructure.
-              AgentZ makes no outbound calls.
-            </p>
-
-            <div className="trust-visual" aria-hidden="true">
-              <div className="resid-stack">
-                <RedactedCard className="resid-c3" />
-                <RedactedCard className="resid-c2" />
-                <RedactedCard className="resid-c1" />
-                <span className="resid-eye">
-                  <Icon name="eye" />
-                  <span className="resid-slash" />
-                </span>
-              </div>
+            <span className="tr-link">
+              <i />
+            </span>
+            <div className="tr-node tr-hub">
+              <img src="./assets/img/agentz-logo.svg" alt="" width={24} height={24} />
+              <span>Proxy</span>
+              <code className="tr-real">••••••••</code>
             </div>
-          </article>
-        </div>
+            <span className="tr-link tr-link-b">
+              <i />
+            </span>
+            <div className="tr-node">
+              <img className="pa-logo is-mono" src="./assets/img/logos/github.svg" alt="" width={22} height={22} />
+              <span>github.com</span>
+              <code className="tr-ok">200</code>
+            </div>
+          </div>
+        </article>
+
+        <article className="tr-tile hue-blue">
+          <h2 className="tr-h">Data never leaves the perimeter.</h2>
+          <p className="sx-sub">Run on-prem or air-gapped. Logs, traces and audit stay on your infrastructure.</p>
+
+          <div className="tr-visual tr-perim" aria-hidden="true">
+            <div className="tr-fence">
+              <span className="tr-fence-label">Your network</span>
+              {[
+                ['report', 'Logs'],
+                ['replay', 'Traces'],
+                ['verdict', 'Audit'],
+              ].map(([ic, t]) => (
+                <span className="tr-item" key={t}>
+                  <Icon name={`d-${ic}`} className="duo" />
+                  {t}
+                </span>
+              ))}
+            </div>
+            <span className="tr-out">
+              <i />
+              <b>
+                <Icon name="close" />
+              </b>
+            </span>
+            <span className="tr-cloud">
+              <Icon name="d-cloud" className="duo" />
+            </span>
+          </div>
+        </article>
       </div>
     </section>
   )
