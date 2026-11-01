@@ -25,6 +25,7 @@ type Chapter = {
   id: string
   tab: string
   icon: string
+  title: string
   caption: string
   beats: [BotState, number][]
   ms: number
@@ -38,7 +39,8 @@ const CHAPTERS: Chapter[] = [
     id: 'wake',
     tab: 'Trigger',
     icon: 'clock',
-    caption: 'Cron 0 9 * * 1 fires. A fresh sandbox boots with the default-deny profile.',
+    title: 'Sandbox up.',
+    caption: 'Cron fires at 09:00 and boots a default-deny sandbox.',
     beats: [['sleeping', 0], ['greeting', 1100]],
     ms: 3400,
     rate: { calls: 0, syscalls: 900, denied: 0 },
@@ -54,7 +56,8 @@ const CHAPTERS: Chapter[] = [
     id: 'plan',
     tab: 'Plan',
     icon: 'model',
-    caption: 'The skill loads, and the model you bring plans three tool calls.',
+    title: 'Plan ready.',
+    caption: 'The skill loads. Your model plans three tool calls.',
     beats: [['listening', 0], ['thinking', 1200]],
     ms: 3400,
     rate: { calls: 1, syscalls: 1400, denied: 0 },
@@ -69,7 +72,8 @@ const CHAPTERS: Chapter[] = [
     id: 'act',
     tab: 'Tool calls',
     icon: 'search',
-    caption: 'Each call leaves through the gateway. The proxy swaps placeholders for vault keys.',
+    title: 'Keys stay hidden.',
+    caption: 'Every call goes through the gateway. The proxy swaps in vault keys.',
     beats: [['processing', 0]],
     ms: 3800,
     rate: { calls: 7, syscalls: 3200, denied: 0 },
@@ -85,7 +89,8 @@ const CHAPTERS: Chapter[] = [
     id: 'attack',
     tab: 'Injection',
     icon: 'lock',
-    caption: 'Ticket 318 hides rm -rf /. KubeArmor kills the process and Cilium drops the exfil.',
+    title: 'Attack contained.',
+    caption: 'Ticket 318 hides rm -rf /. KubeArmor kills it. Cilium drops the exfil.',
     beats: [['threat', 0]],
     ms: 4400,
     rate: { calls: 2, syscalls: 2600, denied: 3 },
@@ -101,7 +106,8 @@ const CHAPTERS: Chapter[] = [
     id: 'recover',
     tab: 'Retry',
     icon: 'replay',
-    caption: 'Slack rate-limits the post. The run backs off, quarantines 318 and retries.',
+    title: 'Run recovers.',
+    caption: 'Slack returns 429. The run backs off, quarantines 318 and retries.',
     beats: [['error', 0], ['speaking', 1700]],
     ms: 3800,
     rate: { calls: 3, syscalls: 1800, denied: 0 },
@@ -116,7 +122,8 @@ const CHAPTERS: Chapter[] = [
     id: 'done',
     tab: 'Audit',
     icon: 'verdict',
-    caption: 'The span tree is signed and shipped to your SIEM. Replay any step.',
+    title: 'Proof on record.',
+    caption: 'A signed span tree goes to your SIEM. Replay any step.',
     beats: [['success', 0], ['idle', 2400]],
     ms: 3400,
     rate: { calls: 0, syscalls: 400, denied: 0 },
@@ -127,6 +134,13 @@ const CHAPTERS: Chapter[] = [
       ['audit', 'secrets in context: 0', 'allow', 'clean'],
     ],
   },
+]
+
+/** The three enforcement layers, named once under the heading. */
+const GUARDS: [string, string, string][] = [
+  ['logos/kubearmor.svg', 'KubeArmor', 'Processes and files'],
+  ['logos/cilium.svg', 'Cilium', 'Network egress'],
+  ['agentz-logo.svg', 'AgentZ proxy', 'Credentials'],
 ]
 
 const START = { calls: 1180, syscalls: 48210, denied: 34 }
@@ -355,9 +369,19 @@ export function BotStory() {
     <section className={`bots is-${state} ch-${c.id}`} id="run" ref={section} aria-labelledby="bots-h">
       <div className="wrap bots-head">
         <h2 className="bots-h" id="bots-h">
-          One run, start to finish.
+          The attack fails. The job still ships.
         </h2>
-        <p className="bots-sub">KubeArmor gates processes and files. Cilium gates egress. The proxy holds the keys.</p>
+        <ul className="guards" aria-label="Enforcement layers">
+          {GUARDS.map(([logo, name, role]) => (
+            <li key={name}>
+              <img src={`./assets/img/${logo}`} alt="" width={26} height={26} />
+              <span>
+                <b>{name}</b>
+                <small>{role}</small>
+              </span>
+            </li>
+          ))}
+        </ul>
 
         <div className="seg" role="tablist" aria-label="Stages of the run">
           {CHAPTERS.map((ch, i) => {
@@ -386,18 +410,6 @@ export function BotStory() {
           })}
         </div>
 
-        <AnimatePresence mode="wait">
-          <motion.p
-            key={c.id}
-            className="stage-caption"
-            aria-live="polite"
-            initial={{ opacity: 0, y: 10, filter: 'blur(6px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }}
-            exit={{ opacity: 0, transition: { duration: 0.2 } }}
-          >
-            {c.caption}
-          </motion.p>
-        </AnimatePresence>
       </div>
 
       <div className="stage" onPointerMove={onMove} onPointerLeave={() => bot.current?.setPointer(0, 0)}>
@@ -409,10 +421,27 @@ export function BotStory() {
         />
         {failed && <FlatBot />}
 
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={c.id}
+            className={`note${c.id === 'attack' ? ' is-alert' : ''}`}
+            aria-live="polite"
+            initial={{ opacity: 0, y: 10, filter: 'blur(6px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }}
+            exit={{ opacity: 0, transition: { duration: 0.2 } }}
+          >
+            <span className="note-n">
+              {String(chapter + 1).padStart(2, '0')} / {String(CHAPTERS.length).padStart(2, '0')}
+            </span>
+            <b className="note-h">{c.title}</b>
+            <p className="note-p">{c.caption}</p>
+          </motion.div>
+        </AnimatePresence>
         <Stream chapter={chapter} playing={playing} />
         <Telemetry chapter={chapter} playing={playing} />
 
         <div className="stage-lanes">
+
 
           <AnimatePresence mode="wait">
             <motion.div key={c.id} className="stage-fx" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, transition: { duration: 0.25 } }}>

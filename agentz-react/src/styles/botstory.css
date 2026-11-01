@@ -11,7 +11,14 @@
 
 .bots-head{display:flex;flex-direction:column;align-items:center;text-align:center}
 .bots-h{font-size:clamp(30px,4vw,52px);letter-spacing:-.035em;line-height:1.05;color:var(--ink);margin:0;max-width:20ch;text-wrap:balance}
-.bots-sub{margin:14px 0 clamp(22px,3vh,30px);font-size:clamp(16px,1.4vw,19px);color:var(--ink-soft);max-width:52ch;text-wrap:balance}
+/* the three enforcement layers, as logos under the heading */
+.guards{list-style:none;margin:18px 0 clamp(22px,3vh,30px);padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:12px 36px}
+.guards li{display:flex;align-items:center;gap:10px;text-align:left}
+.guards img{width:26px;height:26px;object-fit:contain;flex:none}
+.guards span{display:flex;flex-direction:column;line-height:1.25}
+.guards b{font-size:15px;color:var(--ink)}
+.guards small{font-size:13px;color:var(--ink-mute)}
+[data-theme="dark"] .guards img[src*="kubearmor"]{filter:invert(1) hue-rotate(180deg)}
 
 /* segmented control */
 .seg{display:inline-flex;gap:2px;padding:4px;border-radius:999px;background:var(--paper-2);box-shadow:inset 0 0 0 1px var(--line)}
@@ -43,7 +50,14 @@
 .stage-canvas.is-ready{opacity:1}
 .stage-flat{position:absolute;z-index:1;left:50%;top:50%;width:min(36%,280px);transform:translate(-50%,-50%)}
 .stage-lanes{position:absolute;inset:0;z-index:2;max-width:var(--maxw);margin:0 auto;padding:0 24px;pointer-events:none}
-.stage-caption{margin:clamp(14px,2vh,22px) auto 0;min-height:2.9em;text-align:center;font-size:clamp(16px,1.4vw,19px);color:var(--ink);max-width:48ch;text-wrap:balance}
+
+/* chapter note: what just happened, top right of the stage above the counters */
+.note{position:absolute;z-index:3;right:clamp(16px,3vw,56px);top:3%;width:min(19vw,250px)}
+.note-n{display:block;font-family:var(--mono);font-size:11.5px;color:var(--ink-mute);font-variant-numeric:tabular-nums}
+.note-h{display:block;margin-top:8px;font-family:var(--display);font-size:clamp(20px,1.8vw,24px);letter-spacing:-.025em;line-height:1.1;color:var(--ink)}
+.note-p{margin:8px 0 0;font-size:14.5px;line-height:1.5;color:var(--ink-soft);text-wrap:pretty}
+.note.is-alert .note-h{color:#c80019}
+[data-theme="dark"] .note.is-alert .note-h{color:#ff6b80}
 
 /* log viewer: a real log tail, dark, dense and column-aligned, angled toward the bot */
 .lv{position:absolute;z-index:2;left:clamp(16px,3vw,56px);top:6%;bottom:8%;width:min(36vw,520px);display:flex;flex-direction:column;
@@ -73,7 +87,7 @@
 .lv-foot span:first-child{color:#a9b0cc;font-variant-numeric:tabular-nums}
 
 /* telemetry: big numbers, hairlines, no boxes */
-.tm{position:absolute;z-index:2;right:clamp(16px,3vw,56px);top:12%;width:min(18vw,240px);margin:0;display:flex;flex-direction:column}
+.tm{position:absolute;z-index:2;right:clamp(16px,3vw,56px);top:33%;width:min(18vw,240px);margin:0;display:flex;flex-direction:column}
 .tm>div{padding:14px 0;border-top:1px solid var(--line)}
 .tm>div:last-child{border-bottom:1px solid var(--line)}
 .tm dt{font-size:13px;color:var(--ink-soft)}
@@ -119,6 +133,11 @@
 
 /* phones: telemetry in a row above, stream below the bot */
 @media (max-width:760px){
+  .guards{gap:10px 20px}
+  .guards small{display:none}
+  .note{left:16px;right:16px;top:62px;width:auto;text-align:center}
+  .note-h{font-size:18px;margin-top:4px}
+  .note-p{font-size:13px;margin-top:4px}
   .seg-tab{padding:10px 12px}
   .seg-tab:not(.is-on) .seg-label{display:none}
   .stage{height:680px}
