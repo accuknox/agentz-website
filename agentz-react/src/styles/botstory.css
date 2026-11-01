@@ -10,7 +10,32 @@
 .bots.is-success,.bots.is-idle{--glow:47,75,214}
 
 .bots-head{display:flex;flex-direction:column;align-items:center;text-align:center}
-.bots-h{font-size:clamp(30px,4vw,52px);letter-spacing:-.035em;line-height:1.05;color:var(--ink);margin:0;max-width:27ch;text-wrap:balance}
+.bots-h{font-size:clamp(30px,4vw,52px);letter-spacing:-.035em;line-height:1.05;color:var(--ink);margin:0;max-width:24ch;text-wrap:balance}
+/* lightning on "AI Speed": the bolt draws down onto the icon, a burst and
+   sparks fire at impact, and the section flashes once. All timing is in
+   StrikeHeading (Web Animations); this only sets the resting state. */
+.zap{position:relative;display:inline-block;white-space:nowrap}
+.zap-word{color:var(--blue)}
+[data-theme="dark"] .zap-word{color:var(--blue-bright)}
+.zap-hit{position:relative;display:inline-block;width:.92em;height:.92em;margin-left:.06em;vertical-align:-.1em}
+.zap-icon{display:block;width:100%;height:100%;fill:var(--blue);transform-origin:50% 60%}
+[data-theme="dark"] .zap-icon{fill:var(--blue-bright)}
+.zap-bolt{position:absolute;left:50%;bottom:45%;width:.9em;height:4.6em;transform:translateX(-62%);overflow:visible;pointer-events:none;opacity:0;
+  filter:drop-shadow(0 0 4px rgba(79,107,255,.9)) drop-shadow(0 0 14px rgba(47,75,214,.6));
+  -webkit-mask-image:linear-gradient(to bottom,transparent,#000 35%);mask-image:linear-gradient(to bottom,transparent,#000 35%)}
+.zap-bolt path{fill:none;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.zap-glow{stroke:#4f6bff;stroke-width:7}
+.zap-core{stroke:#fff;stroke-width:2.5}
+.zap-glow.zap-thin{stroke-width:4}
+.zap-core.zap-thin{stroke-width:1.5}
+.zap-burst{position:absolute;left:50%;top:40%;width:1.4em;height:1.4em;border-radius:50%;opacity:0;pointer-events:none;
+  background:radial-gradient(circle,#fff 0 18%,rgba(79,107,255,.85) 34%,rgba(79,107,255,0) 70%)}
+.zap-spark{position:absolute;left:50%;top:40%;width:12px;height:2.5px;border-radius:2px;background:#4f6bff;opacity:0;pointer-events:none;
+  box-shadow:0 0 6px rgba(79,107,255,.9)}
+.zap-flash{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0;
+  background:radial-gradient(38% 26% at 50% 24%,rgba(79,107,255,.18),transparent 100%)}
+.bots-head{position:relative;z-index:1}
+
 /* the three enforcement layers, as logos under the heading */
 .guards{list-style:none;margin:18px 0 clamp(22px,3vh,30px);padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:12px 36px}
 .guards li{display:flex;align-items:center;gap:10px;text-align:left}

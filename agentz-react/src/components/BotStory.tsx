@@ -286,11 +286,139 @@ function Telemetry({ chapter, playing }: { chapter: number; playing: boolean }) 
   )
 }
 
+/**
+ * "Zero Trust at AI Speed" with a lightning strike on "AI Speed".
+ *
+ * When the heading reaches the middle of the screen, a bolt draws itself down
+ * onto the small bolt icon, a burst and sparks fire at the point of impact,
+ * and the words and the section flash once in the accent blue. Hovering the
+ * heading strikes again. It runs on the Web Animations API, so the page-wide
+ * reduced-motion rule cannot cancel it; under reduced motion it is one soft
+ * flash with no flicker.
+ */
+const BOLT = 'M46 0 L30 58 L44 62 L22 128 L36 131 L18 196 L30 198 L14 250'
+const FORK = 'M36 131 L54 160 L48 162 L60 188'
+
+function StrikeHeading({ onStrike }: { onStrike?: () => void }) {
+  const h = useRef<HTMLHeadingElement>(null)
+  const busy = useRef(false)
+
+  const strike = () => {
+    const el = h.current
+    if (!el || busy.current || !el.animate) return
+    busy.current = true
+    const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const q = <T extends Element>(sel: string) => [...el.querySelectorAll<T>(sel)]
+    const ease = 'cubic-bezier(.2,.9,.2,1)'
+
+    for (const path of q<SVGPathElement>('.zap-bolt path')) {
+      const len = path.getTotalLength()
+      path.style.strokeDasharray = `${len}`
+      path.animate([{ strokeDashoffset: len }, { strokeDashoffset: 0 }], { duration: 160, easing: 'cubic-bezier(.6,0,.9,.4)', fill: 'forwards' })
+    }
+    q<SVGSVGElement>('.zap-bolt').forEach((b) =>
+      b.animate(
+        calm
+          ? [{ opacity: 1 }, { opacity: 1, offset: 0.4 }, { opacity: 0 }]
+          : [{ opacity: 1 }, { opacity: 1, offset: 0.25 }, { opacity: 0.35, offset: 0.36 }, { opacity: 1, offset: 0.46 }, { opacity: 0 }],
+        { duration: 900, easing: 'ease-out', fill: 'both' },
+      ),
+    )
+    q<HTMLElement>('.zap-burst').forEach((b) =>
+      b.animate(
+        [
+          { opacity: 0, transform: 'translate(-50%,-50%) scale(.2)' },
+          { opacity: 1, transform: 'translate(-50%,-50%) scale(1)', offset: 0.2 },
+          { opacity: 0, transform: 'translate(-50%,-50%) scale(2.6)' },
+        ],
+        { duration: 700, delay: 140, easing: ease, fill: 'both' },
+      ),
+    )
+    q<HTMLElement>('.zap-spark').forEach((sp, i) => {
+      const a = (i / 6) * Math.PI * 2 - Math.PI / 2
+      const d = calm ? 18 : 34
+      sp.animate(
+        [
+          { opacity: 0, transform: `translate(-50%,-50%) rotate(${a}rad) translateX(4px)` },
+          { opacity: 1, transform: `translate(-50%,-50%) rotate(${a}rad) translateX(10px)`, offset: 0.2 },
+          { opacity: 0, transform: `translate(-50%,-50%) rotate(${a}rad) translateX(${d}px)` },
+        ],
+        { duration: 600, delay: 150, easing: ease, fill: 'both' },
+      )
+    })
+    q<HTMLElement>('.zap-word').forEach((w) =>
+      w.animate(
+        [
+          { color: 'var(--blue)', textShadow: '0 0 0 rgba(79,107,255,0)' },
+          { color: '#ffffff', textShadow: '0 0 14px rgba(79,107,255,1), 0 0 36px rgba(47,75,214,.9)', offset: 0.18 },
+          { color: 'var(--blue-bright)', textShadow: '0 0 10px rgba(79,107,255,.6)', offset: 0.45 },
+          { color: 'var(--blue)', textShadow: '0 0 0 rgba(79,107,255,0)' },
+        ],
+        { duration: 1100, delay: 140, easing: 'ease-out' },
+      ),
+    )
+    q<SVGSVGElement>('.zap-icon').forEach((ic) =>
+      ic.animate(
+        [{ transform: 'scale(1)' }, { transform: 'scale(1.45) rotate(-8deg)', offset: 0.3 }, { transform: 'scale(1)' }],
+        { duration: 650, delay: 140, easing: ease },
+      ),
+    )
+    onStrike?.()
+    window.setTimeout(() => (busy.current = false), 1200)
+  }
+
+  const fire = useRef(strike)
+  fire.current = strike
+
+  useEffect(() => {
+    const el = h.current
+    if (!el || !('IntersectionObserver' in window)) return
+    let armed = true
+    // fire in the middle band of the screen, where the reader is looking
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting && armed) {
+          armed = false
+          fire.current()
+        } else if (!e.isIntersecting) armed = true
+      },
+      { rootMargin: '-35% 0px -35% 0px' },
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+
+  return (
+    <h2 className="bots-h" id="bots-h" ref={h} onMouseEnter={strike}>
+      Zero Trust at{' '}
+      <span className="zap">
+        <span className="zap-word">AI Speed</span>
+        <span className="zap-hit">
+          <svg className="zap-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M13.5 2 4.5 13.5H11L9.5 22l9-11.5H12z" />
+          </svg>
+          <svg className="zap-bolt" viewBox="0 0 70 250" aria-hidden="true" preserveAspectRatio="xMidYMax meet">
+            <path className="zap-glow" d={BOLT} />
+            <path className="zap-glow zap-thin" d={FORK} />
+            <path className="zap-core" d={BOLT} />
+            <path className="zap-core zap-thin" d={FORK} />
+          </svg>
+          <span className="zap-burst" aria-hidden="true" />
+          {[0, 1, 2, 3, 4, 5].map((i) => (
+            <span key={i} className="zap-spark" aria-hidden="true" />
+          ))}
+        </span>
+      </span>
+    </h2>
+  )
+}
+
 /* ── section ── */
 
 export function BotStory() {
   const reduced = useReducedMotion()
   const section = useRef<HTMLElement>(null)
+  const flash = useRef<HTMLDivElement>(null)
   const canvas = useRef<HTMLCanvasElement>(null)
   const bot = useRef<Bot | null>(null)
   const [chapter, setChapter] = useState(0)
@@ -367,10 +495,9 @@ export function BotStory() {
 
   return (
     <section className={`bots is-${state} ch-${c.id}`} id="run" ref={section} aria-labelledby="bots-h">
+      <div className="zap-flash" ref={flash} aria-hidden="true" />
       <div className="wrap bots-head">
-        <h2 className="bots-h" id="bots-h">
-          Built for the Speed of AI. Designed for Zero Trust.
-        </h2>
+        <StrikeHeading onStrike={() => flash.current?.animate([{ opacity: 0 }, { opacity: 1, offset: 0.25 }, { opacity: 0 }], { duration: 650, delay: 140, easing: 'ease-out' })} />
         <ul className="guards" aria-label="Enforcement layers">
           {GUARDS.map(([logo, name, role]) => (
             <li key={name}>
