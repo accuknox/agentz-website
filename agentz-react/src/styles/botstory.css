@@ -10,7 +10,7 @@
 .bots.is-success,.bots.is-idle{--glow:47,75,214}
 
 .bots-head{display:flex;flex-direction:column;align-items:center;text-align:center}
-.bots-h{font-size:clamp(30px,4vw,52px);letter-spacing:-.035em;line-height:1.05;color:var(--ink);margin:0;max-width:20ch;text-wrap:balance}
+.bots-h{font-size:clamp(30px,4vw,52px);letter-spacing:-.035em;line-height:1.05;color:var(--ink);margin:0;max-width:27ch;text-wrap:balance}
 /* the three enforcement layers, as logos under the heading */
 .guards{list-style:none;margin:18px 0 clamp(22px,3vh,30px);padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:12px 36px}
 .guards li{display:flex;align-items:center;gap:10px;text-align:left}

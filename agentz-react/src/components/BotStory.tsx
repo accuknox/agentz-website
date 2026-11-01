@@ -369,7 +369,7 @@ export function BotStory() {
     <section className={`bots is-${state} ch-${c.id}`} id="run" ref={section} aria-labelledby="bots-h">
       <div className="wrap bots-head">
         <h2 className="bots-h" id="bots-h">
-          The attack fails. The job still ships.
+          Built for the Speed of AI. Designed for Zero Trust.
         </h2>
         <ul className="guards" aria-label="Enforcement layers">
           {GUARDS.map(([logo, name, role]) => (
