@@ -1,0 +1,139 @@
+/* ── A live run, as the enforcement layer sees it (BotStory.tsx) ──
+   No frame and no cards. The canvas runs full bleed; a glow and a floor grid
+   fade into the page. The event stream sits to the left of the bot and the
+   run telemetry to the right, both as bare type. The section carries the
+   bot's state as a class, so the glow follows its eyes. */
+
+.bots{--glow:53,204,252;position:relative;padding:clamp(48px,7vh,88px) 0 clamp(32px,5vh,64px);background:var(--paper);overflow:clip}
+.bots.is-threat,.bots.is-error{--glow:255,51,85}
+.bots.is-sleeping{--glow:150,150,255}
+.bots.is-success,.bots.is-idle{--glow:47,75,214}
+
+.bots-head{display:flex;flex-direction:column;align-items:center;text-align:center}
+.bots-h{font-size:clamp(30px,4vw,52px);letter-spacing:-.035em;line-height:1.05;color:var(--ink);margin:0;max-width:20ch;text-wrap:balance}
+.bots-sub{margin:14px 0 clamp(22px,3vh,30px);font-size:clamp(16px,1.4vw,19px);color:var(--ink-soft);max-width:52ch;text-wrap:balance}
+
+/* segmented control */
+.seg{display:inline-flex;gap:2px;padding:4px;border-radius:999px;background:var(--paper-2);box-shadow:inset 0 0 0 1px var(--line)}
+.seg-tab{all:unset;box-sizing:border-box;position:relative;isolation:isolate;cursor:pointer;display:inline-flex;align-items:center;gap:8px;
+  padding:10px 18px 11px 14px;border-radius:999px;color:var(--ink-soft);font-size:15px;white-space:nowrap;transition:color .25s ease}
+.seg-tab:hover{color:var(--ink)}
+.seg-tab:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+.seg-tab.is-on{color:var(--ink)}
+.seg-ico{width:20px;height:20px;opacity:.55;transition:opacity .25s ease}
+.seg-tab:hover .seg-ico,.seg-tab.is-on .seg-ico{opacity:1}
+.seg-pill{position:absolute;inset:0;z-index:-1;border-radius:999px;background:var(--white);overflow:hidden;
+  box-shadow:0 1px 2px rgba(11,11,40,.08),0 6px 16px -8px rgba(11,11,40,.25)}
+[data-theme="dark"] .seg-pill{background:#23232f;box-shadow:0 0 0 1px rgba(255,255,255,.08)}
+.seg-pill b{position:absolute;left:16px;right:16px;bottom:4px;height:2px;border-radius:2px;background:var(--h-ink);opacity:.8;
+  transform-origin:left;transform:scaleX(0);animation:seg-fill linear forwards}
+@keyframes seg-fill{to{transform:scaleX(1)}}
+
+/* stage */
+.stage{position:relative;height:clamp(500px,62vh,640px);margin-top:clamp(4px,1vh,12px)}
+.stage::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(28% 42% at 50% 52%,rgba(var(--glow),.22) 0%,rgba(var(--glow),.06) 55%,transparent 75%);transition:background .8s ease}
+.stage::after{content:"";position:absolute;left:0;right:0;bottom:0;height:52%;z-index:0;pointer-events:none;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:64px 64px;transform:perspective(700px) rotateX(68deg);transform-origin:50% 100%;
+  -webkit-mask-image:radial-gradient(48% 70% at 50% 100%,#000 20%,transparent 75%);mask-image:radial-gradient(48% 70% at 50% 100%,#000 20%,transparent 75%);
+  animation:stage-floor 8s linear infinite}
+@keyframes stage-floor{to{background-position:0 64px}}
+.stage-canvas{position:absolute;inset:0;z-index:1;width:100%;height:100%;display:block;opacity:0;transition:opacity .8s ease}
+.stage-canvas.is-ready{opacity:1}
+.stage-flat{position:absolute;z-index:1;left:50%;top:50%;width:min(36%,280px);transform:translate(-50%,-50%)}
+.stage-lanes{position:absolute;inset:0;z-index:2;max-width:var(--maxw);margin:0 auto;padding:0 24px;pointer-events:none}
+.stage-caption{margin:clamp(4px,1vh,12px) auto 0;text-align:center;font-size:clamp(16px,1.4vw,19px);color:var(--ink);max-width:48ch;text-wrap:balance}
+
+/* log viewer: a real log tail, dark, dense and column-aligned, angled toward the bot */
+.lv{position:absolute;z-index:2;left:clamp(16px,3vw,56px);top:6%;bottom:8%;width:min(36vw,520px);display:flex;flex-direction:column;
+  border-radius:14px;background:#0a0b14;color:#c9cde0;overflow:hidden;
+  box-shadow:0 0 0 1px rgba(255,255,255,.06),0 1px 0 rgba(255,255,255,.06) inset,0 40px 80px -40px rgba(10,11,40,.7),0 12px 24px -16px rgba(10,11,40,.5);
+  transform:perspective(1400px) rotateY(12deg);transform-origin:left center;font-family:var(--mono);font-size:11.5px}
+.lv-bar{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.07);color:#8a90a8;font-size:11px;white-space:nowrap}
+.lv-bar code{color:#e4e7f5}
+.lv-scope{margin-left:auto;overflow:hidden;text-overflow:ellipsis}
+.lv-live{display:inline-flex;align-items:center;gap:6px;color:#7d92ff;text-transform:uppercase;letter-spacing:.08em;font-size:10px}
+.lv-live i{width:6px;height:6px;border-radius:50%;background:#7d92ff;box-shadow:0 0 0 0 rgba(125,146,255,.6);animation:lv-pulse 1.6s ease-out infinite}
+@keyframes lv-pulse{to{box-shadow:0 0 0 6px rgba(125,146,255,0)}}
+.ev{flex:1;list-style:none;margin:0;padding:6px 0;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;
+  -webkit-mask-image:linear-gradient(to bottom,transparent,#000 22%);mask-image:linear-gradient(to bottom,transparent,#000 22%)}
+.ev-line{display:grid;grid-template-columns:86px 44px 72px minmax(0,1fr);gap:10px;align-items:baseline;padding:2px 14px;line-height:1.6}
+.ev-line time{color:#5d6380;font-variant-numeric:tabular-nums}
+.ev-level{font-weight:400;font-size:10.5px;letter-spacing:.04em}
+.ev-kind{color:#a9b0cc}
+.ev-text{color:#dfe2f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ev-text em{font-style:normal;margin-left:8px;color:#5d6380}
+.ev-line.is-allow .ev-level{color:#7d92ff}
+.ev-line.is-info .ev-level{color:#6b7190}
+.ev-line.is-warn .ev-level{color:#f5b84a}
+.ev-line.is-deny .ev-level,.ev-line.is-deny .ev-text{color:#ff6b80}
+.ev-line.is-deny{background:rgba(255,51,85,.07)}
+.lv-foot{display:flex;gap:16px;padding:8px 14px;border-top:1px solid rgba(255,255,255,.07);color:#5d6380;font-size:10.5px;white-space:nowrap}
+.lv-foot span:first-child{color:#a9b0cc;font-variant-numeric:tabular-nums}
+
+/* telemetry: big numbers, hairlines, no boxes */
+.tm{position:absolute;z-index:2;right:clamp(16px,3vw,56px);top:12%;width:min(18vw,240px);margin:0;display:flex;flex-direction:column}
+.tm>div{padding:14px 0;border-top:1px solid var(--line)}
+.tm>div:last-child{border-bottom:1px solid var(--line)}
+.tm dt{font-size:13px;color:var(--ink-soft)}
+.tm dd{margin:4px 0 0;font-family:var(--display);font-size:clamp(28px,2.6vw,38px);letter-spacing:-.03em;line-height:1;color:var(--ink);
+  font-variant-numeric:tabular-nums;transition:color .4s ease}
+.tm .is-hot dd{color:#c80019}
+.tm .is-zero dd{color:var(--blue)}
+[data-theme="dark"] .tm .is-hot dd{color:#ff6b80}
+[data-theme="dark"] .tm .is-zero dd{color:var(--blue-bright)}
+
+/* chapter effects around the bot */
+.stage-fx{position:absolute;inset:0}
+.fx-feed span{position:absolute;left:34%;top:48%;width:26px;height:26px;display:grid;place-items:center;opacity:0;
+  animation:fx-feed 2.2s cubic-bezier(.45,0,.2,1) infinite;animation-delay:calc(var(--i) * .32s)}
+.fx-feed .duo{width:22px;height:22px}
+@keyframes fx-feed{0%{transform:translate(0,calc((var(--i) - 3) * 14px)) scale(.8);opacity:0}20%{opacity:1}
+  85%{opacity:1}100%{transform:translate(min(10vw,140px),0) scale(.3);opacity:0}}
+.fx-danger{position:absolute;inset:-10% -20%;background:radial-gradient(36% 46% at 62% 50%,rgba(255,51,85,.14),transparent 70%);
+  animation:fx-danger 1.2s ease-in-out infinite alternate}
+@keyframes fx-danger{from{opacity:.35}to{opacity:1}}
+.fx-shield{position:absolute;left:50%;top:50%;width:min(44vw,420px);aspect-ratio:1/1;transform:translate(-50%,-50%);border-radius:50%;
+  border:2px dashed rgba(200,0,25,.5);animation:fx-spin 16s linear infinite}
+.fx-shield::after{content:"";position:absolute;inset:-12px;border-radius:50%;box-shadow:inset 0 0 48px rgba(255,51,85,.2)}
+.fx-impact{position:absolute;right:-14px;top:50%;width:28px;height:28px;margin-top:-14px;border-radius:50%;
+  background:radial-gradient(circle,#fff 0 20%,#ff3355 35%,rgba(255,51,85,0) 70%);opacity:0;animation:fx-impact 1.8s ease-out .55s 2}
+@keyframes fx-impact{0%{opacity:0;transform:scale(.4)}12%{opacity:1;transform:scale(2.2)}60%,100%{opacity:0;transform:scale(3)}}
+@keyframes fx-spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.fx-evil{position:absolute;left:calc(50% + min(22vw,210px) + 12px);top:46%;font-family:var(--mono);font-size:22px;color:#c80019;
+  white-space:nowrap;text-decoration:line-through;text-decoration-thickness:2px;animation:fx-glitch 1.6s steps(1) infinite 1.8s}
+[data-theme="dark"] .fx-evil{color:#ff6b80}
+@keyframes fx-glitch{0%,100%{opacity:1}6%{opacity:.4;translate:3px 0}10%{translate:-2px 0}14%{opacity:1;translate:0 0}}
+.fx-boot{position:absolute;left:50%;top:50%;width:300px;aspect-ratio:1/1;border-radius:50%;transform:translate(-50%,-50%) scale(.6);
+  border:1.5px solid rgba(var(--glow),.6);animation:fx-boot 2.4s cubic-bezier(.22,1,.36,1) infinite}
+@keyframes fx-boot{from{transform:translate(-50%,-50%) scale(.6);opacity:.9}to{transform:translate(-50%,-50%) scale(1.5);opacity:0}}
+
+/* tablets: the stream narrows and drops its clock column */
+@media (max-width:1100px){
+  .lv{width:min(38vw,380px);transform:none}
+  .ev-line{grid-template-columns:40px 64px minmax(0,1fr)}
+  .ev-line time{display:none}
+  .tm{width:min(20vw,190px)}
+}
+
+/* phones: telemetry in a row above, stream below the bot */
+@media (max-width:760px){
+  .seg-tab{padding:10px 12px}
+  .seg-tab:not(.is-on) .seg-label{display:none}
+  .stage{height:680px}
+  .tm{left:16px;right:16px;top:0;width:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .tm>div,.tm>div:last-child{padding:8px 0;border-bottom:0}
+  .tm dt{font-size:11px;line-height:1.2}
+  .tm dd{font-size:18px}
+  .lv{left:12px;right:12px;top:auto;bottom:0;width:auto;height:34%;font-size:10.5px}
+  .lv-scope{display:none}
+  .ev-line{grid-template-columns:38px 58px minmax(0,1fr);padding:1px 10px}
+  .fx-feed,.fx-evil{display:none}
+  .fx-shield{width:80vw}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .bots *,.bots *::before,.bots *::after,.stage::after{animation:none !important;transition:none !important}
+  .seg-pill b{transform:scaleX(1)}
+}

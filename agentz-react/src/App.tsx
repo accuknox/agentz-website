@@ -5,7 +5,8 @@ import { Nav } from './components/Nav'
 import { Hero } from './components/Hero'
 import { Deck } from './components/Deck'
 import { Comparison } from './components/Comparison'
-import { WhyAgentZ } from './components/WhyAgentZ'
+import { ValueProps } from './components/ValueProps'
+import { BotStory } from './components/BotStory'
 import { PlatformArch } from './components/PlatformArch'
 import { Stepper } from './components/Stepper'
 import { SwapModels } from './components/SwapModels'
@@ -38,17 +39,18 @@ export default function App() {
       <main id="top">
         <Hero />
         <Deck />
-        <WhyAgentZ />
-        <Stepper />
+        <BotStory />
+        <ValueProps />
         <PlatformArch />
+        <ControlAccess />
+        <Trust />
+        <Stepper />
         <SwapModels />
         <AgentRun />
         <SeeInAction />
         <Watch />
         <Comparison />
-        <ControlAccess />
         <OrgChart />
-        <Trust />
         <Integrations />
         <Pricing />
         <FAQ />

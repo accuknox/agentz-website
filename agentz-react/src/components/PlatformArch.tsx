@@ -1,60 +1,80 @@
 import { Icon } from './ui/Icon'
 import { SpotlightCard } from './ui/SpotlightCard'
+import '../styles/sections.css'
+
+/**
+ * The control plane: six building blocks, then what they connect to.
+ * Same grammar as the value bento above it: a heading, one line, and tiles
+ * that carry a title and one line each. The illustrations do the talking.
+ */
 
 const ARCH = [
-  { illus: 'skills',     h: 'Skills',      p: 'Reusable, versioned building blocks.' },
-  { illus: 'workflows',  h: 'Workflows',   p: 'Chain steps, schedule, hand off work.' },
-  { illus: 'context',    h: 'Context',     p: 'Shared memory, files, and knowledge.' },
-  { illus: 'teams',      h: 'Teams',       p: 'Roles, ownership, shared scope.' },
-  { illus: 'guardrails', h: 'Guardrails',  p: 'Secure by default. No standing access.' },
-  { illus: 'audit',      h: 'Audit',       p: 'Every step recorded and replayable.' },
+  { illus: 'skills', h: 'Skills', p: 'Reusable, versioned steps.' },
+  { illus: 'workflows', h: 'Workflows', p: 'Chain, schedule, hand off.' },
+  { illus: 'context', h: 'Context', p: 'Shared memory and files.' },
+  { illus: 'teams', h: 'Teams', p: 'Roles, owners, scopes.' },
+  { illus: 'guardrails', h: 'Guardrails', p: 'No standing access.' },
+  { illus: 'audit', h: 'Audit', p: 'Every step replayable.' },
 ]
+
+const TOOLS = [
+  ['db', 'Databases'],
+  ['globe', 'SaaS APIs'],
+  ['model', 'MCP servers'],
+  ['report', 'Files'],
+]
+
+const MODELS = [
+  ['openai', 'OpenAI', true],
+  ['anthropic', 'Anthropic', true],
+  ['gemini', 'Gemini', false],
+  ['deepseek', 'DeepSeek', false],
+  ['qwen', 'Qwen', false],
+  ['mistral', 'Mistral', false],
+] as const
 
 export function PlatformArch() {
   return (
-    <section className="arch" id="platform">
+    <section className="pa" id="platform" aria-labelledby="pa-h">
       <div className="wrap">
-        <h2 className="section-h2 arch-h">
-          One control plane for every agent,<br />model and team.
-        </h2>
+        <header className="sx-head">
+          <h2 className="sx-h" id="pa-h">
+            One control plane for every agent, model and team.
+          </h2>
+          <p className="sx-sub">Six building blocks, managed in one place.</p>
+        </header>
 
-        <div className="arch-grid">
+        <div className="pa-grid">
           {ARCH.map((c) => (
-            <SpotlightCard className="arch-card" key={c.h}>
-              <div className="arch-ico-wrap">
-                <img
-                  src={`./assets/img/illus/${c.illus}.webp`}
-                  alt=""
-                  className="arch-illus"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div className="arch-card-body">
-                <h3>{c.h}</h3>
-                <p>{c.p}</p>
-              </div>
+            <SpotlightCard className="pa-card" key={c.h}>
+              <img src={`./assets/img/illus/${c.illus}.webp`} alt="" className="pa-illus" loading="lazy" decoding="async" />
+              <h3 className="pa-card-h">{c.h}</h3>
+              <p className="pa-card-p">{c.p}</p>
             </SpotlightCard>
           ))}
         </div>
 
-        <div className="arch-rails">
-          <div className="arch-rail">
-            <span className="rail-label">Tools &amp; data</span>
-            <div className="rail-items">
-              <span className="rail-chip"><Icon name="database" />Databases</span>
-              <span className="rail-chip"><Icon name="api" />SaaS APIs</span>
-              <span className="rail-chip"><Icon name="mcp" />MCP tools</span>
-              <span className="rail-chip"><Icon name="files" />Files</span>
+        <div className="pa-connect">
+          <div className="pa-half hue-cyan">
+            <p className="pa-half-h">Connects to your tools and data</p>
+            <div className="pa-chips">
+              {TOOLS.map(([ic, t]) => (
+                <span className="pa-chip" key={t}>
+                  <Icon name={`d-${ic}`} className="duo" />
+                  {t}
+                </span>
+              ))}
             </div>
           </div>
-          <div className="arch-rail">
-            <span className="rail-label">Models</span>
-            <div className="rail-items">
-              <span className="rail-chip"><img className="logo-img logo-img--mono" src="./assets/img/logos/openai.svg" alt="" />OpenAI</span>
-              <span className="rail-chip"><img className="logo-img logo-img--mono" src="./assets/img/logos/anthropic.svg" alt="" />Anthropic</span>
-              <span className="rail-chip"><img className="logo-img" src="./assets/img/logos/gemini.svg" alt="" />Gemini</span>
-              <span className="rail-chip"><img className="logo-img" src="./assets/img/logos/opensource.svg" alt="" />Open source</span>
+          <div className="pa-half">
+            <p className="pa-half-h">Runs on any model</p>
+            <div className="pa-chips">
+              {MODELS.map(([f, n, mono]) => (
+                <span className="pa-chip" key={f}>
+                  <img className={mono ? 'pa-logo is-mono' : 'pa-logo'} src={`./assets/img/logos/${f}.svg`} alt="" width={20} height={20} />
+                  {n}
+                </span>
+              ))}
             </div>
           </div>
         </div>

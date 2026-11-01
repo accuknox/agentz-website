@@ -107,7 +107,7 @@ export function AgentRun() {
     <section className="run feature" id="run">
       <div className="wrap">
         <div className="fhead">
-          <h2 className="fhead-h">From one prompt to a finished task.</h2>
+          <h2 className="fhead-h">One prompt, every model and tool call traced.</h2>
           <p className="fhead-p">Select a workflow to trace every model and tool call it runs.</p>
         </div>
 
